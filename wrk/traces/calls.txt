@@ -1,0 +1,36 @@
+<html>
+<head><title>Number of XML-RPC calls, parts of October 2009</title><head>
+<body>
+<h2>Number of XML-RPC calls, parts of October 2009</h2>
+<table border="1" cellspacing="0">
+<tr><th>  Method                  </th><th> No. of calls</th></tr>
+<tr><td>  get_addresses           </td><td> 55035 </td></tr>
+<tr><td>  check_reservation       </td><td> 17691 </td></tr>
+<tr><td>  reserve_amount          </td><td> 13419 </td></tr>
+<tr><td>  add_invoice             </td><td> 9542  </td></tr>
+<tr><td>  get_customer_info       </td><td> 5169  </td></tr>
+<tr><td>  has_account             </td><td> 4551  </td></tr>
+<tr><td>  update_orderno          </td><td> 1969  </td></tr>
+<tr><td>  delete_invoice          </td><td> 1116  </td></tr>
+<tr><td>  reserve_ocr_nums        </td><td> 597   </td></tr>
+<tr><td>  activate_invoice        </td><td> 512   </td></tr>
+<tr><td>  email_invoice           </td><td> 465   </td></tr>
+<tr><td>  web_invoice_info        </td><td> 447   </td></tr>
+<tr><td>  cancel_reservation      </td><td> 447   </td></tr>
+<tr><td>  activate_reservation    </td><td> 298   </td></tr>
+<tr><td>  web_misc_info           </td><td> 289   </td></tr>
+<tr><td>  send_invoice            </td><td> 246   </td></tr>
+<tr><td>  change_reservation      </td><td> 104   </td></tr>
+<tr><td>  get_pclasses            </td><td> 59    </td></tr>
+<tr><td>  trio_invoice_info       </td><td> 43    </td></tr>
+<tr><td>  invoice_amount          </td><td> 40    </td></tr>
+<tr><td>  is_invoice_paid         </td><td> 34    </td></tr>
+<tr><td>  periodic_cost           </td><td> 23    </td></tr>
+<tr><td>  check_customer_username </td><td> 14    </td></tr>
+<tr><td>  web_extend_invoice      </td><td> 6     </td></tr>
+<tr><td>  customer_remain         </td><td> 2     </td></tr>
+<tr><td>  return_invoice          </td><td> 1     </td></tr>
+<tr><td>  credit_invoice          </td><td> 1     </td></tr>
+</table>
+</body>
+</html>

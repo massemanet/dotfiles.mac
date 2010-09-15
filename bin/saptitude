@@ -1,0 +1,44 @@
+#!/bin/bash
+
+export LC_ALL=C
+
+case "$1" in
+    find|file)
+        suite=squeeze
+        s=contents
+        URL="http://packages.debian.org/search"
+        args="?suite="$suite"&arch=i386&mode=path&searchon="$s"&keywords="$2
+#        curl -fs $URL$args | \
+        wget -qO - $URL$args | \
+        awk -v suite=$suite '
+            BEGIN {FS="[<>\"]" ; ree = "<a href=\"/"suite }
+            $0 ~ class="file" {file = $5$9}
+            $0 ~ ree {print $3":", file}' | \
+        sort
+        ;;
+    files)
+        shift
+        dpkg-query --listfiles "$@"
+        ;;
+    bugs)
+        shift
+        apt-listbugs -q list "$@"
+        ;;
+    depends)
+        shift
+        apt-cache depends "$@"
+        ;;
+    rdepends)
+        shift
+        apt-cache rdepends "$@"
+        ;;
+    upgrade)
+        $0 safe-upgrade
+        $0 update
+        $0 autoclean
+        $0 full-upgrade
+        ;;
+    *)
+        sudo aptitude "$@"
+        ;;
+esac

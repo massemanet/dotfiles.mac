@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo cryptsetup luksOpen /dev/sda2 cryptic
+mount /mnt/cryptic

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+for s in `xrandr | grep "connected" | cut -f1 -d" "`; do 
+    xrandr --output "$s" --auto
+done
+
+for s in `xrandr | grep " connected" | cut -f1 -d" "`; do 
+    case "$s" in
+        "LVDS1")
+            xrandr --output "$s" --mode 1024x768 --rate 60 --right-of VGA1
+            shift
+            ;;
+        "VGA1")
+            xrandr --output "$s" --mode 1920x1200 --rate 60 --left-of LVDS1
+            shift
+            ;;
+    esac
+done

@@ -1,0 +1,52 @@
+  a-recs; anonymous records in Erlang.
+
+*  objective;
+
+  allow this syntax;
+
+f(#{bla=foo}) -> ... % matching
+
+f(#{bla=X},X) -> ... % matching
+
+f(#{bla=B}) ->  ...  % matching and binding
+
+  A=aa,B=bb,X = #{a=A,b=B}       % binding X
+  
+  A=a,B=b,X = #{A=aa,B=bb}       % binding X
+
+  T = #{a=aa}, X = T#{b=bb}      % binding X
+
+  X = #{a=aa,b=bb}, X#{a=aa,b=B} % binding X and B
+
+
+*  requirement;
+
+  performance is at worst O(N) for inserts, and O(log(N)) for updates
+  and lookups.
+
+  the underlying implementation should require no major surgery in the
+  emulator.
+
+  the a-recs should allow introspection and be self-documenting.
+
+* implementation proposal;
+
+  an a-rec of size N is representated internally as an N+1 size tuple.
+  the first element is a fun/1, the index fun, such that;
+
+  F(atom(FieldName)) -> int(Index) and
+  F(int(Index)) -> atom(FieldName)
+
+  the compiler will rewrite e.g. this;
+
+f(#{bla=X},X) -> ...
+
+  like
+
+f(T,X) when element(1,T)(bla) =:= X -> ...
+
+
+* action points
+  minor tweak of parser
+  smallish work on compiler (code generation, allowing index funs in guards)
+  

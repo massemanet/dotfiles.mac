@@ -1,0 +1,295 @@
+  start oo like this;
+soffice "-accept=socket,host=localhost,port=2002;urp;"&
+
+
+the magic preamble.
+
+import uno
+from com.sun.star.beans import PropertyValue
+import unohelper
+local = uno.getComponentContext()
+resolver = local.ServiceManager.createInstanceWithContext("com.sun.star.bridge.UnoUrlResolver", local)
+context = resolver.resolve("uno:socket,host=localhost,port=2002;urp;StarOffice.ComponentContext")
+desktop = context.ServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", context)
+
+myfile = "/home/masse/wrk/ooo/pyuno.odg"
+document = desktop.loadComponentFromURL("file://"+myfile ,"_blank", 0, ())
+
+the document pyuno.odg has 3 entities. two text boxes, and an
+embedded object (a text table);
+
+>>> document.DrawPages.getByIndex(0).getName()
+u'page1'
+>>> document.DrawPages.getByIndex(0).getCount()
+3
+>>> document.DrawPages.getByIndex(0).getByIndex(1).getName() 
+u'box1'
+>>> document.DrawPages.getByIndex(0).getByIndex(1).setString('Peter Regerar')
+
+force redraw
+>>> document.getCurrentController().getFrame().getContainerWindow().invalidate(1)
+
+document
+pyuno object (com.sun.star.lang.XComponent)
+ supportedInterfaces=
+com.sun.star.beans.XPropertySet
+com.sun.star.container.XChild
+com.sun.star.datatransfer.XTransferable
+com.sun.star.document.XDocumentInfoSupplier
+com.sun.star.document.XDocumentSubStorageSupplier
+com.sun.star.document.XEmbeddedScripts
+com.sun.star.document.XEventBroadcaster
+com.sun.star.document.XEventsSupplier
+com.sun.star.document.XLinkTargetSupplier
+com.sun.star.document.XStorageBasedDocument
+com.sun.star.document.XViewDataSupplier
+com.sun.star.drawing.XDrawPageDuplicator
+com.sun.star.drawing.XDrawPagesSupplier
+com.sun.star.drawing.XLayerSupplier
+com.sun.star.drawing.XMasterPagesSupplier
+com.sun.star.embed.XVisualObject
+com.sun.star.frame.XLoadable
+com.sun.star.frame.XModel
+com.sun.star.frame.XModel2
+com.sun.star.frame.XModule
+com.sun.star.frame.XStorable2
+com.sun.star.lang.XEventListener
+com.sun.star.lang.XMultiServiceFactory
+com.sun.star.lang.XServiceInfo
+com.sun.star.lang.XTypeProvider
+com.sun.star.lang.XUnoTunnel
+com.sun.star.script.XStarBasicAccess
+com.sun.star.script.provider.XScriptProviderSupplier
+com.sun.star.style.XStyleFamiliesSupplier
+com.sun.star.ucb.XAnyCompareFactory
+com.sun.star.ui.XUIConfigurationManagerSupplier
+com.sun.star.util.XCloseBroadcaster
+com.sun.star.util.XCloseable
+com.sun.star.util.XModifiable2
+com.sun.star.view.XPrintJobBroadcaster
+com.sun.star.view.XPrintable
+com.sun.star.view.XRenderable
+
+
+document.DrawPages.getByIndex(0)                    (access child by name)
+document.DrawPages.getByIndex(0)            (access child by index)
+pyuno object (com.sun.star.drawing.XDrawPage)
+ supportedInterfaces=
+com.sun.star.beans.XMultiPropertySet
+com.sun.star.beans.XPropertySet
+com.sun.star.container.XNamed
+com.sun.star.document.XLinkTargetSupplier
+com.sun.star.drawing.XDrawPage
+com.sun.star.drawing.XMasterPageTarget
+com.sun.star.drawing.XShapeBinder
+com.sun.star.drawing.XShapeCombiner
+com.sun.star.drawing.XShapeGrouper
+com.sun.star.form.XFormsSupplier
+com.sun.star.lang.XComponent
+com.sun.star.lang.XServiceInfo
+com.sun.star.lang.XServiceInfo
+com.sun.star.lang.XTypeProvider
+com.sun.star.lang.XUnoTunnel
+com.sun.star.uno.XAggregation
+com.sun.star.uno.XWeak
+com.sun.star.util.XReplaceable
+
+
+>>> document.DrawPages.getByIndex(0).getByIndex(3).getPropertySetInfo().getProperties()
+   "Aspect"
+   "Bookmark"
+   "BoundRect"
+   "CLSID"
+   "Description"
+   "EmbeddedObject"
+   "Graphic"
+   "IsInternal"
+   "LayerID"
+   "LayerName"
+   "LinkDisplayBitmap"
+   "LinkDisplayName"
+   "MetaFile"
+   "Model"
+   "MoveProtect"
+   "OnClick"
+   "OriginalSize"
+   "PersistName"
+   "SizeProtect"
+   "Style"
+   "NavigationOrder"
+   "ThumbnailGraphicURL"
+   "Title"
+   "Transformation"
+   "VisibleArea"
+   "ZOrder"
+
+this is the embebbed table;
+
+>>> document.DrawPages.getByIndex(0).getByIndex(3).getPropertyValue("EmbeddedObject").getComponent()   
+
+pyuno object (com.sun.star.util.XCloseable)
+ supportedInterfaces=
+com.sun.star.beans.XPropertySet,
+com.sun.star.beans.XPropertyState,
+com.sun.star.container.XChild,
+com.sun.star.datatransfer.XTransferable,
+com.sun.star.document.XDocumentInfoSupplier,
+com.sun.star.document.XDocumentLanguages,
+com.sun.star.document.XDocumentSubStorageSupplier,
+com.sun.star.document.XEmbeddedScripts,
+com.sun.star.document.XEventBroadcaster,
+com.sun.star.document.XEventsSupplier,
+com.sun.star.document.XLinkTargetSupplier,
+com.sun.star.document.XRedlinesSupplier,
+com.sun.star.document.XStorageBasedDocument,
+com.sun.star.document.XViewDataSupplier,
+com.sun.star.drawing.XDrawPageSupplier,
+com.sun.star.embed.XVisualObject,
+com.sun.star.frame.XLoadable,
+com.sun.star.frame.XModel,
+com.sun.star.frame.XModel2,
+com.sun.star.frame.XModule,
+com.sun.star.frame.XStorable2,
+com.sun.star.lang.XEventListener,
+com.sun.star.lang.XMultiServiceFactory
+com.sun.star.lang.XServiceInfo,
+com.sun.star.lang.XTypeProvider,
+com.sun.star.lang.XTypeProvider,
+com.sun.star.lang.XTypeProvider,
+com.sun.star.lang.XUnoTunnel,
+com.sun.star.lang.XUnoTunnel,
+com.sun.star.script.XStarBasicAccess,
+com.sun.star.script.provider.XScriptProviderSupplier,
+com.sun.star.style.XAutoStylesSupplier,
+com.sun.star.style.XStyleFamiliesSupplier,
+com.sun.star.text.XBookmarksSupplier,
+com.sun.star.text.XChapterNumberingSupplier,
+com.sun.star.text.XDocumentIndexesSupplier,
+com.sun.star.text.XEndnotesSupplier,
+com.sun.star.text.XFootnotesSupplier,
+com.sun.star.text.XLineNumberingProperties,
+com.sun.star.text.XNumberingRulesSupplier,
+com.sun.star.text.XPagePrintable,
+com.sun.star.text.XReferenceMarksSupplier,
+com.sun.star.text.XTextDocument,
+com.sun.star.text.XTextEmbeddedObjectsSupplier,
+com.sun.star.text.XTextFieldsSupplier,
+com.sun.star.text.XTextFramesSupplier,
+com.sun.star.text.XTextGraphicObjectsSupplier,
+com.sun.star.text.XTextSectionsSupplier,
+com.sun.star.text.XTextTablesSupplier,
+com.sun.star.ui.XUIConfigurationManagerSupplier,
+com.sun.star.uno.XAggregation,
+com.sun.star.uno.XWeak,
+com.sun.star.uno.XWeak,
+com.sun.star.util.XCloseBroadcaster,
+com.sun.star.util.XCloseable,
+com.sun.star.util.XLinkUpdate,
+com.sun.star.util.XModifiable2,
+com.sun.star.util.XNumberFormatsSupplier,
+com.sun.star.util.XRefreshable,
+com.sun.star.util.XReplaceable,
+com.sun.star.view.XPrintJobBroadcaster,
+com.sun.star.view.XPrintable,
+com.sun.star.view.XRenderable,
+com.sun.star.xforms.XFormsSupplier,
+
+text_table = document.DrawPages.getByIndex(0).getByIndex(2).getPropertyValue("EmbeddedObject").getComponent().getTextTables().getByIndex(0)      
+
+pyuno object (com.sun.star.text.XTextTable)0x8c00c0c{implementationName=SwXTextTable
+
+ supportedInterfaces=
+com.sun.star.text.XTextTable
+com.sun.star.lang.XServiceInfo
+com.sun.star.table.XCellRange
+com.sun.star.chart.XChartDataArray
+com.sun.star.beans.XPropertySet
+com.sun.star.container.XNamed
+com.sun.star.table.XAutoFormattable
+com.sun.star.util.XSortable
+com.sun.star.lang.XUnoTunnel
+com.sun.star.sheet.XCellRangeData
+com.sun.star.lang.XTypeProvider
+com.sun.star.uno.XWeak
+
+>>> text_table.getCellByPosition(1,1)
+pyuno object (com.sun.star.table.XCell)0x8da3644{implementationName=SwXCell
+ supportedServices={com.sun.star.text.CellProperties}
+ supportedInterfaces={
+com.sun.star.beans.XPropertySet
+com.sun.star.beans.XPropertySet
+com.sun.star.container.XEnumerationAccess
+com.sun.star.lang.XServiceInfo
+com.sun.star.lang.XTypeProvider
+com.sun.star.lang.XUnoTunnel
+com.sun.star.table.XCell
+com.sun.star.text.XParagraphAppend
+com.sun.star.text.XRelativeTextContentInsert
+com.sun.star.text.XRelativeTextContentRemove
+com.sun.star.text.XText
+com.sun.star.text.XTextAppend
+com.sun.star.text.XTextAppendAndConvert
+com.sun.star.text.XTextContentAppend
+com.sun.star.text.XTextConvert
+com.sun.star.text.XTextPortionAppend
+com.sun.star.text.XTextRangeCompare
+com.sun.star.uno.XWeak
+
+text_table.getCellByPosition(1,1).setString("str")
+
+
+insert rows like this(2 new rows at index 0)
+>>> text_table.getRows().insertByIndex(0, 2)
+
+set a propert like this
+>>> text_table.getRows().getByIndex(2).setPropertyValue("BackColor", 0xfff0d0)
+
+
+>>> document.DrawPages.getByIndex(0).getByIndex(2)
+pyuno object (com.sun.star.drawing.XShape)
+ supportedInterfaces={
+com.sun.star.drawing.XShape
+com.sun.star.lang.XComponent
+com.sun.star.beans.XPropertySet
+com.sun.star.beans.XMultiPropertySet
+com.sun.star.beans.XPropertyState
+com.sun.star.beans.XMultiPropertyStates
+com.sun.star.drawing.XGluePointsSupplier
+com.sun.star.container.XChild
+com.sun.star.lang.XServiceInfo
+com.sun.star.lang.XTypeProvider
+com.sun.star.lang.XUnoTunnel
+com.sun.star.container.XNamed
+com.sun.star.text.XTextAppend
+com.sun.star.text.XTextCopy
+com.sun.star.container.XEnumerationAccess
+com.sun.star.text.XTextRangeMover}
+
+text_table.getRows().getByIndex(2).getPropertySetInfo().getProperties()
+((com.sun.star.beans.Property){ 
+Name = (string)"BackColor"
+Name = (string)"BackGraphicFilter"
+Name = (string)"BackGraphicLocation"
+Name = (string)"BackGraphicURL"
+Name = (string)"BackTransparent"
+Name = (string)"Height"
+Name = (string)"IsAutoHeight"
+Name = (string)"IsSplitAllowed"
+Name = (string)"SizeType"
+Name = (string)"TableColumnSeparators"
+Name = (string)"WidthType"})
+
+document.storeToURL("file:///home/masse/x.pdf",(PropertyValue("FilterName",0,"writer_pdf_Export",0),))
+
+
+table example
+
+>>> text_table.getCellByPosition(0,0).setString("Item")
+>>> text_table.getCellByPosition(0,1).setString("Another Item")
+>>> text_table.getCellByPosition(1,0).setString("Price")
+>>> text_table.getCellByPosition(1,1).setString("Another Price")
+>>> text_table.getRows().getByIndex(0).setPropertyValue("BackColor", 0xfff0d0)
+>>> text_table.getRows().insertByIndex(2,1)
+>>> text_table.getCellByPosition(1,2).setString("Mark Price")
+>>> text_table.getCellByPosition(0,2).setString("Larry Page")
+>>> text_table.getRows().getByIndex(2).setPropertyValue("BackColor", 0xfff0d0)

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo `date -R` `cat /proc/acpi/thermal_zone/THM0/temperature` >> $HOME/temps.log

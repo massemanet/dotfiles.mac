@@ -1,0 +1,8 @@
+{loc_innerip, {10,17,2,38}}.
+{loc_outerip, {10,17,2,38}}.
+{rem_innerip, {10,17,2,38}}.
+{rem_outerip, {10,17,2,38}}.
+{outer_mask, {255,255,0,0}}.
+{vip, {10,17,2,38}}.           %IP of your first VIP
+{vip2, {10,17,2,38}}.          %IP of your second VIP
+{defgw, {10,17,0,1}}.

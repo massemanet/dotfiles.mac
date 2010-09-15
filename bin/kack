@@ -1,0 +1,5 @@
+#!/bin/bash
+
+. ~/bin/kbranch
+
+ack-grep -a $ARGS

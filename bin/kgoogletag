@@ -1,0 +1,23 @@
+#!/bin/bash
+
+[ "$1" == "" -o "$2" == "" ] && echo "usage: $0 <package> <tag>" && exit
+
+PACK=$1
+TAG=$2
+TMP=/tmp/$PACK-$TAG
+
+DEST=https://$PACK.googlecode.com/svn/tags/$TAG
+SRC=https://$PACK.googlecode.com/svn/trunk
+
+if svn info $DEST 2>&1 | grep -q "Not a valid URL"; then
+    svn cp $SRC $DEST -m"tagged $TAG"
+    [ -e $TMP ] && rm -rf $TMP
+    svn export $DEST $TMP
+    if [ -e $TMP/configure.ac ]; then
+	(cd $TMP && aclocal && autoconf && automake && ./configure && make dist)
+    else
+	tar -czf $TMP.tgz -C `dirname $TMP` `basename $TMP`
+    fi
+else
+    echo "Tag already taken."
+fi

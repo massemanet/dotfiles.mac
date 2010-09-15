@@ -1,0 +1,64 @@
+#!/bin/bash
+
+. ~/bin/kbranch 
+
+echo_exit(){
+    echo "$1"
+    exit
+}
+
+export IGNORE_FORCE_BACKUP=true
+ROLE=master
+UPDB=""
+INIT=""
+
+while [ -n "$1" ] 
+  do
+  case "$1" in
+      "-master");;
+      "-slave") ROLE=slave;;
+      "-init")  UPDB=true ; INIT=${2:-true}; shift;;
+      "-updb")  UPDB=true;;
+      *) echo_exit "unknown flag: $1"
+  esac
+  shift
+done
+
+if [ ! -f system/node.txt -o ! -f system/sys.config ]; then
+    INIT=${INIT:-true}
+fi
+
+if [ "$INIT" != "" ]; then
+    if [ "$INIT" == "rsync" ]; then
+        echo "init from $INIT"
+	bin/kred -dbc_unpack rsync
+        echo "recover"
+        bin/kred -recover
+    elif [ "$INIT" == true ]; then
+       bin/kred -n $ROLE     
+    else
+        if [ -f "$INIT" ]; then
+            echo "init from $INIT"
+	    export DBC_TGZ=$INIT
+	    export DBC_RELATIVE_DIR="yes"
+	    bin/kred -dbc_unpack
+            echo "recover"
+            bin/kred -recover
+        else
+            echo_exit "file not found: $INIT"
+        fi
+    fi
+fi
+
+if [ "$UPDB" != "" ]; then
+    echo "updating"
+    bin/kred -updb
+fi
+
+echo starting
+
+if grep -q no_cron bin/kred  ; then
+    bin/kred -no_cron -no_ctrlc -i -force $ROLE
+else
+    bin/kred  -i -force $ROLE
+fi

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sun xVM VirtualBox Global Configuration -->
+<VirtualBox xmlns="http://www.innotek.de/VirtualBox-settings" version="1.3-linux">
+  <Global>
+    <USBDeviceFilters/>
+    <MachineRegistry>
+      <MachineEntry uuid="{22dd8862-e13b-467d-3487-fbebda3f9fb3}" src="Machines/Windoze/Windoze.xml"/>
+    </MachineRegistry>
+    <DiskRegistry>
+      <HardDisks>
+        <HardDisk uuid="{af4dca4f-cac6-4b79-02b5-81bef057c086}" type="normal">
+          <VirtualDiskImage filePath="VDI/Windoze.vdi"/>
+        </HardDisk>
+      </HardDisks>
+      <DVDImages/>
+      <FloppyImages/>
+    </DiskRegistry>
+    <SystemProperties defaultVDIFolder="VDI" defaultMachineFolder="Machines" remoteDisplayAuthLibrary="VRDPAuth" webServiceAuthLibrary="VRDPAuth" HWVirtExEnabled="false" LogHistoryCount="3"/>
+  </Global>
+</VirtualBox>

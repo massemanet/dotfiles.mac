@@ -1,0 +1,38 @@
+#!/bin/bash
+# adapted from 
+# http://monespaceperso.org/blog-en/2009/08/31/upgrade-alsa-1-0-21-on-ubuntu-jaunty-9-04/
+
+vsn=1.0.23
+
+if ( cat /proc/asound/version | grep -q "$vsn"); then 
+   echo already at $vsn
+   exit
+else
+    echo upgrading to $vsn
+fi
+
+sudo /sbin/alsa-utils stop
+
+sudo apt-get -y install build-essential ncurses-dev gettext xmlto \
+    libasound2-dev linux-headers-`uname -r` libncursesw5-dev
+
+rm -rf ~/alsa* ~/.pulse*
+
+[ -e /tmp/alsa ] && rm -rf /tmp/alsa
+mkdir /tmp/alsa
+cd /tmp/alsa
+
+for p in alsa-driver alsa-lib alsa-utils; do
+    wget ftp://ftp.alsa-project.org/pub/driver/$p-$vsn.tar.bz2
+    sudo tar xjf $p-$vsn.tar.bz2
+    cd $p-$vsn
+    sudo ./configure
+    sudo make
+    sudo make install
+done
+
+sudo alsa force-reload
+
+cat /proc/asound/version
+
+#sudo alsaconf
