@@ -5,12 +5,12 @@
 export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 # two locales to rule them all
-export LANG=C
+export LANG=en_US
 unset  LC_ALL
+unset  LANGUAGE
 export LC_CTYPE=sv_SE
 export LC_TIME=en_DK
 export LC_PAPER=sv_SE
-export LC_ALL="en_US"
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
