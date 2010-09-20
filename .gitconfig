@@ -11,7 +11,7 @@
         ui = auto
 
 [color "branch"]
-     current = yellow reverse
+     current = red
      local = yellow
      remote = green
 [color "diff"]
@@ -33,8 +33,6 @@
   df    = diff
   lg    = log -p
 
-  # all new commits after you fetched, with stats, but excluding merges
-  lc    = log ORIG_HEAD.. --stat --no-merges
   in    = log HEAD..origin/master
   out   = log origin/master..HEAD
 
@@ -42,7 +40,7 @@
   last = log -1 HEAD
   whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
   who = "!git shortlog -s -- | sort -n -k1"
-  aliases = "!git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'"
+  alias = "!git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'"
  
  [merge]
          tool = kdiff3
