@@ -22,6 +22,7 @@
  user-mail-address "masse@klarna.com"
  inhibit-startup-screen t
  special-display-regexps nil
+ show-trailing-whitespace t
  visible-bell t
 ;      special-display-buffer-names
 ;      '("*Backtrace*" "*compilation*" "*grep*" "*Help*")
@@ -47,16 +48,16 @@
 
 (defvar erlang-erl-path "/usr/local")
 (defvar erlang-distel-path "~/git/distel")
-(defvar erlang-erlmode-path "~/git/erlware-mode")
+(defvar erlang-erlmode-path "/usr/local/otp/current/lib/erlang/lib/tools-*/emacs")
 
-(defvar paths 
+(defvar paths
   (list
    "~/elisp"
-   erlang-erlmode-path
+   (car (file-expand-wildcards erlang-erlmode-path))
    "/usr/share/doc/git-core/contrib/emacs"
    (concat erlang-distel-path "/elisp")))
 
-(dolist (f paths) 
+(dolist (f paths)
   (when (file-exists-p f)
     (add-to-list 'load-path f)))
 
@@ -128,7 +129,7 @@
 
 (defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
-  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)) 
+  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
   (setq js2-mirror-mode nil)
   (setq js2-basic-offset 2))
 
@@ -151,14 +152,14 @@
     (require 'git))
 
 (if (locate-library "erlang")
-    (progn 
+    (progn
       (require 'erlang-start)
       (my-erlang-setup)
       (if (locate-library "distel")
 	  (my-distel-setup))))
 
 (if (locate-library "color-theme")
-    (progn 
+    (progn
       (require 'color-theme)
       (if (load-library "color-theme-masse")
           (color-theme-masse))))
@@ -182,12 +183,12 @@
 
 (defun k-find (word &optional ext)
   (grep-find
-   (concat "find " 
-	   (concat (car (split-string (buffer-file-name) "lib")) "lib/") 
+   (concat "find "
+	   (concat (car (split-string (buffer-file-name) "lib")) "lib/")
 	   (concat " -name '.svn' -prune -o -name '*~' -prune -o -name '*beam'"
-		   " -prune -o -name '*html' -prune -o -type f -name '*" 
-		   ext 
-		   "' -print0 | xargs -0 -e grep -n -e " 
+		   " -prune -o -name '*html' -prune -o -type f -name '*"
+		   ext
+		   "' -print0 | xargs -0 -e grep -n -e "
 		   word))))
 
 
@@ -202,7 +203,7 @@
 (defun indent-buffer ()
   "indent current buffer"
   (interactive)
-  (save-excursion 
+  (save-excursion
     (indent-region (point-min) (point-max))))
 
 (if window-system
@@ -217,7 +218,7 @@
     (interactive "MPush to X selection: ")
     (with-temp-buffer
       (insert text)
-      (call-process-region 
+      (call-process-region
        (point-min) (point-max) "xsel" nil 0 nil "--input")))
   (defun xsel-paste-function()
     (interactive)
@@ -275,6 +276,7 @@
  '(ediff-odd-diff-A ((((class color) (min-colors 16)) (:background "Grey" :foreground "black"))))
  '(flymake-errline ((t (:background "pink4"))))
  '(flymake-warnline ((t (:background "blue"))))
+ '(magit-diff-add ((((class color) (background light)) (:foreground "green3"))))
  '(mode-line ((((class color) (min-colors 88)) (:stipple nil :background "red1" :foreground "black" :box (:line-width -1 :style released-button)))))
  '(mode-line-inactive ((t (:background "white" :foreground "darkred" :box (:line-width 1 :style released-button)))))
  '(svn-status-directory-face ((t (:foreground "white")))))

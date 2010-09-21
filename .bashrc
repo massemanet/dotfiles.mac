@@ -69,7 +69,7 @@ dirt() { dir -rt "$@";}
 dird() { dir -d "$@";}
 dira() { for d in "${@:-.}"; do (cd "$d";pwd; dird .*); done;}
 rea()  { history | egrep "${@:-}";}
-m()    { most "$@";}
+m()    { less "$@";}
 e()    { emacs -nw "$@";}
 c()    { cat "$@";}
 x()    { sed -e'/^%/d' "$@" | xmlstarlet fo;}

@@ -12,6 +12,7 @@ git-core
 openssh-server
 openafs-client openafs-modules-dkms heimdal-clients
 erlang
+automake
 
 # locales
 en_US.UTF-8 UTF-8
