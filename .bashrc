@@ -54,6 +54,7 @@ if [ "$TERM" != "dumb" ]; then
         PS1=$sh_purple'\h'$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
     else
         PS1=$sh_brown'\h'$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
+        PS1=$sh_brown'\h'$sh_purple$(__git_ps1 "(%s)")$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
     fi
 # to get emacs -nw to use 256 colors
     export TERM=xterm-256color
