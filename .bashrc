@@ -15,10 +15,6 @@ export LC_PAPER=sv_SE
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-# Don't put duplicate lines in the history. See bash(1) for more options
-export HISTSIZE=9999
-export HISTFILESIZE=$HISTSIZE
-
 # Enable sane completion
 . /etc/bash_completion
 
@@ -63,7 +59,6 @@ else
     PS1="\h\$ "
 fi
 
-
 xterm(){ /usr/bin/xterm -xrm "XTerm*VT100.metaSendsEscape: True" -sl 9999 ;}
 dir()  { ls --color=$lscols -lF "$@";}
 dirt() { dir -rt "$@";}
@@ -75,14 +70,17 @@ e()    { emacs -nw "$@";}
 c()    { cat "$@";}
 x()    { sed -e'/^%/d' "$@" | xmlstarlet fo;}
 
-#if which shellsink-client > /dev/null 2>&1 ; then
-#    shopt -s histappend
-#    export SHELL_SINK_COMMAND=shellsink-client
-#    export SHELL_SINK_ID=33b45f5d8d284806993711230261a055
-#    export SHELL_SINK_TAGS=$HOSTNAME
-#    if [ -n "$PROMPT_COMMAND" ]; then
-#        PROMPT_COMMAND="$PROMPT_COMMAND;history -a;$SHELL_SINK_COMMAND"
-#    else
-#        PROMPT_COMMAND="history -a;$SHELL_SINK_COMMAND"
-#    fi
-#fi
+## history
+# lots of history
+export HISTSIZE=9999
+export HISTFILESIZE=$HISTSIZE
+
+# agglomerate history from multiple shells
+PROMPT_COMMAND="$PROMPT_COMMAND;'history -a'"
+shopt -s histappend
+
+# Don't put duplicate lines in the history
+export HISTCONTROL="ignoredups"
+
+# multi-line commands
+shopt -s cmdhist

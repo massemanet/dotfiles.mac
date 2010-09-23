@@ -43,7 +43,7 @@
   alias = "!git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'"
  
  [merge]
-         tool = kdiff3
+         tool = xxdiff
  [core]
          # global per user gitignore file
          excludesfile = "~/.gitignore_global"
