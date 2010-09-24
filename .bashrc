@@ -22,6 +22,26 @@ export LC_PAPER=sv_SE
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# find the basename of the dir that contains the current .git
+mygitdir () { 
+    local g;
+    g="`__gitdir`";
+    if [ "$g" == "" ]; then
+        g= "";
+    else
+        if [ "$g" == ".git" ]; then
+            g="`pwd`";
+        else
+            g=`dirname "$g"`;
+        fi;
+    fi;
+    if [ "$g" == "`echo ~`" ]; then
+        echo "~";
+    else
+        basename "$g";
+    fi
+}
+
 if [ "$TERM" != "dumb" ]; then
 # define useful aliases for color codes
     sh_norm="\[\033[0m\]"
@@ -50,7 +70,8 @@ if [ "$TERM" != "dumb" ]; then
         PS1=$sh_purple'\h'$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
     else
         PS1=$sh_brown'\h'$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
-        PS1=$sh_brown'\h'$sh_purple$(__git_ps1 "(%s)")$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
+        PS1=$sh_brown'\h'$sh_purple"$(mygitdir)$(__git_ps1)"$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
+        PS1=$sh_brown'\u@\h'$sh_purple'($(mygitdir):$(__git_ps1 "%s"))'$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
     fi
 # to get emacs -nw to use 256 colors
     export TERM=xterm-256color
