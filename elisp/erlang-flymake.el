@@ -26,7 +26,8 @@
           tmp-file))
       (defun erlang-flymake-init ()
         "Set up the command used to parse our buffer"
-        (let* ((erlang-dir (file-name-directory (locate-library "erlang")))
+        (let* ((erlang-dir 
+                (file-name-directory (locate-library "erlang-flymake")))
                (temp-file (flymake-init-create-temp-buffer-copy
                            'erlang-flymake-tmp-filename)))
           (list (concat erlang-dir "flymaker.sh") 

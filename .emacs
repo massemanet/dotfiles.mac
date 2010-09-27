@@ -106,8 +106,10 @@
   (add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
   (defun my-erlang-mode-hook ()
     ;; run flymake iff buffer has a file
-    (if buffer-file-truename
+    (if (and (locate-library "erlang-flymake")
+             buffer-file-truename)
 	(progn
+          (load "erlang-flymake")
 	  (flymake-mode)
 	  (local-set-key (kbd "M-'") 'erlang-flymake-next-error)))
     ;; stupid electricity
