@@ -27,7 +27,7 @@ mygitdir () {
     local g;
     g="`__gitdir`";
     if [ "$g" == "" ]; then
-        g= "";
+        g="";
     else
         if [ "$g" == ".git" ]; then
             g="`pwd`";
@@ -97,7 +97,7 @@ export HISTSIZE=9999
 export HISTFILESIZE=$HISTSIZE
 
 # agglomerate history from multiple shells
-PROMPT_COMMAND="$PROMPT_COMMAND;'history -a'"
+PROMPT_COMMAND="$PROMPT_COMMAND;history -a"
 shopt -s histappend
 
 # Don't put duplicate lines in the history

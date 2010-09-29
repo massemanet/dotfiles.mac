@@ -3,12 +3,14 @@
 export LC_ALL=C
 
 case "$1" in
+    policy)
+        apt-cache policy "$@"
+        ;;
     find|file)
         suite=squeeze
         s=contents
         URL="http://packages.debian.org/search"
         args="?suite="$suite"&arch=i386&mode=path&searchon="$s"&keywords="$2
-#        curl -fs $URL$args | \
         wget -qO - $URL$args | \
         awk -v suite=$suite '
             BEGIN {FS="[<>\"]" ; ree = "<a href=\"/"suite }
