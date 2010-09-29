@@ -150,3 +150,6 @@ temps.log
 ticgitweb.log
 wrk/wops
 .yaws
+.fonts
+.icons
+wrk/eqc-release
