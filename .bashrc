@@ -27,7 +27,7 @@ mygitdir () {
     local g;
     g="`__gitdir`";
     if [ "$g" == "" ]; then
-        g= "";
+        g="";
     else
         if [ "$g" == ".git" ]; then
             g="`pwd`";
