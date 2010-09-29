@@ -4,6 +4,7 @@ export LC_ALL=C
 
 case "$1" in
     policy)
+        shift
         apt-cache policy "$@"
         ;;
     find|file)
