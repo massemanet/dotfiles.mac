@@ -43,35 +43,16 @@ mygitdir () {
 }
 
 if [ "$TERM" != "dumb" ]; then
-# define useful aliases for color codes
-    sh_norm="\[\033[0m\]"
-    sh_black="\[\033[0;30m\]"
-    sh_darkgray="\[\033[1;30m\]"
-    sh_blue="\[\033[0;34m\]"
-    sh_light_blue="\[\033[1;34m\]"
-    sh_green="\[\033[0;32m\]"
-    sh_light_green="\[\033[1;32m\]"
-    sh_cyan="\[\033[0;36m\]"
-    sh_light_cyan="\[\033[1;36m\]"
-    sh_red="\[\033[0;31m\]"
-    sh_light_red="\[\033[1;31m\]"
-    sh_purple="\[\033[0;35m\]"
-    sh_light_purple="\[\033[1;35m\]"
-    sh_brown="\[\033[0;33m\]"
-    sh_yellow="\[\033[1;33m\]"
-    sh_light_gray="\[\033[0;37m\]"
-    sh_white="\[\033[1;37m\]"
 # enable color support of ls
+    
     lscols=auto
     eval "`dircolors -b $HOME/.dircolors`"
 # set a fancy prompt
     PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi'
     if [ "$USER" == "root" ];then 
-        PS1=$sh_purple'\h'$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
+        PS1='\[$(tput setaf 5)\]\h\[$(tput setaf 3)\]($(mygitdir):$(__git_ps1 "%s"))\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}#\[$(tput sgr0)\] '
     else
-        PS1=$sh_brown'\h'$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
-        PS1=$sh_brown'\h'$sh_purple"$(mygitdir)$(__git_ps1)"$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
-        PS1=$sh_brown'\u@\h'$sh_purple'($(mygitdir):$(__git_ps1 "%s"))'$sh_green'${ERROR_FLAG:+'$sh_red'}\$ '$sh_norm
+        PS1='\[$(tput setaf 3)\]\h\[$(tput setaf 5)\]($(mygitdir):$(__git_ps1 "%s"))\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}\$\[$(tput sgr0)\] '
     fi
 # to get emacs -nw to use 256 colors
     export TERM=xterm-256color

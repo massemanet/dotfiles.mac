@@ -27,9 +27,9 @@ set perfile_attrs 0
 set geometry(main) 1560x1097+0+0
 set geometry(state) normal
 set geometry(topwidth) 1556
-set geometry(topheight) 325
+set geometry(topheight) 555
 set geometry(pwsash0) "582 2"
 set geometry(pwsash1) "1147 2"
 set geometry(botwidth) 946
-set geometry(botheight) 752
+set geometry(botheight) 522
 set permviews {}
