@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/bin/bash -i
 
 dname (){ (eval "cd $1" ; pwd); }
 bdname(){ basename `dname $1`; }

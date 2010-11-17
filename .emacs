@@ -54,11 +54,11 @@
   (list
    "~/elisp"
    (car (file-expand-wildcards erlang-erlmode-path))
-   "/usr/share/doc/git-core/contrib/emacs"
+   "/usr/share/doc/git/contrib/emacs"
    (concat erlang-distel-path "/elisp")))
 
 (dolist (f paths)
-  (when (file-exists-p f)
+  (when (and (stringp f) (file-exists-p f))
     (add-to-list 'load-path f)))
 
 (defun my-erlang-setup ()
@@ -152,6 +152,10 @@
 
 (if (locate-library "git")
     (require 'git))
+(if (locate-library "git-blame")
+    (progn 
+      (require 'format-spec)
+      (require 'git-blame)))
 
 (if (locate-library "erlang")
     (progn

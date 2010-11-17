@@ -2,6 +2,7 @@
 *.beam
 *.gz
 *.xbel
+*.elc
 *~
 .ICEauthority
 .Xauthority
@@ -154,3 +155,5 @@ wrk/wops
 .fonts
 .icons
 wrk/eqc-release
+/.aptitude/cache
+/.wxglade/file_history.txt
