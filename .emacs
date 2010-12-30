@@ -22,11 +22,7 @@
  user-mail-address "masse@klarna.com"
  inhibit-startup-screen t
  special-display-regexps nil
- show-trailing-whitespace t
- visible-bell t
-;      special-display-buffer-names
-;      '("*Backtrace*" "*compilation*" "*grep*" "*Help*")
-)
+ visible-bell t)
 
 (global-set-key (kbd "C-c a") 'align-regexp)
 (global-set-key (kbd "C-c b") 'bury-buffer)
@@ -48,7 +44,8 @@
 
 (defvar erlang-erl-path "/usr/local")
 (defvar erlang-distel-path "~/git/distel")
-(defvar erlang-erlmode-path "/usr/local/otp/current/lib/erlang/lib/tools-*/emacs")
+(defvar erlang-erlmode-path 
+  "/usr/local/otp/current/lib/erlang/lib/tools-*/emacs")
 
 (defvar paths
   (list
@@ -74,7 +71,7 @@
     (interactive)
     (insert "%% -*- mode: erlang; erlang-indent-level: 2 -*-\n")
     (insert (concat "%%% Created : " (erlang-skel-dd-mmm-yyyy) " by "
-		    (user-full-name) " <" erlang-skel-mail-address ">\n\n"))
+                    (user-full-name) " <" erlang-skel-mail-address ">\n\n"))
     (insert "%% @doc\n")
     (insert "%% @end\n\n")
     (insert (concat "-module('" (erlang-get-module-from-file-name) "').\n"))
@@ -95,12 +92,12 @@
   (add-hook 'erlang-shell-mode-hook 'my-erlang-shell)
   (defun my-erlang-shell ()
     (setq comint-dynamic-complete-functions
-	  '(my-erl-complete  comint-replace-by-expanded-history)))
+          '(my-erl-complete  comint-replace-by-expanded-history)))
 
   (defun my-erl-complete ()
     "Call erl-complete if we have an Erlang node name"
     (if erl-nodename-cache
-	(erl-complete erl-nodename-cache)
+        (erl-complete erl-nodename-cache)
       nil))
 
   (add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
@@ -108,10 +105,10 @@
     ;; run flymake iff buffer has a file
     (if (and (locate-library "erlang-flymake")
              buffer-file-truename)
-	(progn
+        (progn
           (load "erlang-flymake")
-	  (flymake-mode)
-	  (local-set-key (kbd "M-'") 'erlang-flymake-next-error)))
+          (flymake-mode)
+          (local-set-key (kbd "M-'") 'erlang-flymake-next-error)))
     ;; stupid electricity
     (set-variable 'erlang-electric-commands nil)
     ;; stupid default
@@ -121,19 +118,25 @@
     (unless (null buffer-file-name)
       (make-local-variable 'compile-command)
       (setq compile-command
-	    (if (file-exists-p "Makefile")
-		"make -k"
-	      (concat
-	       "erlc "
-	       (if (file-exists-p "../ebin") "-o ../ebin " "")
-	       (if (file-exists-p "../inc") "-I ../inc " "")
-	       "+debug_info -W " buffer-file-name))))))
+            (if (file-exists-p "Makefile")
+                "make -k"
+              (concat
+               "erlc "
+               (if (file-exists-p "../ebin") "-o ../ebin " "")
+               (if (file-exists-p "../inc") "-I ../inc " "")
+               "+debug_info -W " buffer-file-name))))))
 
 (defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
   (setq js2-mirror-mode nil)
   (setq js2-basic-offset 2))
+
+(defun my-whitespace-setup()
+  (require 'whitespace)
+  (setq whitespace-style (list 'tabs 'trailing 'lines-tail 'empty)
+        whitespace-line-column 79)
+  (whitespace-mode t))
 
 (defun my-distel-setup ()
   (require 'distel)
@@ -147,13 +150,16 @@
 (if (locate-library "js2")
     (my-js-setup))
 
+(if (locate-library "whitespace")
+    (my-whitespace-setup))
+
 (if (locate-library "psvn")
     (my-svn-setup))
 
 (if (locate-library "git")
     (require 'git))
 (if (locate-library "git-blame")
-    (progn 
+    (progn
       (require 'format-spec)
       (require 'git-blame)))
 
@@ -162,7 +168,7 @@
       (require 'erlang-start)
       (my-erlang-setup)
       (if (locate-library "distel")
-	  (my-distel-setup))))
+          (my-distel-setup))))
 
 (if (locate-library "color-theme")
     (progn
@@ -172,7 +178,6 @@
 
 (if (locate-library "fdlcap")
     (require 'fdlcap))
-
 
 (defun my-svn-status-hide (line-info)
   "Hide externals."
@@ -190,12 +195,12 @@
 (defun k-find (word &optional ext)
   (grep-find
    (concat "find "
-	   (concat (car (split-string (buffer-file-name) "lib")) "lib/")
-	   (concat " -name '.svn' -prune -o -name '*~' -prune -o -name '*beam'"
-		   " -prune -o -name '*html' -prune -o -type f -name '*"
-		   ext
-		   "' -print0 | xargs -0 -e grep -n -e "
-		   word))))
+           (concat (car (split-string (buffer-file-name) "lib")) "lib/")
+           (concat " -name '.svn' -prune -o -name '*~' -prune -o -name '*beam'"
+                   " -prune -o -name '*html' -prune -o -type f -name '*"
+                   ext
+                   "' -print0 | xargs -0 -e grep -n -e "
+                   word))))
 
 
 (defun kfind (word)
@@ -253,6 +258,7 @@
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.

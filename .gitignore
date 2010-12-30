@@ -157,3 +157,4 @@ wrk/wops
 wrk/eqc-release
 /.aptitude/cache
 /.wxglade/file_history.txt
+/.gtk-recordmydesktop

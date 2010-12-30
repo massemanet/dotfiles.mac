@@ -58,6 +58,11 @@ if [ "$UPDB" != "" ]; then
     bin/kred -updb
 fi
 
+if [ -d /mnt/kred_kfile ]; then
+    [ -d system/kfile ] && rm -rf system/kfile
+    ln -s /mnt/kred_kfile system/kfile
+fi
+
 echo starting
 
 if grep -q no_cron bin/kred  ; then
