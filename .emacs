@@ -58,7 +58,7 @@
    (concat erlang-distel-path "/elisp")))
 
 (dolist (f paths)
-  (when (file-exists-p f)
+  (when (and f (file-exists-p f))
     (add-to-list 'load-path f)))
 
 (defun my-erlang-setup ()
