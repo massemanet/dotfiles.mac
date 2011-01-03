@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. ~/bin/kbranch 
-
 echo_exit(){
     echo "$1"
     exit
@@ -17,8 +15,9 @@ while [ -n "$1" ]
   case "$1" in
       "-master");;
       "-slave") ROLE=slave;;
-      "-init")  UPDB=true ; INIT=${2:-true}; shift;;
+      "-init")  UPDB=true ; INIT=${2:-local}; shift;;
       "-updb")  UPDB=true;;
+      "-site")  SITE_NAME=$2; shift;;
       *) echo_exit "unknown flag: $1"
   esac
   shift
@@ -34,25 +33,34 @@ if [ "$INIT" != "" ]; then
 	bin/kred -dbc_unpack rsync
         echo "recover"
         bin/kred -recover
-    elif [ "$INIT" == true ]; then
-       bin/kred -n $ROLE     
-    else
-        if [ -f "$INIT" ]; then
-            echo "init from $INIT"
-	    export DBC_TGZ=$INIT
-	    export DBC_RELATIVE_DIR="yes"
-	    bin/kred -dbc_unpack
-            echo "recover"
-            bin/kred -recover
-        else
-            echo_exit "file not found: $INIT"
+    elif [ "$INIT" == "legacy" ]; then
+        echo "init with empty db w/o vip's"
+        if [ ! -f ~/.kredinit -o ! -f /etc/kredlive.conf ]; then
+            echo "creating kred config files"
+            bin/mk_dev_system
         fi
+        bin/kred -n $ROLE
+    elif [ -f "$INIT" ]; then
+        echo "init from $INIT"
+	export DBC_TGZ=$INIT
+	export DBC_RELATIVE_DIR="yes"
+	bin/kred -dbc_unpack
+        echo "recover"
+        bin/kred -recover
+    else
+        echo "init with empty db and vip's ($INIT)"
+        bin/kred -n $ROLE $INIT
     fi
 fi
 
 if [ "$UPDB" != "" ]; then
     echo "updating"
     bin/kred -updb
+fi
+
+if [ -d /mnt/kred_kfile ]; then
+    [ -d system/kfile ] && rm -rf system/kfile
+    ln -s /mnt/kred_kfile system/kfile
 fi
 
 echo starting

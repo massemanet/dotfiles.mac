@@ -1,6 +1,3 @@
 #!/bin/bash
 
-. ~/bin/kbranch 
-
-svn update
-make "$@" myday | egrep -v "^make\[|^cd |^if \[|^[[:space:]]fi$|no docs"
+make -j12 "$@" | egrep -v "^make\[|^cd |^if \[|^[[:space:]]fi$|^#"
