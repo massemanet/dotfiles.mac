@@ -154,6 +154,7 @@ wrk/wops
 .yaws
 .fonts
 .icons
+.Skype
 wrk/eqc-release
 /.aptitude/cache
 /.wxglade/file_history.txt

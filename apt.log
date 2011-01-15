@@ -15,7 +15,7 @@ git-core openssh-server nfs-common emacs-goodies-el
 openafs-client openafs-modules-dkms heimdal-clients
 
 # bygga erlang
-automake libncurses5-dev libssl-dev 
+automake libncurses5-dev libssl-dev xsltproc fop
 
 # kred stuff
 libcrack2-dev pdftk imagemagick texlive latexmk graphviz 

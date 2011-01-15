@@ -147,6 +147,9 @@
   (require 'psvn)
   (setq svn-status-custom-hide-function 'my-svn-status-hide))
 
+(if (locate-library "magit")
+    (require 'magit))
+
 (if (locate-library "js2")
     (my-js-setup))
 
