@@ -134,9 +134,9 @@
 
 (defun my-whitespace-setup()
   (require 'whitespace)
-  (setq whitespace-style (list 'tabs 'trailing 'lines-tail 'empty)
+  (setq whitespace-style (list 'tabs 'trailing 'lines-tail)
         whitespace-line-column 79)
-  (whitespace-mode t))
+  (global-whitespace-mode t))
 
 (defun my-distel-setup ()
   (require 'distel)
