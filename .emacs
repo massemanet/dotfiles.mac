@@ -103,6 +103,8 @@
   (add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
   (defun my-erlang-mode-hook ()
     ;; run flymake iff buffer has a file
+    (local-set-key (kbd "M-L") 'erl-show-arglist)
+    (local-set-key (kbd "M-A") 'erl-align-arrows)
     (if (and (locate-library "erlang-flymake")
              buffer-file-truename)
         (progn
@@ -125,6 +127,10 @@
                (if (file-exists-p "../ebin") "-o ../ebin " "")
                (if (file-exists-p "../inc") "-I ../inc " "")
                "+debug_info -W " buffer-file-name))))))
+
+(defun erl-align-arrows ()
+  (interactive)
+  (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)->" 1 1))
 
 (defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
