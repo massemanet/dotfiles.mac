@@ -54,7 +54,7 @@
    "/usr/share/doc/git/contrib/emacs"
    (concat erlang-distel-path "/elisp")))
 
-(dolist (f paths)
+(dolist (f (nreverse paths))
   (when (and (stringp f) (file-exists-p f))
     (add-to-list 'load-path f)))
 
