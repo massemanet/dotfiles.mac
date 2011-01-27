@@ -1,5 +1,10 @@
 ;; -*- mode: lisp -*-
 
+(setq safe-local-variable-values
+      (quote ((erlang-indent-level . 4)
+              (erlang-indent-level . 2))))
+
+
 (set-default-font "-adobe-courier-medium-r-normal--14-*-----iso8859-1")
 (set-language-environment "Latin-1")
 (show-paren-mode t)
