@@ -49,7 +49,7 @@
 
 (defvar erlang-erl-path "/usr/local")
 (defvar erlang-distel-path "~/git/distel")
-(defvar erlang-erlmode-path 
+(defvar erlang-erlmode-path
   "/usr/local/otp/current/lib/erlang/lib/tools-*/emacs")
 
 (defvar paths

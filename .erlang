@@ -1,2 +1,4 @@
 %% -*- mode: erlang; erlang-indent-level: 2 -*-
 shell:results(2).
+code:add_patha("/home/masse/git/distel/ebin").
+code:add_patha("/home/masse/git/eper/ebin").

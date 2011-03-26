@@ -86,7 +86,8 @@ shopt -s histappend
 PROMPT_COMMAND="$PROMPT_COMMAND;history -a" 
 
 #the below will make all commands visible in all shells
-#PROMPT_COMMAND="$PROMPT_COMMAND;history -a" ;history -c;history -r"
+
+#PROMPT_COMMAND="$PROMPT_COMMAND ; history -a ; history -c; history -r"
 
 # multi-line commands
 shopt -s cmdhist

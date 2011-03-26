@@ -33,6 +33,6 @@ bind ^x copy
 # ^u/^d is halfpage up/down
 markkeys  h=^B:l=^F:$=^E
 
-screen -t erl 0 erl -sname erl -pa /home/masse/git/eper/src -pa /home/masse/git/distel/ebin
+screen -t erl 0 erl -sname erl
 screen -t bash 1
 screen -t emacs -T xterm-256color 2 emacs -nw

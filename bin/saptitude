@@ -8,10 +8,10 @@ case "$1" in
         apt-cache policy "$@"
         ;;
     find|file)
-        suite=squeeze
+        suite=maverick
         s=contents
-        URL="http://packages.debian.org/search"
-        args="?suite="$suite"&arch=i386&mode=path&searchon="$s"&keywords="$2
+        URL="http://packages.ubuntu.com/search"
+        args="?suite="$suite"&section=all&arch=any&searchon="$s"&keywords="$2
         wget -qO - $URL$args | \
         awk -v suite=$suite '
             BEGIN {FS="[<>\"]" ; ree = "<a href=\"/"suite }
