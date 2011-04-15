@@ -65,6 +65,7 @@
 
 (defun my-erlang-setup ()
   ;; use to start an erlang shell with boot flags
+
   (defun erl-shell (flags)
     "Start an erlang shell with flags"
     (interactive (list (read-string "Flags: ")))
@@ -85,10 +86,13 @@
 
   (add-hook 'erlang-load-hook 'my-erlang-load-hook)
   (defun my-erlang-load-hook ()
+    (setq erl-ext-function-calls-face 'font-lock-warning-face)
+    (setq erl-int-function-calls-face 'font-lock-warning-face)
     ;; i need some space
     (setq erlang-indent-level 2)
     ;; find the man pages
     (setq erlang-root-dir erlang-erl-path))
+
 
   (add-hook 'erlang-new-file-hook 'my-erlang-new-file-hook)
   (defun my-erlang-new-file-hook ()
