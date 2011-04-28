@@ -86,8 +86,17 @@
 
   (add-hook 'erlang-load-hook 'my-erlang-load-hook)
   (defun my-erlang-load-hook ()
-    (setq erl-ext-function-calls-face 'font-lock-warning-face)
-    (setq erl-int-function-calls-face 'font-lock-warning-face)
+    (setq erl-atom-face              'font-lock-doc-face)
+    (setq erl-quotes-face            'font-lock-doc-string-face)
+    (setq erl-list-operator-face     'font-lock-warning-face)
+    (setq erl-match-operator-face    'font-lock-warning-face)
+    (setq erl-operator-face          'font-lock-warning-face)
+    (setq erl-arrow-face             'font-lock-keyword-face)
+    (setq erl-ext-function-call-face 'font-lock-constant-face)
+    (setq erl-int-function-call-face 'font-lock-constant-face)
+    (setq erl-macro-face             'font-lock-preprocessor-face)
+    (setq erl-record-face            'font-lock-preprocessor-face)
+
     ;; i need some space
     (setq erlang-indent-level 2)
     ;; find the man pages
@@ -191,8 +200,12 @@
 (if (locate-library "color-theme")
     (progn
       (require 'color-theme)
-      (if (load-library "color-theme-masse")
-          (color-theme-masse))))
+      (color-theme-initialize)
+      (condition-case nil
+          (progn
+            (load-library "color-theme-masse")
+            (color-theme-masse))
+        (error (color-theme-calm-forest)))))
 
 (if (locate-library "fdlcap")
     (require 'fdlcap))
@@ -294,21 +307,3 @@
  '(scroll-down-aggressively 0.1)
  '(scroll-up-aggressively 0.1)
  '(utf-translate-cjk-mode nil))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(comint-highlight-prompt ((t (:foreground "green1"))))
- '(diff-added ((t (:inherit diff-changed :foreground "green"))))
- '(ediff-current-diff-B ((((class color) (min-colors 16)) (:background "Yellow" :foreground "black"))))
- '(ediff-even-diff-B ((((class color) (min-colors 16)) (:background "Grey" :foreground "black"))))
- '(ediff-odd-diff-A ((((class color) (min-colors 16)) (:background "Grey" :foreground "black"))))
- '(flymake-errline ((t (:background "red4"))))
- '(flymake-warnline ((t (:background "blue4"))))
- '(isearch-fail ((((class color) (min-colors 88) (background light)) (:background "RosyBrown4"))))
- '(magit-diff-add ((((class color) (background light)) (:foreground "green3"))))
- '(mode-line ((((class color) (min-colors 88)) (:stipple nil :background "red1" :foreground "black" :box (:line-width -1 :style released-button)))))
- '(mode-line-inactive ((t (:background "white" :foreground "darkred" :box (:line-width 1 :style released-button)))))
- '(region ((t (:background "color-58"))))
- '(svn-status-directory-face ((t (:foreground "white")))))
