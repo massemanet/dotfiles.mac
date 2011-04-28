@@ -1114,25 +1114,25 @@ are highlighted by syntactic analysis.")
 (defvar erlang-font-lock-keywords-guards
   (list
    (list (concat erlang-guards-regexp "\\s-*(")
-	 1 'erl-guard-face))
+         1 'erl-guard-face))
   "Font lock keyword highlighting guards.")
 
 (defvar erlang-font-lock-keywords-predefined-types
   (list
    (list (concat "[^:]" erlang-predefined-types-regexp "\\s-*(")
-	 1 'erl-predefined-type-face))
+         1 'erl-predefined-type-face))
   "Font lock keyword highlighting predefined types.")
 
 
 (defvar erlang-font-lock-keywords-macros
   (list
    (list (concat "?\\s-*\\(" erlang-atom-regexp
-		 "\\|" erlang-variable-regexp "\\)")
-	 1 'erl-macro-face)
+                 "\\|" erlang-variable-regexp "\\)")
+         1 'erl-macro-face)
    (list (concat "^\\(-\\(?:define\\|ifn?def\\)\\)\\s-*(\\s-*\\("
                  erlang-atom-regexp "\\|" erlang-variable-regexp "\\)")
          (list 1 'erl-attr-face t)
-	 (list 2 'erl-macro-face t t))
+         (list 2 'erl-macro-face t t))
    (list "^-e\\(lse\\|ndif\\)\\>"
          0 'erl-attr-face t))
   "Font lock keyword highlighting macros.
