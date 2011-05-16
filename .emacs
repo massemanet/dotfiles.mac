@@ -190,7 +190,7 @@
       (require 'format-spec)
       (require 'git-blame)))
 
-(if (locate-library "erlang")
+(if (locate-library "erlang-start")
     (progn
       (require 'erlang-start)
       (my-erlang-setup)
