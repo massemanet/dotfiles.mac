@@ -86,7 +86,7 @@
 
   (add-hook 'erlang-load-hook 'my-erlang-load-hook)
   (defun my-erlang-load-hook ()
-    (setq erl-atom-face              'font-lock-doc-face)
+    (setq erl-atom-face              'default);'font-lock-doc-face)
     (setq erl-quotes-face            'font-lock-doc-string-face)
     (setq erl-list-operator-face     'font-lock-warning-face)
     (setq erl-match-operator-face    'font-lock-warning-face)
