@@ -51,9 +51,9 @@
 
 (defvar erlang-erl-path "/usr/local")
 (defvar erlang-distel-path "~/git/distel")
-(defvar erlang-erlmode-path "/usr/local/Cellar/erlang/R14B03/lib/erlang/lib/tools-*/emacs")
+(defvar erlang-erlmode-path "~/elisp")
+;"/usr/local/Cellar/erlang/R14B03/lib/erlang/lib/tools-*/emacs")
 
-;"~/elisp"
 
 (defvar paths
   (list
