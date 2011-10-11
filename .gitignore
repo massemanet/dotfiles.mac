@@ -1,0 +1,15 @@
+*~
+/[A-Z]*/
+/.ssh/
+.CFUserTextEncoding
+.DS_Store
+.IABootFiles/
+.Trash/
+.Xauthority
+.bash_history
+.cups/
+.fontconfig/
+.lesshst
+
+erl_crash.dump
+.erlang.cookie
