@@ -1,15 +1,31 @@
-*~
-/[A-Z]*/
-/.ssh/
+# macos standard files
+/Applications/
+/Desktop/
+/Documents/
+/Downloads/
+/Library/
+/Movies/
+/Music/
+/Pictures/
+/Public/
+/Sites/
 .CFUserTextEncoding
 .DS_Store
 .IABootFiles/
 .Trash/
 .Xauthority
-.bash_history
 .cups/
 .fontconfig/
-.lesshst
 
+# droppings
+.bash_history
+.lesshst
+*~
+/.ssh/
+
+# erlang droppings
 erl_crash.dump
 .erlang.cookie
+
+# git projects
+/git/
