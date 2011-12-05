@@ -9,14 +9,18 @@ unset  LC_ALL
 unset  LANGUAGE
 export LANG=en_US
 export LC_CTYPE=sv_SE
-export LC_TIME=en_DK
+export LC_TIME=sv_SE
 export LC_PAPER=sv_SE
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# check for GNU ls from brew
+LS=ls ; [ `which gls` ] && LS=gls
+
 # Enable sane completion
-. /etc/bash_completion
+[ `which brew` ] && BREF=`brew --prefix`
+. $BREF/etc/bash_completion
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -45,7 +49,7 @@ mygitdir () {
 if [ "$TERM" != "dumb" ]; then
 # enable color support of ls
     lscols=auto
-    eval "`dircolors -b $HOME/.dircolors`"
+    eval "`gdircolors -b $HOME/.dircolors`"
 # to get emacs -nw to use 256 colors
     export TERM=xterm-256color
 # set a fancy prompt
@@ -64,7 +68,7 @@ else
 fi
 
 xterm(){ /usr/bin/xterm -xrm "XTerm*VT100.metaSendsEscape: True" -sl 9999 ;}
-dir()  { ls --color=$lscols -lF "$@";}
+dir()  { $LS --color=$lscols -lF "$@";}
 dirt() { dir -rt "$@";}
 dird() { dir -d "$@";}
 dira() { for d in "${@:-.}"; do (cd "$d";pwd; dird .*); done;}

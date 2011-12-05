@@ -47,7 +47,7 @@
 (global-set-key (kbd "M-z") 'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
-(defvar erlang-erl-path "/usr/local")
+(defvar erlang-erl-path (shell-command "brew --prefix erlang"))
 (defvar erlang-distel-path "~/git/distel")
 (defvar erlang-erlmode-path
   "/usr/local/otp/current/lib/erlang/lib/tools-*/emacs")
@@ -197,15 +197,17 @@
       (if (locate-library "distel")
           (my-distel-setup))))
 
-(if (locate-library "color-theme")
-    (progn
-      (require 'color-theme)
-      (color-theme-initialize)
-      (condition-case nil
-          (progn
-            (load-library "color-theme-masse")
-            (color-theme-masse))
-        (error (color-theme-calm-forest)))))
+(if (fboundp 'load-theme)
+    (load-theme 'tango-dark t)
+  (if (locate-library "color-theme")
+      (progn
+        (require 'color-theme)
+        (color-theme-initialize)
+        (condition-case nil
+            (progn
+              (load-library "color-theme-masse")
+              (color-theme-masse))
+          (error (color-theme-calm-forest))))))
 
 (if (locate-library "fdlcap")
     (require 'fdlcap))
@@ -255,21 +257,21 @@
 ;; http://shreevatsa.wordpress.com/2006/10/22/emacs-copypaste-and-x/
 ;; http://www.mail-archive.com/help-gnu-emacs@gnu.org/msg03577.html
 
-(unless (or (not (getenv "DISPLAY")) window-system)
-  (defun xsel-cut-function (text &optional push)
-    (interactive "MPush to X selection: ")
-    (with-temp-buffer
-      (insert text)
-      (call-process-region
-       (point-min) (point-max) "xsel" nil 0 nil "--input")))
-  (defun xsel-paste-function()
-    (interactive)
-    (let ((xsel-output (shell-command-to-string "xsel --output")))
-      (unless (string= (car kill-ring) xsel-output)
-        xsel-output )))
-  (setq interprogram-cut-function 'xsel-cut-function)
-  (setq interprogram-paste-function 'xsel-paste-function))
-
+;(unless (or (not (getenv "DISPLAY")) window-system)
+;  (defun xsel-cut-function (text &optional push)
+;    (interactive "MPush to X selection: ")
+;    (with-temp-buffer
+;      (insert text)
+;      (call-process-region
+;       (point-min) (point-max) "xsel" nil 0 nil "--input")))
+;  (defun xsel-paste-function()
+;    (interactive)
+;    (let ((xsel-output (shell-command-to-string "xsel --output")))
+;      (unless (string= (car kill-ring) xsel-output)
+;        xsel-output )))
+;  (setq interprogram-cut-function 'xsel-cut-function)
+;  (setq interprogram-paste-function 'xsel-paste-function))
+;
 (defun my-erc ()
   "start erc, connect to some servers, join some channels"
   (interactive)

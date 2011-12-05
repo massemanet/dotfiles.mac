@@ -161,3 +161,9 @@ wrk/eqc-release
 /.aptitude/cache
 /.wxglade/file_history.txt
 /.gtk-recordmydesktop
+/.CFUserTextEncoding
+/.DS_Store
+/Library
+/Movies
+/Sites
+/.Trash
