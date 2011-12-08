@@ -1,8 +1,0 @@
-#!/bin/bash
-
-if [ $# -gt 0 ]; then
-    root=$1
-else
-    root=$HOME
-fi
-find $root -name erl_crash.dump -exec rm {} \;

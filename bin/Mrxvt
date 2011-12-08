@@ -1,3 +1,0 @@
-#!/bin/bash -i
-
-/usr/bin/mrxvt -tn xterm-256color -nsc -tr -shade 85 +trt -fg white +sb -aht --highlightColor red -cr green -xft -xftaa -xftah -xftht -xftfn "Bitstream Vera Sans Mono" -xftsz 8  $*

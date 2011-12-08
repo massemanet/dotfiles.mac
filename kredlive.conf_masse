@@ -1,6 +1,0 @@
-{live, false}.
-{vip, local}.
-{mk_idata, false}.
-{https_site_name,"kummel-masse-vip1.hq.kred"}.    %The name of your first VIP
-{online_site_name,"kummel-masse-vip2.hq.kred"}.   %The name of your second VIP
-{tmp_dir,"/home/masse/.kredtmp"}.                 %Path to your tmp directory

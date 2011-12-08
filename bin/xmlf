@@ -1,3 +1,0 @@
-#!/bin/bash
-
-xmlstarlet fo "$1"

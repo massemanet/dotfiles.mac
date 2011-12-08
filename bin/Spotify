@@ -1,4 +1,0 @@
-#!/bin/bash
-
-export WINEDEBUG="-all"
-wine "/home/masse/.wine/drive_c/Program Files/Spotify/spotify.exe"

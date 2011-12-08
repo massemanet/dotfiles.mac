@@ -1,4 +1,0 @@
-#!/bin/bash
-Eterm \
-      --name eterm  --trans --buttonbar false --scrollbar false --cmod 32 \
-      --visual-bell --term-name xterm-256color --xterm-select "$@"

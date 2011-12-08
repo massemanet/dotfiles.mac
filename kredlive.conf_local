@@ -1,3 +1,0 @@
-{live, false}.
-{mk_idata, false}.
-{tmp_dir,"/home/masse/.kredtmp"}.                 %Path to your tmp directory
