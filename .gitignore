@@ -11,11 +11,8 @@
 /Sites/
 .CFUserTextEncoding
 .DS_Store
-.IABootFiles/
 .Trash/
-.Xauthority
 .cups/
-.fontconfig/
 
 # droppings
 .sh_history
@@ -30,4 +27,3 @@ erl_crash.dump
 
 # git projects
 /git/
-
