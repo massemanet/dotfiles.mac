@@ -1,5 +1,0 @@
-
-(gnus-kill "From" "Kleberg")
-(gnus-kill "From" "Haugeland")
-(gnus-expunge "X")
-
