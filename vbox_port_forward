@@ -1,0 +1,6 @@
+#! /bin/sh
+
+[ -z "$1 ] 
+VBoxManage setextradata "kub" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/ssh/Protocol" TCP
+VBoxManage setextradata "kub" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/ssh/GuestPort" 22
+VBoxManage setextradata "kub" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/ssh/HostPort" 2222

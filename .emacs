@@ -1,11 +1,12 @@
 ;; -*- mode: lisp -*-
 
+(load-theme 'tango-dark)
+
 (setq safe-local-variable-values
       (quote ((erlang-indent-level . 4)
               (erlang-indent-level . 2))))
 
-
-(set-default-font "-adobe-courier-medium-r-normal--14-*-----iso8859-1")
+; turn on shit
 (set-language-environment "Latin-1")
 (show-paren-mode t)
 (transient-mark-mode t)
@@ -13,8 +14,8 @@
 (delete-selection-mode t)
 (column-number-mode t)
 (iswitchb-mode t)
-(global-hl-line-mode -1)
-(set-face-background 'hl-line "#333")
+
+; turn off shit
 (if (featurep 'tool-bar) (tool-bar-mode -1))
 (if (featurep 'tooltip) (tooltip-mode -1))
 (if (featurep 'scroll-bar) (scroll-bar-mode -1))
@@ -49,8 +50,8 @@
 
 (defvar erlang-erl-path (shell-command "brew --prefix erlang"))
 (defvar erlang-distel-path "~/git/distel")
-(defvar erlang-erlmode-path
-  "/usr/local/otp/current/lib/erlang/lib/tools-*/emacs")
+(defvar erlang-erlmode-path "~/elisp")
+;"/usr/local/Cellar/erlang/R14B03/lib/erlang/lib/tools-*/emacs")
 
 (defvar paths
   (list
@@ -185,6 +186,7 @@
 
 (if (locate-library "git")
     (require 'git))
+
 (if (locate-library "git-blame")
     (progn
       (require 'format-spec)
@@ -253,37 +255,18 @@
 (if window-system
     (set-background-color "black"))
 
-;; http://hugoheden.wordpress.com/2009/03/08/copypaste-with-emacs-in-terminal
-;; http://shreevatsa.wordpress.com/2006/10/22/emacs-copypaste-and-x/
-;; http://www.mail-archive.com/help-gnu-emacs@gnu.org/msg03577.html
-
-;(unless (or (not (getenv "DISPLAY")) window-system)
-;  (defun xsel-cut-function (text &optional push)
-;    (interactive "MPush to X selection: ")
-;    (with-temp-buffer
-;      (insert text)
-;      (call-process-region
-;       (point-min) (point-max) "xsel" nil 0 nil "--input")))
-;  (defun xsel-paste-function()
-;    (interactive)
-;    (let ((xsel-output (shell-command-to-string "xsel --output")))
-;      (unless (string= (car kill-ring) xsel-output)
-;        xsel-output )))
-;  (setq interprogram-cut-function 'xsel-cut-function)
-;  (setq interprogram-paste-function 'xsel-paste-function))
-;
 (defun my-erc ()
   "start erc, connect to some servers, join some channels"
   (interactive)
   (set-language-environment "utf-8")
-  (setq default-input-method "swedish-postfix")
-  (setq erc-autojoin-channels-alist
-        '(("freenode.net" "#erlang"); "#nitrogen")
-;          ("foonetic.net" "#xkcd")
-          ("hq.kred" "#tech")))
-;  (setq erc-spelling-dictionaries '(("irc.hq.kred:6667" "svenska")))
+  (setq default-input-method "swedish-postfix"
+	erc-hide-list '("JOIN" "NICK" "PART" "QUIT")
+	erc-modules '(autojoin completion fill irccontrols match noncommands
+			       readonly ring scrolltobottom stamp spelling
+			       track truncate)
+	erc-autojoin-channels-alist '(("freenode.net" "#erlang")
+				      ("hq.kred" "#tech")))
   (erc :server "irc.freenode.net" :nick "massemanet")
-;  (erc :server "irc.foonetic.net" :nick "masse")
   (erc :server "irc.hq.kred" :nick "masse"))
 
 ;; automatically added stuff
@@ -298,8 +281,6 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(default-input-method "swedish-postfix")
- '(erc-hide-list (quote ("JOIN" "NICK" "PART" "QUIT")))
- '(erc-modules (quote (autojoin completion fill irccontrols match noncommands readonly ring scrolltobottom stamp spelling track truncate)))
  '(flymake-no-changes-timeout 3)
  '(flyspell-dictionaries (quote ("american" "svenska")))
  '(gnus-novice-user nil)
