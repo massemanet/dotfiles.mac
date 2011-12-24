@@ -1,5 +1,21 @@
 ;; -*- mode: lisp -*-
 
+(add-to-list 'package-archives 
+             '("marmalade" . "http://marmalade-repo.org/packages"))
+(add-to-list 'package-archives 
+             '("ELPA" . "http://tromey.com/elpa/"))
+
+(defun my-elpa ()
+  (interactive)
+  ;;(package-refresh-contents)
+  (dolist (p '(magit highlight-parentheses))
+    (progn
+      (if (package-installed-p p)
+          (message "already installed %s" p)
+        (package-install p)))))
+
+(my-elpa)
+
 (load-theme 'tango-dark)
 
 (setq safe-local-variable-values
@@ -19,7 +35,7 @@
 (if (featurep 'tool-bar) (tool-bar-mode -1))
 (if (featurep 'tooltip) (tooltip-mode -1))
 (if (featurep 'scroll-bar) (scroll-bar-mode -1))
-(menu-bar-mode -1)
+(if (featurep 'menu-bar) (menu-bar-mode -1))
 
 (setq
  align-to-tab-stop nil

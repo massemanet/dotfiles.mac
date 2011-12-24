@@ -15,9 +15,11 @@
 .cups/
 
 # droppings
-.sh_history
-.bash_history
-.lesshst
+/.gem/
+/.emacs.d/
+/.sh_history/
+/.bash_history
+/.lesshst
 *~
 /.ssh/
 
