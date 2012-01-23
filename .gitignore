@@ -15,15 +15,17 @@
 .cups/
 
 # droppings
-/vagrant/
-/VirtualBox VMs/
-/.aspell.*
-/.sh_history
-/.vagrant.d/
-/.bash_history
-/.lesshst
 *~
+/.aspell.*
+/.bash_history
+/.emacs.d/
+/.gem/
+/.lesshst
+/.sh_history
 /.ssh/
+/.vagrant.d/
+/VirtualBox VMs/
+/vagrant/
 
 # erlang droppings
 erl_crash.dump
