@@ -15,9 +15,13 @@
 .cups/
 
 # droppings
-.sh_history
-.bash_history
-.lesshst
+/vagrant/
+/VirtualBox VMs/
+/.aspell.*
+/.sh_history
+/.vagrant.d/
+/.bash_history
+/.lesshst
 *~
 /.ssh/
 
