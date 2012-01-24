@@ -16,6 +16,9 @@
 
 # droppings
 *~
+/.dropbox/
+/Dropbox/
+/iterm.log
 /.aspell.*
 /.bash_history
 /.emacs.d/
