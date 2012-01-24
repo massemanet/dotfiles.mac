@@ -61,6 +61,11 @@
   (when (and (stringp f) (file-exists-p f))
     (add-to-list 'load-path f)))
 
+(add-hook 'text-mode-hook 'my-text-mode-hook)
+(defun my-text-mode-hook ()
+  (longlines-mode t)
+  (flyspell-mode))
+
 (defun my-erlang-setup ()
   ;; use to start an erlang shell with boot flags
 
@@ -295,4 +300,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(magit-diff-add ((t (:foreground "green")))))
+
