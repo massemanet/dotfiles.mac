@@ -1,23 +1,5 @@
 ;; -*- mode: lisp -*-
 
-(add-to-list 'package-archives 
-             '("marmalade" . "http://marmalade-repo.org/packages"))
-(add-to-list 'package-archives 
-             '("ELPA" . "http://tromey.com/elpa/"))
-
-(defun my-elpa ()
-  (interactive)
-  ;;(package-refresh-contents)
-  (dolist (p '(magit highlight-parentheses))
-    (progn
-      (if (package-installed-p p)
-          (message "already installed %s" p)
-        (package-install p)))))
-
-(my-elpa)
-
-(load-theme 'tango-dark)
-
 (setq safe-local-variable-values
       (quote ((erlang-indent-level . 4)
               (erlang-indent-level . 2))))
@@ -40,7 +22,6 @@
 (setq
  align-to-tab-stop nil
  indent-tabs-mode nil
- browse-url-browser-function 'w3m-browse-url
  user-mail-address "masse@klarna.com"
  inhibit-startup-screen t
  special-display-regexps nil
@@ -67,7 +48,7 @@
 (defvar erlang-erl-path (shell-command "brew --prefix erlang"))
 (defvar erlang-distel-path "~/git/distel")
 (defvar erlang-erlmode-path "~/elisp")
-;"/usr/local/Cellar/erlang/R14B03/lib/erlang/lib/tools-*/emacs")
+; `brew --prefix erlang`/lib/erlang/lib/tools-*/emacs")
 
 (defvar paths
   (list
@@ -227,9 +208,6 @@
               (color-theme-masse))
           (error (color-theme-calm-forest))))))
 
-(if (locate-library "fdlcap")
-    (require 'fdlcap))
-
 (defun my-svn-status-hide (line-info)
   "Hide externals."
   (eq (svn-status-line-info->filemark line-info) ?X))
@@ -242,25 +220,6 @@
   (local-set-key [(control down)] 'next-line)
   (local-set-key [up] 'comint-previous-input)
   (local-set-key [down] 'comint-next-input))
-
-(defun k-find (word &optional ext)
-  (grep-find
-   (concat "find "
-           (concat (car (split-string (buffer-file-name) "lib")) "lib/")
-           (concat " -name '.svn' -prune -o -name '*~' -prune -o -name '*beam'"
-                   " -prune -o -name '*html' -prune -o -type f -name '*"
-                   ext
-                   "' -print0 | xargs -0 -e grep -n -e "
-                   word))))
-
-
-(defun kfind (word)
-  (interactive "MFind: ")
-  (k-find word))
-
-(defun kefind (word)
-  (interactive "MFind: ")
-  (k-find word "rl"))
 
 (defun indent-buffer ()
   "indent current buffer"
@@ -285,6 +244,30 @@
   (erc :server "irc.freenode.net" :nick "massemanet")
   (erc :server "irc.hq.kred" :nick "masse"))
 
+(if (not (< 24 emacs-major-version))
+    (progn 
+      (load-theme 'tango-dark)
+      (require 'package)
+      (add-to-list 'package-archives 
+		   '("ELPA" . "http://tromey.com/elpa/"))
+      (add-to-list 'package-archives 
+		   '("marmalade" . "http://marmalade-repo.org/packages/"))
+      (package-initialize)
+      (define-globalized-minor-mode global-highlight-parentheses-mode
+        highlight-parentheses-mode
+        (lambda ()
+          (highlight-parentheses-mode t)))
+      (global-highlight-parentheses-mode t)
+      (defun my-elpa ()
+	(interactive)
+	(package-refresh-contents)
+	(dolist (p '(magit highlight-parentheses clojure-mode js2-mode slime))
+	  (progn
+	    (if (package-installed-p p)
+		(message "already installed %s" p)
+	      (package-install p)))))))
+
+
 ;; automatically added stuff
 
 
@@ -292,17 +275,24 @@
 (put 'upcase-region 'disabled nil)
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default-input-method "swedish-postfix")
  '(flymake-no-changes-timeout 3)
  '(flyspell-dictionaries (quote ("american" "svenska")))
  '(gnus-novice-user nil)
+ '(hl-paren-colors (quote ("firebrick1" "color-160" "color-88" "IndianRed4" "brightred" "white")))
  '(indent-tabs-mode nil)
  '(max-lisp-eval-depth 40000)
  '(safe-local-variable-values (quote ((erlang-indent-level . 4) (erlang-indent-level . 2))))
  '(scroll-down-aggressively 0.1)
  '(scroll-up-aggressively 0.1)
  '(utf-translate-cjk-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
