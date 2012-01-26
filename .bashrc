@@ -77,6 +77,9 @@ c()    { cat "$@";}
 x()    { sed -e'/^%/d' "$@" | xmlstarlet fo;}
 smg()  { sudo mg -n $1;}
 
+##
+export EDITOR=e
+
 ## history
 # lots of history
 export HISTSIZE=9999

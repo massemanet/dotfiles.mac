@@ -1,20 +1,19 @@
 ;; -*- mode: lisp -*-
 
-(add-to-list 'package-archives 
-             '("marmalade" . "http://marmalade-repo.org/packages"))
-(add-to-list 'package-archives 
-             '("ELPA" . "http://tromey.com/elpa/"))
-
 (defun my-elpa ()
   (interactive)
   ;;(package-refresh-contents)
+  (package-initialize)
+  (add-to-list 'package-archives 
+               '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives 
+               '("ELPA" . "http://tromey.com/elpa/"))
+  (package-refresh-contents)
   (dolist (p '(magit highlight-parentheses))
     (progn
       (if (package-installed-p p)
           (message "already installed %s" p)
         (package-install p)))))
-
-(my-elpa)
 
 (load-theme 'tango-dark)
 
@@ -64,16 +63,17 @@
 (global-set-key (kbd "M-z") 'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
-(defvar erlang-erl-path (shell-command "brew --prefix erlang"))
+(defvar erlang-erl-path 
+  (shell-command-to-string "echo -n `brew --prefix erlang`"))
 (defvar erlang-distel-path "~/git/distel")
 (defvar erlang-erlmode-path "~/elisp")
-;"/usr/local/Cellar/erlang/R14B03/lib/erlang/lib/tools-*/emacs")
 
 (defvar paths
   (list
    "~/elisp"
    (car (file-expand-wildcards erlang-erlmode-path))
-   "/usr/share/doc/git/contrib/emacs"
+   (car (file-expand-wildcards
+         (concat erlang-erl-path "/lib/erlang/lib/tools-*/emacs")))
    (concat erlang-distel-path "/elisp")))
 
 (dolist (f (nreverse paths))
@@ -305,6 +305,7 @@
  '(flymake-no-changes-timeout 3)
  '(flyspell-dictionaries (quote ("american" "svenska")))
  '(gnus-novice-user nil)
+ '(hl-paren-colors (quote ("color-118" "color-113" "color-121" "color-116" "color-111")))
  '(indent-tabs-mode nil)
  '(max-lisp-eval-depth 40000)
  '(safe-local-variable-values (quote ((erlang-indent-level . 4) (erlang-indent-level . 2))))
