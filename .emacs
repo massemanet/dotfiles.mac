@@ -1,22 +1,5 @@
 ;; -*- mode: lisp -*-
 
-(defun my-elpa ()
-  (interactive)
-  ;;(package-refresh-contents)
-  (package-initialize)
-  (add-to-list 'package-archives 
-               '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives 
-               '("ELPA" . "http://tromey.com/elpa/"))
-  (package-refresh-contents)
-  (dolist (p '(magit highlight-parentheses))
-    (progn
-      (if (package-installed-p p)
-          (message "already installed %s" p)
-        (package-install p)))))
-
-(load-theme 'tango-dark)
-
 (setq safe-local-variable-values
       (quote ((erlang-indent-level . 4)
               (erlang-indent-level . 2))))
@@ -39,7 +22,6 @@
 (setq
  align-to-tab-stop nil
  indent-tabs-mode nil
- browse-url-browser-function 'w3m-browse-url
  user-mail-address "masse@klarna.com"
  inhibit-startup-screen t
  special-display-regexps nil
@@ -67,6 +49,10 @@
   (shell-command-to-string "echo -n `brew --prefix erlang`"))
 (defvar erlang-distel-path "~/git/distel")
 (defvar erlang-erlmode-path "~/elisp")
+<<<<<<< HEAD
+=======
+; `brew --prefix erlang`/lib/erlang/lib/tools-*/emacs")
+>>>>>>> 01e04e0472ab5a3135d49266897ca00d8a39d705
 
 (defvar paths
   (list
@@ -232,9 +218,6 @@
               (color-theme-masse))
           (error (color-theme-calm-forest))))))
 
-(if (locate-library "fdlcap")
-    (require 'fdlcap))
-
 (defun my-svn-status-hide (line-info)
   "Hide externals."
   (eq (svn-status-line-info->filemark line-info) ?X))
@@ -247,25 +230,6 @@
   (local-set-key [(control down)] 'next-line)
   (local-set-key [up] 'comint-previous-input)
   (local-set-key [down] 'comint-next-input))
-
-(defun k-find (word &optional ext)
-  (grep-find
-   (concat "find "
-           (concat (car (split-string (buffer-file-name) "lib")) "lib/")
-           (concat " -name '.svn' -prune -o -name '*~' -prune -o -name '*beam'"
-                   " -prune -o -name '*html' -prune -o -type f -name '*"
-                   ext
-                   "' -print0 | xargs -0 -e grep -n -e "
-                   word))))
-
-
-(defun kfind (word)
-  (interactive "MFind: ")
-  (k-find word))
-
-(defun kefind (word)
-  (interactive "MFind: ")
-  (k-find word "rl"))
 
 (defun indent-buffer ()
   "indent current buffer"
@@ -290,6 +254,30 @@
   (erc :server "irc.freenode.net" :nick "massemanet")
   (erc :server "irc.hq.kred" :nick "masse"))
 
+(if (not (< 24 emacs-major-version))
+    (progn 
+      (load-theme 'tango-dark)
+      (define-globalized-minor-mode global-highlight-parentheses-mode
+        highlight-parentheses-mode
+        (lambda ()
+          (highlight-parentheses-mode t)))
+      (global-highlight-parentheses-mode t)
+      (defun my-elpa ()
+	(interactive)
+        (require 'package)
+        (add-to-list 'package-archives 
+                     '("ELPA" . "http://tromey.com/elpa/"))
+        (add-to-list 'package-archives 
+                     '("marmalade" . "http://marmalade-repo.org/packages/"))
+        (package-initialize)
+	(package-refresh-contents)
+	(dolist (p '(magit highlight-parentheses clojure-mode js2-mode slime))
+	  (progn
+	    (if (package-installed-p p)
+		(message "already installed %s" p)
+	      (package-install p)))))))
+
+
 ;; automatically added stuff
 
 
@@ -305,7 +293,11 @@
  '(flymake-no-changes-timeout 3)
  '(flyspell-dictionaries (quote ("american" "svenska")))
  '(gnus-novice-user nil)
+<<<<<<< HEAD
  '(hl-paren-colors (quote ("color-118" "color-113" "color-121" "color-116" "color-111")))
+=======
+ '(hl-paren-colors (quote ("firebrick1" "color-160" "color-88" "IndianRed4" "brightred" "white")))
+>>>>>>> 01e04e0472ab5a3135d49266897ca00d8a39d705
  '(indent-tabs-mode nil)
  '(max-lisp-eval-depth 40000)
  '(safe-local-variable-values (quote ((erlang-indent-level . 4) (erlang-indent-level . 2))))
@@ -318,3 +310,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(magit-diff-add ((t (:foreground "green")))))
+

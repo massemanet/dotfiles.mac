@@ -65,7 +65,6 @@ else
     PS1="\h\$ "
 fi
 
-xterm(){ /usr/bin/xterm -xrm "XTerm*VT100.metaSendsEscape: True" -sl 9999 ;}
 dir()  { $LS --color=$lscols -lF "$@";}
 dirt() { dir -rt "$@";}
 dird() { dir -d "$@";}
@@ -74,8 +73,8 @@ rea()  { history | egrep "${@:-}";}
 m()    { less "$@";}
 e()    { `brew --prefix`/bin/emacs -nw "$@";}
 c()    { cat "$@";}
-x()    { sed -e'/^%/d' "$@" | xmlstarlet fo;}
-smg()  { sudo mg -n $1;}
+
+export EDITOR=e
 
 ##
 export EDITOR=e
