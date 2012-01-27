@@ -82,7 +82,7 @@
 (add-hook 'text-mode-hook 'my-text-mode-hook)
 (defun my-text-mode-hook ()
   (longlines-mode t)
-  (highlight-parentheses-mode -1))
+  (highlight-parentheses-mode -1)
   (setq flyspell-dictionaries (quote ("american" "svenska")))
   (flyspell-mode))
 
