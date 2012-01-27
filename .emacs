@@ -61,9 +61,12 @@
   (when (and (stringp f) (file-exists-p f))
     (add-to-list 'load-path f)))
 
+(require 'fdlcap)
+
 (add-hook 'text-mode-hook 'my-text-mode-hook)
 (defun my-text-mode-hook ()
   (longlines-mode t)
+  (highlight-parentheses-mode -1))
   (flyspell-mode))
 
 (defun my-erlang-setup ()
