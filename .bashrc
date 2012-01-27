@@ -76,6 +76,9 @@ c()    { cat "$@";}
 
 export EDITOR=e
 
+##
+export EDITOR=e
+
 ## history
 # lots of history
 export HISTSIZE=9999

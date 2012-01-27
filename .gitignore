@@ -31,6 +31,8 @@
 /vagrant/
 
 # erlang droppings
+/.erlang-flymake/
+/flymaker.log
 erl_crash.dump
 .erlang.cookie
 
