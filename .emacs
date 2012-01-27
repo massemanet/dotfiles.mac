@@ -12,6 +12,15 @@
 (delete-selection-mode t)
 (column-number-mode t)
 (iswitchb-mode t)
+(if (fboundp 'load-theme) (load-theme 'tango-dark))
+(if (locate-library "package")
+    (progn
+      (require 'package)
+      (package-initialize)
+      (add-to-list 'package-archives
+		   '("ELPA" . "http://tromey.com/elpa/"))
+      (add-to-list 'package-archives
+		   '("marmalade" . "http://marmalade-repo.org/packages/"))))
 
 ; turn off shit
 (if (featurep 'tool-bar) (tool-bar-mode -1))
@@ -20,12 +29,18 @@
 (if (featurep 'menu-bar) (menu-bar-mode -1))
 
 (setq
- align-to-tab-stop nil
- indent-tabs-mode nil
- user-mail-address "masse@klarna.com"
- inhibit-startup-screen t
- special-display-regexps nil
- visible-bell t)
+ align-to-tab-stop        nil
+ default-input-method     "swedish-postfix"
+ indent-tabs-mode         nil
+ indent-tabs-mode         nil
+ inhibit-startup-screen   t
+ max-lisp-eval-depth      40000
+ scroll-down-aggressively 0.1
+ scroll-up-aggressively   0.1
+ special-display-regexps  nil
+ user-mail-address        "masse@klarna.com"
+ utf-translate-cjk-mode   nil
+ visible-bell             t)
 
 (global-set-key (kbd "C-c a") 'align-regexp)
 (global-set-key (kbd "C-c b") 'bury-buffer)
@@ -45,14 +60,10 @@
 (global-set-key (kbd "M-z") 'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
-(defvar erlang-erl-path 
+(defvar erlang-erl-path
   (shell-command-to-string "echo -n `brew --prefix erlang`"))
 (defvar erlang-distel-path "~/git/distel")
 (defvar erlang-erlmode-path "~/elisp")
-<<<<<<< HEAD
-=======
-; `brew --prefix erlang`/lib/erlang/lib/tools-*/emacs")
->>>>>>> 01e04e0472ab5a3135d49266897ca00d8a39d705
 
 (defvar paths
   (list
@@ -69,6 +80,7 @@
 (add-hook 'text-mode-hook 'my-text-mode-hook)
 (defun my-text-mode-hook ()
   (longlines-mode t)
+  (setq flyspell-dictionaries (quote ("american" "svenska")))
   (flyspell-mode))
 
 (defun my-erlang-setup ()
@@ -94,22 +106,23 @@
 
   (add-hook 'erlang-load-hook 'my-erlang-load-hook)
   (defun my-erlang-load-hook ()
-    (setq erl-atom-face              'default);'font-lock-doc-face)
-    (setq erl-quotes-face            'font-lock-doc-string-face)
-    (setq erl-list-operator-face     'font-lock-warning-face)
-    (setq erl-match-operator-face    'font-lock-warning-face)
-    (setq erl-operator-face          'font-lock-warning-face)
-    (setq erl-arrow-face             'font-lock-keyword-face)
-    (setq erl-ext-function-call-face 'font-lock-constant-face)
-    (setq erl-int-function-call-face 'font-lock-constant-face)
-    (setq erl-macro-face             'font-lock-preprocessor-face)
-    (setq erl-record-face            'font-lock-preprocessor-face)
+    (setq
+     ;; syntax haighlighting
+     erl-atom-face              'default         ;'font-lock-doc-face
+     erl-quotes-face            'font-lock-doc-string-face
+     erl-list-operator-face     'font-lock-warning-face
+     erl-match-operator-face    'font-lock-warning-face
+     erl-operator-face          'font-lock-warning-face
+     erl-arrow-face             'font-lock-keyword-face
+     erl-ext-function-call-face 'font-lock-constant-face
+     erl-int-function-call-face 'font-lock-constant-face
+     erl-macro-face             'font-lock-preprocessor-face
+     erl-record-face            'font-lock-preprocessor-face
 
-    ;; i need some space
-    (setq erlang-indent-level 2)
-    ;; find the man pages
-    (setq erlang-root-dir erlang-erl-path))
-
+     ;; i need some space
+     erlang-indent-level 2
+     ;; find the man pages
+     setq erlang-root-dir erlang-erl-path))
 
   (add-hook 'erlang-new-file-hook 'my-erlang-new-file-hook)
   (defun my-erlang-new-file-hook ()
@@ -128,12 +141,16 @@
 
   (add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
   (defun my-erlang-mode-hook ()
+    (defun erl-align-arrows ()
+      (interactive)
+      (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)->" 1 1))
     ;; run flymake iff buffer has a file
     (local-set-key (kbd "M-L") 'erl-show-arglist)
     (local-set-key (kbd "M-A") 'erl-align-arrows)
     (if (and (locate-library "erlang-flymake")
              buffer-file-truename)
         (progn
+          (setq flymake-no-changes-timeout 3)
           (load "erlang-flymake")
           (flymake-mode)
           (local-set-key (kbd "M-'") 'erlang-flymake-next-error)))
@@ -153,10 +170,6 @@
                (if (file-exists-p "../ebin") "-o ../ebin " "")
                (if (file-exists-p "../inc") "-I ../inc " "")
                "+debug_info -W " buffer-file-name))))))
-
-(defun erl-align-arrows ()
-  (interactive)
-  (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)->" 1 1))
 
 (defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
@@ -199,24 +212,23 @@
       (require 'format-spec)
       (require 'git-blame)))
 
+(if (locate-library "highlight-parentheses")
+    (progn
+      (require 'highlight-parentheses)
+      (setq hl-paren-colors '("firebrick1" "color-160" "color-88"
+                              "IndianRed4" "brightred" "white"))
+      (define-globalized-minor-mode global-highlight-parentheses-mode
+	highlight-parentheses-mode
+	(lambda ()
+	  (highlight-parentheses-mode t)))
+      (global-highlight-parentheses-mode t)))
+
 (if (locate-library "erlang-start")
     (progn
       (require 'erlang-start)
       (my-erlang-setup)
       (if (locate-library "distel")
           (my-distel-setup))))
-
-(if (fboundp 'load-theme)
-    (load-theme 'tango-dark t)
-  (if (locate-library "color-theme")
-      (progn
-        (require 'color-theme)
-        (color-theme-initialize)
-        (condition-case nil
-            (progn
-              (load-library "color-theme-masse")
-              (color-theme-masse))
-          (error (color-theme-calm-forest))))))
 
 (defun my-svn-status-hide (line-info)
   "Hide externals."
@@ -254,60 +266,33 @@
   (erc :server "irc.freenode.net" :nick "massemanet")
   (erc :server "irc.hq.kred" :nick "masse"))
 
-(if (not (< 24 emacs-major-version))
-    (progn 
-      (load-theme 'tango-dark)
-      (define-globalized-minor-mode global-highlight-parentheses-mode
-        highlight-parentheses-mode
-        (lambda ()
-          (highlight-parentheses-mode t)))
-      (global-highlight-parentheses-mode t)
-      (defun my-elpa ()
-	(interactive)
-        (require 'package)
-        (add-to-list 'package-archives 
-                     '("ELPA" . "http://tromey.com/elpa/"))
-        (add-to-list 'package-archives 
-                     '("marmalade" . "http://marmalade-repo.org/packages/"))
-        (package-initialize)
-	(package-refresh-contents)
-	(dolist (p '(magit highlight-parentheses clojure-mode js2-mode slime))
-	  (progn
-	    (if (package-installed-p p)
-		(message "already installed %s" p)
-	      (package-install p)))))))
+(defun my-elpa ()
+  (interactive)
+  (package-refresh-contents)
+  (dolist (p '(magit highlight-parentheses clojure-mode js2-mode slime))
+    (progn
+      (if (package-installed-p p)
+          (message "already installed %s" p)
+        (package-install p)))))
 
 
 ;; automatically added stuff
 
-
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(magit-diff-add ((t (:foreground "green"))))
+ '(magit-diff-del ((t (:foreground "red"))))
+ '(magit-item-highlight ((t (:background "color-239")))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default-input-method "swedish-postfix")
- '(flymake-no-changes-timeout 3)
- '(flyspell-dictionaries (quote ("american" "svenska")))
- '(gnus-novice-user nil)
-<<<<<<< HEAD
- '(hl-paren-colors (quote ("color-118" "color-113" "color-121" "color-116" "color-111")))
-=======
- '(hl-paren-colors (quote ("firebrick1" "color-160" "color-88" "IndianRed4" "brightred" "white")))
->>>>>>> 01e04e0472ab5a3135d49266897ca00d8a39d705
- '(indent-tabs-mode nil)
- '(max-lisp-eval-depth 40000)
- '(safe-local-variable-values (quote ((erlang-indent-level . 4) (erlang-indent-level . 2))))
- '(scroll-down-aggressively 0.1)
- '(scroll-up-aggressively 0.1)
- '(utf-translate-cjk-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(magit-diff-add ((t (:foreground "green")))))
-
+ )
