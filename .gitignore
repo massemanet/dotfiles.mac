@@ -16,18 +16,22 @@
 
 # droppings
 *~
-/.dropbox/
-/Dropbox/
-/iterm.log
+/.Xauthority
 /.aspell.*
 /.bash_history
+/.dropbox/
 /.emacs.d/
+/.fontconfig/
 /.gem/
 /.lesshst
+/.local/share/googlecl/
+/.pip/
 /.sh_history
 /.ssh/
 /.vagrant.d/
+/Dropbox/
 /VirtualBox VMs/
+/iterm.log
 /vagrant/
 
 # erlang droppings

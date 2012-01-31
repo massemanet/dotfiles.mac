@@ -1,0 +1,36 @@
+[DOCS]
+spreadsheet_format = xls
+format = txt
+spreadsheet_editor = openoffice.org
+presentation_format = ppt
+presentation_editor = openoffice.org
+document_format = txt
+drawing_format = png
+skip_auth = True
+user = mats.cronqvist
+
+[CALENDAR]
+fields = title,when
+
+[GENERAL]
+regex = True
+url_field = site
+missing_field_value = N/A
+fields = title,url-site
+cap_results = False
+max_retries = 2
+hostid = masse@brill.local
+retry_delay = 0.5
+date_print_format = %b %d %H:%M
+
+[YOUTUBE]
+max_results = 50
+
+[CONTACTS]
+fields = name,email
+
+[BLOGGER]
+skip_auth = True
+user = mats.cronqvist
+blog = 0
+
