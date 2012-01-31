@@ -1,9 +1,5 @@
 ;; -*- mode: lisp -*-
 
-(setq safe-local-variable-values
-      (quote ((erlang-indent-level . 4)
-              (erlang-indent-level . 2))))
-
 ; turn on shit
 (set-language-environment "Latin-1")
 (show-paren-mode t)
@@ -60,33 +56,30 @@
 (global-set-key (kbd "M-z") 'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
-(defvar erlang-erl-path
-  (shell-command-to-string "echo -n `brew --prefix erlang`"))
-(defvar erlang-distel-path "~/git/distel")
-(defvar erlang-erlmode-path "~/elisp")
-
-(defvar paths
-  (list
-   "~/elisp"
-   (car (file-expand-wildcards erlang-erlmode-path))
-   (car (file-expand-wildcards
-         (concat erlang-erl-path "/lib/erlang/lib/tools-*/emacs")))
-   (concat erlang-distel-path "/elisp")))
-
-(dolist (f (nreverse paths))
+(defun add-paths (ps)
+  (dolist (f (nreverse ps))
   (when (and (stringp f) (file-exists-p f))
-    (add-to-list 'load-path f)))
+    (add-to-list 'load-path f))))
 
-(require 'fdlcap)
-
-(add-hook 'text-mode-hook 'my-text-mode-hook)
-(defun my-text-mode-hook ()
-  (longlines-mode t)
-  (highlight-parentheses-mode -1)
-  (setq flyspell-dictionaries (quote ("american" "svenska")))
-  (flyspell-mode))
+(add-paths (list "~/elisp"))
 
 (defun my-erlang-setup ()
+
+  (setq safe-local-variable-values
+	(quote ((erlang-indent-level . 4)
+		(erlang-indent-level . 2))))
+
+  (defvar erlang-erl-path
+    (shell-command-to-string "echo -n `brew --prefix erlang`"))
+  (defvar erlang-distel-path "~/git/distel")
+  (defvar erlang-erlmode-path "~/elisp")
+
+  (add-paths (list 
+	      (car (file-expand-wildcards erlang-erlmode-path))
+	      (car (file-expand-wildcards
+		    (concat erlang-erl-path "/lib/erlang/lib/tools-*/emacs")))
+	      (concat erlang-distel-path "/elisp")))
+
   ;; use to start an erlang shell with boot flags
 
   (defun erl-shell (flags)
@@ -195,6 +188,9 @@
   (require 'psvn)
   (setq svn-status-custom-hide-function 'my-svn-status-hide))
 
+(if (locate-library "fdlcap")
+    (require 'fdlcap))
+
 (if (locate-library "magit")
     (require 'magit))
 
@@ -236,6 +232,16 @@
 (defun my-svn-status-hide (line-info)
   "Hide externals."
   (eq (svn-status-line-info->filemark line-info) ?X))
+
+(add-hook 'text-mode-hook 'my-text-mode-hook)
+(defun my-text-mode-hook ()
+  (setq fill-column 79)
+  (longlines-mode t)
+  (setq outline-minor-mode-prefix "")
+  (outline-minor-mode)
+  (highlight-parentheses-mode -1)
+  (setq flyspell-dictionaries (quote ("american" "svenska")))
+  (flyspell-mode))
 
 (add-hook 'comint-mode-hook 'my-comint)
 (defun my-comint ()
