@@ -1,6 +1,6 @@
 ;; -*- mode: lisp -*-
 
-; turn on shit
+; turn on good shit
 (set-language-environment "Latin-1")
 (show-paren-mode t)
 (transient-mark-mode t)
@@ -18,7 +18,7 @@
       (add-to-list 'package-archives
 		   '("marmalade" . "http://marmalade-repo.org/packages/"))))
 
-; turn off shit
+; turn off bad shit
 (if (featurep 'tool-bar) (tool-bar-mode -1))
 (if (featurep 'tooltip) (tooltip-mode -1))
 (if (featurep 'scroll-bar) (scroll-bar-mode -1))
