@@ -8,7 +8,14 @@
 (delete-selection-mode t)
 (column-number-mode t)
 (iswitchb-mode t)
-(if (fboundp 'load-theme) (load-theme 'tango-dark))
+(if (fboundp 'custom-theme-p)
+    (if (custom-theme-p 'tango-dark)
+	(load-theme 'tango-dark)
+      (if (fboundp 'color-theme-initialize)
+	  (progn
+	    (color-theme-initialize)
+	    (color-theme-calm-forest)))))
+
 (if (locate-library "package")
     (progn
       (require 'package)
@@ -19,10 +26,11 @@
 		   '("marmalade" . "http://marmalade-repo.org/packages/"))))
 
 ; turn off shit
-(if (featurep 'tool-bar) (tool-bar-mode -1))
-(if (featurep 'tooltip) (tooltip-mode -1))
+(if (featurep 'tool-bar)   (tool-bar-mode   -1))
+(if (featurep 'tabbar)     (tabbar-mode	    -1))
+(if (featurep 'tooltip)    (tooltip-mode    -1))
 (if (featurep 'scroll-bar) (scroll-bar-mode -1))
-(if (featurep 'menu-bar) (menu-bar-mode -1))
+(if (featurep 'menu-bar)   (menu-bar-mode   -1))
 
 (setq
  align-to-tab-stop        nil
@@ -271,7 +279,7 @@
 			       readonly ring scrolltobottom stamp spelling
 			       track truncate)
 	erc-autojoin-channels-alist '(("freenode.net" "#erlang")
-				      ("hq.kred" "#tech")))
+				      ("internal.machines" "#tech")))
   (erc :server "irc.freenode.net" :nick "massemanet")
   (erc :server "irc.hq.kred" :nick "masse"))
 
