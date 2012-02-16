@@ -8,8 +8,8 @@
 (delete-selection-mode t)
 (column-number-mode t)
 (iswitchb-mode t)
-(if (fboundp 'custom-theme-p)
-    (if (custom-theme-p 'tango-dark)
+(if (fboundp 'custom-available-themes)
+    (if (member 'tango-dark (custom-available-themes))
 	(load-theme 'tango-dark)
       (if (fboundp 'color-theme-initialize)
 	  (progn

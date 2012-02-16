@@ -33,6 +33,7 @@
 /VirtualBox VMs/
 /iterm.log
 /vagrant/
+/boxes/
 
 # erlang droppings
 /.erlang-flymake/
