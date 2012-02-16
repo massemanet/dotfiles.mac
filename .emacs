@@ -32,11 +32,12 @@
 (if (featurep 'scroll-bar) (scroll-bar-mode -1))
 (if (featurep 'menu-bar)   (menu-bar-mode   -1))
 
+(setq-default
+ indent-tabs-mode         nil)
+
 (setq
  align-to-tab-stop        nil
  default-input-method     "swedish-postfix"
- indent-tabs-mode         nil
- indent-tabs-mode         nil
  inhibit-startup-screen   t
  max-lisp-eval-depth      40000
  scroll-down-aggressively 0.1
