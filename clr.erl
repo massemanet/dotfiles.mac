@@ -55,9 +55,9 @@ octree_clr([],Tree) -> Tree;
 octree_clr([I|K],Tree) ->
   case element(I,Tree) of
     {}      -> Tree;
-    {K,_}   -> setelement(I,Tree,{});
+    {K,_}   -> set(I,Tree,{});
     {_,_}   -> Tree;
-    SubTree -> setelement(I,Tree,octree_clr(K,SubTree))
+    SubTree -> set(I,Tree,octree_clr(K,SubTree))
   end.
 
 octree_get([],_) ->
@@ -79,14 +79,13 @@ octree_put([],V,_) ->
   {[],V};
 octree_put([I|K],V,Tree) ->
   %% sub_tree can be a non-final leaf
-  setelement(I,Tree,sub_tree(I,K,V,Tree)).
-
-sub_tree(I,K,V,Tree) ->
   case element(I,Tree) of
-    {}      -> {K,V};
-    {K,_}   -> {K,V};
-    {KO,VO} -> octree_put(K,V,octree_put(KO,VO,octree_new()));
-    SubTree -> octree_put(K,V,SubTree)
+    {}      -> set(I,Tree,{K,V});
+    {K,_}   -> set(I,Tree,{K,V});
+    {KO,VO} -> set(I,Tree,octree_put(K,V,octree_put(KO,VO,octree_new())));
+    SubTree -> set(I,Tree,octree_put(K,V,SubTree))
   end.
+
+set(I,T,V) -> setelement(I,T,V).
 
 octree_new() -> erlang:make_tuple(8,{}).
