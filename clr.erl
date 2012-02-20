@@ -7,6 +7,9 @@
 -module('clr').
 -author('mats cronqvist').
 -export([go/0]).
+-export([octree_put/2,octree_put/3
+         ,octree_get/2
+         ,octree_clr/2]).
 
 go() ->
   mk_table(),
@@ -47,3 +50,43 @@ parse([],_,O)                                     -> O.
 i(S) -> list_to_integer(S).
 r(S) -> lists:reverse(S).
 j(P,Q) -> string:join([Q,P]," ").
+
+octree_clr([],Tree) -> Tree;
+octree_clr([I|K],Tree) ->
+  case element(I,Tree) of
+    {}      -> Tree;
+    {K,_}   -> setelement(I,Tree,{});
+    {_,_}   -> Tree;
+    SubTree -> setelement(I,Tree,octree_clr(K,SubTree))
+  end.
+
+octree_get([],_) ->
+  error(no_such_key);
+octree_get([I|K],Tree) ->
+  case element(I,Tree) of
+    {}      -> error(no_such_key);
+    {K,V}   -> V;
+    {_,_}   -> error(no_such_key);
+    SubTree -> octree_get(K,SubTree)
+  end.
+
+%% K is a list of length 8, where each element is an integer 0-7
+octree_put(K,V) ->
+  octree_put(K,V,octree_new()).
+
+octree_put([],V,_) ->
+  %% a final leaf
+  {[],V};
+octree_put([I|K],V,Tree) ->
+  %% sub_tree can be a non-final leaf
+  setelement(I,Tree,sub_tree(I,K,V,Tree)).
+
+sub_tree(I,K,V,Tree) ->
+  case element(I,Tree) of
+    {}      -> {K,V};
+    {K,_}   -> {K,V};
+    {KO,VO} -> octree_put(K,V,octree_put(KO,VO,octree_new()));
+    SubTree -> octree_put(K,V,SubTree)
+  end.
+
+octree_new() -> erlang:make_tuple(8,{}).

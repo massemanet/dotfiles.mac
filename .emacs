@@ -155,6 +155,13 @@
     (if (and (locate-library "erlang-flymake")
              buffer-file-truename)
         (progn
+          (defun erlang-flymake-next-error ()
+            "Goto next error, if any. Display error in mini-buffer."
+            (interactive)
+            (flymake-goto-next-error)
+            (let ((err (get-char-property (point) 'help-echo)))
+              (when err
+                (message err))))
           (setq flymake-no-changes-timeout 3)
           (load "erlang-flymake")
           (flymake-mode)
