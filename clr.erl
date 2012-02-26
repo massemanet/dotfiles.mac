@@ -9,7 +9,7 @@
 -export([go/0]).
 -export([octree_put/2,octree_put/3
          ,octree_get/2
-         ,octree_clr/2]).
+         ,octree_clear/2]).
 
 go() ->
   mk_table(),
@@ -51,13 +51,14 @@ i(S) -> list_to_integer(S).
 r(S) -> lists:reverse(S).
 j(P,Q) -> string:join([Q,P]," ").
 
-octree_clr([],Tree) -> Tree;
-octree_clr([I|K],Tree) ->
+octree_clear([],Tree) ->
+  Tree;
+octree_clear([I|K],Tree) ->
   case element(I,Tree) of
     {}      -> Tree;
     {K,_}   -> set(I,Tree,{});
     {_,_}   -> Tree;
-    SubTree -> set(I,Tree,octree_clr(K,SubTree))
+    SubTree -> set(I,Tree,octree_clear(K,SubTree))
   end.
 
 octree_get([],_) ->
