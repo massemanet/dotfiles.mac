@@ -7,6 +7,7 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 # two locales to rule them all
 unset  LC_ALL
 unset  LANGUAGE
+unset  LC_CTYPE
 export LANG=en_US
 
 # If not running interactively, don't do anything
