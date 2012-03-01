@@ -109,7 +109,7 @@ octree_last(Tree) ->
 
 edge(I0,Inc,Tree) ->
   case subtree(I0,Inc,Tree) of
-    {key,I,K} -> [I|K];
+    {key,K} -> K;
     {I,SubTree}  -> [I|edge(I0,Inc,SubTree)];
     {} -> []
   end.
@@ -117,7 +117,7 @@ edge(I0,Inc,Tree) ->
 subtree(I,Inc,Tree) -> 
   try element(I,Tree) of
     {} -> subtree(I+Inc,Inc,Tree);
-    {K,_} -> {key,I,K};
+    {K,_} -> {key,[I|K]};
     Subtree -> {I,Subtree}
   catch 
     _:_ -> {}
