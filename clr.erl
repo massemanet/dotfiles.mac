@@ -7,8 +7,11 @@
 -module('clr').
 -author('mats cronqvist').
 -export([go/0]).
--export([octree_put/2,octree_put/3
+-export([octree_new/1
+         ,octree_put/3
          ,octree_get/2
+         ,octree_first/1
+         ,octree_last/1
          ,octree_clear/2]).
 
 go() ->
@@ -51,6 +54,10 @@ i(S) -> list_to_integer(S).
 r(S) -> lists:reverse(S).
 j(P,Q) -> string:join([Q,P]," ").
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% octal tree
+
+%% make sure that key K does not exist
 octree_clear([],Tree) ->
   Tree;
 octree_clear([I|K],Tree) ->
@@ -61,6 +68,8 @@ octree_clear([I|K],Tree) ->
     SubTree -> set(I,Tree,octree_clear(K,SubTree))
   end.
 
+%% return value V associated with kwy K
+%% throw error if K does not exist
 octree_get([],_) ->
   error(no_such_key);
 octree_get([I|K],Tree) ->
@@ -71,10 +80,9 @@ octree_get([I|K],Tree) ->
     SubTree -> octree_get(K,SubTree)
   end.
 
-%% K is a list of length 8, where each element is an integer 0-7
-octree_put(K,V) ->
-  octree_put(K,V,octree_new()).
-
+%% store value V associated with key K.
+%% K is a list of integers between 1 and N
+%% N is the cardinality of the tree
 octree_put([],V,_) ->
   %% a final leaf
   {[],V};
@@ -89,4 +97,28 @@ octree_put([I|K],V,Tree) ->
 
 set(I,T,V) -> setelement(I,T,V).
 
-octree_new() -> erlang:make_tuple(8,{}).
+%% ccreate an empty  tree with cardinality N (defaults to 8)
+octree_new() -> octree_new(8).
+octree_new(C) -> erlang:make_tuple(C,{}).
+
+octree_first(Tree) ->
+  edge(1,1,Tree).
+
+octree_last(Tree) ->
+  edge(tuple_size(Tree),-1,Tree).
+
+edge(I0,Inc,Tree) ->
+  case subtree(I0,Inc,Tree) of
+    {key,I,K} -> [I|K];
+    {I,SubTree}  -> [I|edge(I0,Inc,SubTree)];
+    {} -> []
+  end.
+
+subtree(I,Inc,Tree) -> 
+  try element(I,Tree) of
+    {} -> subtree(I+Inc,Inc,Tree);
+    {K,_} -> {key,I,K};
+    Subtree -> {I,Subtree}
+  catch 
+    _:_ -> {}
+  end.
