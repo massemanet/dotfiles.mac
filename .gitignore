@@ -16,6 +16,8 @@
 
 # droppings
 *~
+foo*
+.foo*
 /.Xauthority
 /.aspell.*
 /.bash_history
