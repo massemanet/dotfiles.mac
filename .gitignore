@@ -18,6 +18,7 @@
 *~
 foo*
 .foo*
+/.IABootFiles/
 /.Xauthority
 /.aspell.*
 /.bash_history
@@ -25,11 +26,14 @@ foo*
 /.emacs.d/
 /.fontconfig/
 /.gem/
+/.lein/
 /.lesshst
 /.local/share/googlecl/
+/.m2/
 /.pip/
 /.sh_history
 /.ssh/
+/.jline-clojure.main.history
 /.vagrant.d/
 /Dropbox/
 /VirtualBox VMs/
