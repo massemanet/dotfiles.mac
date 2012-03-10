@@ -63,9 +63,9 @@ octree_clear([],Tree) ->
 octree_clear([I|K],Tree) ->
   case element(I,Tree) of
     {}      -> Tree;
-    {K,_}   -> set(I,Tree,{});
+    {K,_}   -> sete(I,Tree,{});
     {_,_}   -> Tree;
-    SubTree -> set(I,Tree,octree_clear(K,SubTree))
+    SubTree -> sete(I,Tree,octree_clear(K,SubTree))
   end.
 
 %% return value V associated with kwy K
@@ -89,13 +89,13 @@ octree_put([],V,_) ->
 octree_put([I|K],V,Tree) ->
   %% sub_tree can be a non-final leaf
   case element(I,Tree) of
-    {}      -> set(I,Tree,{K,V});
-    {K,_}   -> set(I,Tree,{K,V});
-    {KO,VO} -> set(I,Tree,octree_put(K,V,octree_put(KO,VO,octree_new())));
-    SubTree -> set(I,Tree,octree_put(K,V,SubTree))
+    {}      -> sete(I,Tree,{K,V});
+    {K,_}   -> sete(I,Tree,{K,V});
+    {KO,VO} -> sete(I,Tree,octree_put(K,V,octree_put(KO,VO,octree_new())));
+    SubTree -> sete(I,Tree,octree_put(K,V,SubTree))
   end.
 
-set(I,T,V) -> setelement(I,T,V).
+sete(I,T,V) -> setelement(I,T,V).
 
 %% ccreate an empty  tree with cardinality N (defaults to 8)
 octree_new() -> octree_new(8).
