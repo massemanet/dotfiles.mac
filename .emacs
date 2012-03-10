@@ -47,6 +47,8 @@
  utf-translate-cjk-mode   nil
  visible-bell             t)
 
+(global-set-key (kbd "M-N") 'last-line)
+(global-set-key (kbd "M-P") 'first-line)
 (global-set-key (kbd "C-c a") 'align-regexp)
 (global-set-key (kbd "C-c b") 'bury-buffer)
 (global-set-key (kbd "C-c p") 'point-to-register)
@@ -64,6 +66,14 @@
 (global-set-key (kbd "C-z") 'undo) ; be like a mac
 (global-set-key (kbd "M-z") 'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
+
+(defun last-line () 
+  (interactive)
+  (recenter -2))
+
+(defun first-line () 
+  (interactive)
+  (recenter 1))
 
 (defun add-paths (ps)
   (dolist (f (nreverse ps))
