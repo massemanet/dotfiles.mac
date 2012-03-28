@@ -2,7 +2,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
 # one path to rule them all
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 
 # two locales to rule them all
 unset  LC_ALL
@@ -75,9 +75,6 @@ m()    { less "$@";}
 e()    { `brew --prefix`/bin/emacs -nw "$@";}
 c()    { cat "$@";}
 
-export EDITOR=e
-
-##
 export EDITOR=e
 
 ## history
