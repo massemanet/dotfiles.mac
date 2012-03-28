@@ -259,12 +259,14 @@
   "Hide externals."
   (eq (svn-status-line-info->filemark line-info) ?X))
 
+(defun my-outline ()
+  (setq outline-minor-mode-prefix "")
+  (outline-minor-mode))
+
 (add-hook 'text-mode-hook 'my-text-mode-hook)
 (defun my-text-mode-hook ()
   (setq fill-column 79)
   (longlines-mode t)
-  (setq outline-minor-mode-prefix "")
-  (outline-minor-mode)
   (highlight-parentheses-mode -1)
   (setq flyspell-dictionaries (quote ("american" "svenska")))
   (flyspell-mode))
