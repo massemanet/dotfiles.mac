@@ -22,13 +22,14 @@ foo*
 /.Xauthority
 /.aspell.*
 /.bash_history
+/.config/
 /.dropbox/
 /.emacs.d/
 /.fontconfig/
 /.gem/
 /.lein/
 /.lesshst
-/.local/share/googlecl/
+/.local/
 /.m2/
 /.pip/
 /.sh_history

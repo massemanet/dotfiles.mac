@@ -6,28 +6,38 @@ sudo gem update
 sudo gem install vagrant
 
 ## per box
-NAME=centos-6.2
+BOX=http://timhuegdon.com/vagrant-boxes/ubuntu-11.10.box
 BOX=http://packages.vstone.eu/vagrant-boxes/centos/6.2/centos-6.2-64bit-puppet-vbox.4.1.10-3.box
+NAME=centos-6.2
+
 vagrant box add $NAME $BOX
 mkdir -p ~/boxes/$NAME
+ln ~/.ssh/id_rsa ~/boxes/$NAME
 cd ~/boxes/$NAME
 vagrant init $NAME
 
 ## per session
 vagrant up
-vagrant ssh
+vagrant ssh -- -X
 
 
-# on the centos box
+# on the linux box
 
 ## oneshot dotfiles
-cd
-sudo mv ~/.ssh /tmp
-rm -rf ~/*
-rm -rf ~/.*
-git clone git://github.com/massemanet/dotfiles.centos.git ~
-sudo mv /tmp/.ssh ~
+rm .* *
+cp /vagrant/id_rsa ~/.ssh/
+sudo aptitude install git deborphan
+(cd /tmp ; git clone git@github.com:massemanet/dotfiles.centos.git)
+mv /tmp/dotfiles.centos/.git ~
+git reset --hard
 
+#UBUNTU
+sudo aptitude install git tmux python-software-properties deborphan
+sudo add-apt-repository ppa:cassou/emacs
+sudo aptitude update
+sudo aptitude install emacs-snapshot-nox
+
+# CENTOS
 ## oneshot normal RPMs
 FORGE=rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
 cd /tmp

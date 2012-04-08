@@ -10,9 +10,11 @@
 -export([octree_new/1
          ,octree_put/3
          ,octree_get/2
+         ,octree_clear/2
          ,octree_first/1
          ,octree_last/1
-         ,octree_clear/2]).
+         ,octree_next/2
+         ,octree_prev/2]).
 
 go() ->
   mk_table(),
@@ -68,18 +70,6 @@ octree_clear([I|K],Tree) ->
     SubTree -> sete(I,Tree,octree_clear(K,SubTree))
   end.
 
-%% return value V associated with kwy K
-%% throw error if K does not exist
-octree_get([],_) ->
-  error(no_such_key);
-octree_get([I|K],Tree) ->
-  case element(I,Tree) of
-    {}      -> error(no_such_key);
-    {K,V}   -> V;
-    {_,_}   -> error(no_such_key);
-    SubTree -> octree_get(K,SubTree)
-  end.
-
 %% store value V associated with key K.
 %% K is a list of integers between 1 and N
 %% N is the cardinality of the tree
@@ -97,28 +87,47 @@ octree_put([I|K],V,Tree) ->
 
 sete(I,T,V) -> setelement(I,T,V).
 
-%% ccreate an empty  tree with cardinality N (defaults to 8)
+%% create an empty  tree with cardinality N (defaults to 8)
 octree_new() -> octree_new(8).
 octree_new(C) -> erlang:make_tuple(C,{}).
 
+%% return value V associated with kwy K
+%% throw error if K does not exist
+octree_get([],_) ->
+  error(no_such_key);
+octree_get([I|K],Tree) ->
+  case element(I,Tree) of
+    {}      -> error(no_such_key);
+    {K,V}   -> V;
+    {_,_}   -> error(no_such_key);
+    SubTree -> octree_get(K,SubTree)
+  end.
+
+%% return first Key in Tree
 octree_first(Tree) ->
   edge(1,1,Tree).
 
+%% return last Key in Tree
 octree_last(Tree) ->
   edge(tuple_size(Tree),-1,Tree).
 
 edge(I0,Inc,Tree) ->
-  case subtree(I0,Inc,Tree) of
+  case next_subtree(I0,Inc,Tree) of
     {key,K} -> K;
     {I,SubTree}  -> [I|edge(I0,Inc,SubTree)];
     {} -> []
   end.
 
-subtree(I,Inc,Tree) -> 
+next_subtree(I,Inc,Tree) -> 
   try element(I,Tree) of
-    {} -> subtree(I+Inc,Inc,Tree);
+    {} -> next_subtree(I+Inc,Inc,Tree);
     {K,_} -> {key,[I|K]};
     Subtree -> {I,Subtree}
   catch 
     _:_ -> {}
   end.
+
+octree_prev(_,_) ->ok.
+
+octree_next(Key,Tree) ->
+  
