@@ -7,6 +7,7 @@ sudo gem install vagrant
 
 ## per box
 NAME=centos-6.2
+BOX=http://timhuegdon.com/vagrant-boxes/ubuntu-11.10.box
 BOX=http://packages.vstone.eu/vagrant-boxes/centos/6.2/centos-6.2-64bit-puppet-vbox.4.1.10-3.box
 vagrant box add $NAME $BOX
 mkdir -p ~/boxes/$NAME
@@ -17,25 +18,27 @@ vagrant init $NAME
 vagrant up
 vagrant ssh
 
+## my files
+ln ~/Dropbox/masse/rpm/*rpm ~/boxes/$NAME
 
 # on the centos box
 
-## oneshot dotfiles
-cd
-sudo mv ~/.ssh /tmp
-rm -rf ~/*
-rm -rf ~/.*
-git clone git://github.com/massemanet/dotfiles.centos.git ~
-sudo mv /tmp/.ssh ~
-
 ## oneshot normal RPMs
 FORGE=rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
-cd /tmp
-wget http://pkgs.repoforge.org/rpmforge-release/$FORGE
-sudo rpm -i $FORGE
+wget http://pkgs.repoforge.org/rpmforge-release/$FORGE -O/tmp/$FORGE
+sudo rpm -i /tmp/$FORGE
 sudo yum --assumeyes update
 sudo yum --assumeyes install git bash-completion man tmux
-cd
+
+## oneshot dotfiles
+(cd /tmp ; git clone git://github.com/massemanet/dotfiles.centos.git)
+mv /tmp/dotfiles.centos/.git ~
+rm .bash*
+git fetch
+git reset --hard
+
+## oneshot keys
+sudo mv /vagrant/id_rsa* /home/vagrant/.ssh
 
 ## oneshot private RPMs
 sudo yum --assumeyes install /vagrant/liblockfile-1.08-9.el6.x86_64.rpm 

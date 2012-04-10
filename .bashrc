@@ -8,7 +8,7 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sb
 unset  LC_ALL
 unset  LANGUAGE
 unset  LC_CTYPE
-export LANG=en_US.utf8
+export LANG=en_US.UTF-8
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
