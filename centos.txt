@@ -6,23 +6,33 @@ sudo gem update
 sudo gem install vagrant
 
 ## per box
-NAME=centos-6.2
+NAME=oneiric
 BOX=http://timhuegdon.com/vagrant-boxes/ubuntu-11.10.box
+NAME=centos-6.2
 BOX=http://packages.vstone.eu/vagrant-boxes/centos/6.2/centos-6.2-64bit-puppet-vbox.4.1.10-3.box
+
 vagrant box add $NAME $BOX
 mkdir -p ~/boxes/$NAME
+ln ~/.ssh/id_rsa ~/boxes/$NAME
 cd ~/boxes/$NAME
 vagrant init $NAME
 
 ## per session
 vagrant up
-vagrant ssh
+vagrant ssh -- -X
 
 ## my files
 ln ~/Dropbox/masse/rpm/*rpm ~/boxes/$NAME
 
-# on the centos box
+# on the linux box
 
+#UBUNTU
+sudo aptitude install git tmux python-software-properties deborphan
+sudo add-apt-repository ppa:cassou/emacs
+sudo aptitude update
+sudo aptitude install emacs-snapshot-nox
+
+# CENTOS
 ## oneshot normal RPMs
 FORGE=rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
 wget http://pkgs.repoforge.org/rpmforge-release/$FORGE -O/tmp/$FORGE
@@ -30,18 +40,16 @@ sudo rpm -i /tmp/$FORGE
 sudo yum --assumeyes update
 sudo yum --assumeyes install git bash-completion man tmux
 
-## oneshot dotfiles
-(cd /tmp ; git clone git://github.com/massemanet/dotfiles.centos.git)
-mv /tmp/dotfiles.centos/.git ~
-rm .bash*
-git fetch
-git reset --hard
-
-## oneshot keys
-sudo mv /vagrant/id_rsa* /home/vagrant/.ssh
-
 ## oneshot private RPMs
 sudo yum --assumeyes install /vagrant/liblockfile-1.08-9.el6.x86_64.rpm 
 sudo yum --assumeyes install /vagrant/emacs-filesystem-24.0.93-3.el6.x86_64.rpm
 sudo yum --assumeyes install /vagrant/emacs-common-24.0.93-3.el6.x86_64.rpm
 sudo yum --assumeyes install /vagrant/emacs-nox-24.0.93-3.el6.x86_64.rpm
+
+## oneshot dotfiles
+rm .* *
+cp /vagrant/id_rsa ~/.ssh/
+sudo aptitude install git
+(cd /tmp ; git clone git@github.com:massemanet/dotfiles.centos.git)
+mv /tmp/dotfiles.centos/.git ~
+git reset --hard
