@@ -23,13 +23,14 @@ vagrant ssh -- -X
 
 ## my files
 ln ~/Dropbox/masse/rpm/*rpm ~/boxes/$NAME
+ln ~/Dropbox/masse/rpm/*repo ~/boxes/$NAME
 
 # on the linux box
 
 #UBUNTU
+sudo aptitude update
 sudo aptitude install git tmux python-software-properties deborphan
 sudo add-apt-repository ppa:cassou/emacs
-sudo aptitude update
 sudo aptitude install emacs-snapshot-nox
 
 # CENTOS
@@ -39,6 +40,9 @@ wget http://pkgs.repoforge.org/rpmforge-release/$FORGE -O/tmp/$FORGE
 sudo rpm -i /tmp/$FORGE
 sudo yum --assumeyes update
 sudo yum --assumeyes install git bash-completion man tmux
+sudo rpm --import http://binaries.erlang-solutions.com/debian/erlang_solutions.asc
+sudo cp /vagrant/erlang-solutions.repo /etc/yum.repos.d
+sudo yum install esl-erlang
 
 ## oneshot private RPMs
 sudo yum --assumeyes install /vagrant/liblockfile-1.08-9.el6.x86_64.rpm 
@@ -46,10 +50,9 @@ sudo yum --assumeyes install /vagrant/emacs-filesystem-24.0.93-3.el6.x86_64.rpm
 sudo yum --assumeyes install /vagrant/emacs-common-24.0.93-3.el6.x86_64.rpm
 sudo yum --assumeyes install /vagrant/emacs-nox-24.0.93-3.el6.x86_64.rpm
 
-## oneshot dotfiles
+# oneshot dotfiles
 rm .* *
 cp /vagrant/id_rsa ~/.ssh/
-sudo aptitude install git
 (cd /tmp ; git clone git@github.com:massemanet/dotfiles.centos.git)
 mv /tmp/dotfiles.centos/.git ~
 git reset --hard
