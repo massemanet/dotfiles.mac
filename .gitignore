@@ -37,7 +37,9 @@ foo*
 /.jline-clojure.main.history
 /.vagrant.d/
 /Dropbox/
+/DOS Games/
 /VirtualBox VMs/
+/Google Drive/
 /iterm.log
 /boxes/
 
@@ -49,3 +51,4 @@ erl_crash.dump
 
 # git projects
 /git/
+
