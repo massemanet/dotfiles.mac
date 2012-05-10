@@ -10,7 +10,6 @@
 /Public/
 /Sites/
 .CFUserTextEncoding
-.DS_Store
 .Trash/
 .cups/
 
@@ -51,4 +50,3 @@ erl_crash.dump
 
 # git projects
 /git/
-
