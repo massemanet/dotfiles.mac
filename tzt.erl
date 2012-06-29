@@ -29,7 +29,10 @@ go() ->
 do(SessionID,Env,Input) ->
   mod_esi:deliver(SessionID,
                   ["Content-Type: text/html\r\n\r\n", 
-                   "<html><body>Hello, World!<br>Input:<tt>",
+                   "<html><title>I am ",
+                   flat(node()),
+                   "</title><body>",
+                   "Input:<tt>",
                    flat(Input),
                    "</tt>"]),
   mod_esi:deliver(SessionID,
