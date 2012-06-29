@@ -10,7 +10,6 @@
 /Public/
 /Sites/
 .CFUserTextEncoding
-.DS_Store
 .Trash/
 .cups/
 
@@ -37,7 +36,9 @@ foo*
 /.jline-clojure.main.history
 /.vagrant.d/
 /Dropbox/
+/DOS Games/
 /VirtualBox VMs/
+/Google Drive/
 /iterm.log
 /boxes/
 
