@@ -35,14 +35,20 @@ sudo aptitude install emacs-snapshot-nox
 
 # CENTOS
 ## oneshot normal RPMs
+### rpmforge
 FORGE=rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
 wget http://pkgs.repoforge.org/rpmforge-release/$FORGE -O/tmp/$FORGE
 sudo rpm -i /tmp/$FORGE
-sudo yum --assumeyes update
-sudo yum --assumeyes install git bash-completion man tmux
-sudo rpm --import http://binaries.erlang-solutions.com/debian/erlang_solutions.asc
-sudo cp /vagrant/erlang-solutions.repo /etc/yum.repos.d
-sudo yum install esl-erlang
+### graphviz
+GV=http://www.graphviz.org/graphviz-rhel.repo
+sudo wget $GV -O /etc/yum.repos.d/graphviz.repo
+### esl erlang
+ESL=http://binaries.erlang-solutions.com
+sudo wget $ESL/rpm/centos/erlang_solutions.repo -O /etc/yum.repos.d/esl.repo
+sudo rpm --import $ESL/debian/erlang_solutions.asc
+
+git reset --hard                                                                sudo yum --assumeyes update
+sudo yum --assumeyes install git bash-completion man man-pages tmux graphviz esl-erlang
 
 ## oneshot private RPMs
 sudo yum --assumeyes install /vagrant/liblockfile-1.08-9.el6.x86_64.rpm 
@@ -56,3 +62,21 @@ cp /vagrant/id_rsa ~/.ssh/
 (cd /tmp ; git clone git@github.com:massemanet/dotfiles.centos.git)
 mv /tmp/dotfiles.centos/.git ~
 git reset --hard
+
+## rebuild virtualbox guest additions
+## typically needed after a kernel rebuild
+sudo /etc/init.d/vboxadd setup
+
+## klarna stuff
+### dependencies
+sudo yum install autoconf cracklib-devel ncurses-devel openssl-devel
+### OTP
+cd ~/git
+git clone --branch otp_r14b03_klarna gitosis@git.hq.kred:otp.git
+./otp_build setup --prefix=/opt/otp/R14B03 force_linux_pthread_rwlocks=yes
+sudo make install
+### kred
+git clone --recursive gitosis@git.hq.kred:dev.git
+PATH=/opt/otp/R14B03/bin:$PATH make
+## if config get stuck, e.g. if you change otp version;
+git clean -fdx

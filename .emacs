@@ -195,7 +195,10 @@
 
 (defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
-  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
+
+(add-hook 'js2-mode-hook 'my-js2-mode-hook)
+(defun my-js2-mode-hook ()
   (setq js2-mirror-mode nil)
   (setq js2-basic-offset 2))
 
