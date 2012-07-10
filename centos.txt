@@ -6,8 +6,8 @@ sudo gem update
 sudo gem install vagrant
 
 ## per box
-NAME=oneiric
-BOX=http://timhuegdon.com/vagrant-boxes/ubuntu-11.10.box
+### ubuntu - NAME=oneiric
+### ubuntu - BOX=http://timhuegdon.com/vagrant-boxes/ubuntu-11.10.box
 NAME=centos-6.2
 BOX=http://packages.vstone.eu/vagrant-boxes/centos/6.2/centos-6.2-64bit-puppet-vbox.4.1.10-3.box
 
@@ -21,17 +21,16 @@ vagrant init $NAME
 vagrant up
 vagrant ssh -- -X
 
-## my files
+## my files - for emacs24
 ln ~/Dropbox/masse/rpm/*rpm ~/boxes/$NAME
 ln ~/Dropbox/masse/rpm/*repo ~/boxes/$NAME
 
 # on the linux box
 
-#UBUNTU
-sudo aptitude update
-sudo aptitude install git tmux python-software-properties deborphan
-sudo add-apt-repository ppa:cassou/emacs
-sudo aptitude install emacs-snapshot-nox
+### ubuntu - sudo aptitude update
+### ubuntu - sudo aptitude install git tmux python-software-properties deborphan
+### ubuntu - sudo add-apt-repository ppa:cassou/emacs
+### ubuntu - sudo aptitude install emacs-snapshot-nox
 
 # CENTOS
 ## oneshot normal RPMs
@@ -47,16 +46,17 @@ ESL=http://binaries.erlang-solutions.com
 sudo wget $ESL/rpm/centos/erlang_solutions.repo -O /etc/yum.repos.d/esl.repo
 sudo rpm --import $ESL/debian/erlang_solutions.asc
 
-git reset --hard                                                                sudo yum --assumeyes update
+sudo yum --assumeyes update
 sudo yum --assumeyes install git bash-completion man man-pages tmux graphviz esl-erlang
 
-## oneshot private RPMs
+## oneshot private RPMs - emacs24
 sudo yum --assumeyes install /vagrant/liblockfile-1.08-9.el6.x86_64.rpm 
 sudo yum --assumeyes install /vagrant/emacs-filesystem-24.0.93-3.el6.x86_64.rpm
 sudo yum --assumeyes install /vagrant/emacs-common-24.0.93-3.el6.x86_64.rpm
 sudo yum --assumeyes install /vagrant/emacs-nox-24.0.93-3.el6.x86_64.rpm
 
 # oneshot dotfiles
+cd
 rm .* *
 cp /vagrant/id_rsa ~/.ssh/
 (cd /tmp ; git clone git@github.com:massemanet/dotfiles.centos.git)
@@ -73,10 +73,15 @@ sudo yum install autoconf cracklib-devel ncurses-devel openssl-devel
 ### OTP
 cd ~/git
 git clone --branch otp_r14b03_klarna gitosis@git.hq.kred:otp.git
+cd otp
 ./otp_build setup --prefix=/opt/otp/R14B03 force_linux_pthread_rwlocks=yes
 sudo make install
 ### kred
+cd ~git
 git clone --recursive gitosis@git.hq.kred:dev.git
-PATH=/opt/otp/R14B03/bin:$PATH make
+cd dev
+PATH=/opt/otp/R14B03/bin:$PATH make -j4
 ## if config get stuck, e.g. if you change otp version;
 git clean -fdx
+## or
+find . -name "*.beam" -exec rm {} \;

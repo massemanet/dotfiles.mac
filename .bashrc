@@ -45,12 +45,14 @@ mygitdir () {
 }
 
 if [ "$TERM" != "dumb" ]; then
-# enable color support of ls
+    # enable color support of grep
+    export GREP_OPTIONS='--color=auto'
+    # enable color support of ls
     lscols=auto
     eval "`gdircolors -b $HOME/.dircolors`"
-# to get emacs -nw to use 256 colors
+    # to get emacs -nw to use 256 colors
     export TERM=xterm-256color
-# set a fancy prompt
+    # set a fancy prompt
     export GIT_PS1_SHOWSTASHSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
     unset GIT_PS1_SHOWDIRTYSTATE
@@ -75,7 +77,7 @@ m()    { less "$@";}
 e()    { `brew --prefix`/bin/emacs -nw "$@";}
 c()    { cat "$@";}
 
-export EDITOR=e
+export EDITOR=emacs
 
 ## history
 # lots of history

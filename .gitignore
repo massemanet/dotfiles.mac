@@ -30,6 +30,7 @@ foo*
 /.lesshst
 /.local/
 /.m2/
+/.npm/
 /.pip/
 /.sh_history
 /.ssh/
