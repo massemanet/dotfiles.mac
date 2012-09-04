@@ -36,6 +36,7 @@ foo*
 /.ssh/
 /.jline-clojure.main.history
 /.vagrant.d/
+/.wine/
 /Dropbox/
 /DOS Games/
 /VirtualBox VMs/
