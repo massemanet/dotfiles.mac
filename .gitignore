@@ -32,6 +32,7 @@ foo*
 /.m2/
 /.npm/
 /.pip/
+/.serverauth*
 /.sh_history
 /.ssh/
 /.jline-clojure.main.history
@@ -42,6 +43,7 @@ foo*
 /VirtualBox VMs/
 /Google Drive/
 /iterm.log
+/box/
 /boxes/
 
 # erlang droppings
