@@ -30,11 +30,13 @@ foo*
 /.lesshst
 /.local/
 /.m2/
+/.npm/
 /.pip/
 /.sh_history
 /.ssh/
 /.jline-clojure.main.history
 /.vagrant.d/
+/.wine/
 /Dropbox/
 /DOS Games/
 /VirtualBox VMs/
