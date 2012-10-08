@@ -38,16 +38,13 @@ ln ~/Dropbox/masse/rpm/*repo ~/boxes/$NAME
 FORGE=rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
 wget http://pkgs.repoforge.org/rpmforge-release/$FORGE -O/tmp/$FORGE
 sudo rpm -i /tmp/$FORGE
-### graphviz
-GV=http://www.graphviz.org/graphviz-rhel.repo
-sudo wget $GV -O /etc/yum.repos.d/graphviz.repo
 ### esl erlang
 ESL=http://binaries.erlang-solutions.com
 sudo wget $ESL/rpm/centos/erlang_solutions.repo -O /etc/yum.repos.d/esl.repo
 sudo rpm --import $ESL/debian/erlang_solutions.asc
 
 sudo yum --assumeyes update
-sudo yum --assumeyes install git bash-completion man man-pages tmux graphviz esl-erlang
+sudo yum --assumeyes install git bash-completion man man-pages tmux esl-erlang dkms
 
 ## oneshot private RPMs - emacs24
 sudo yum --assumeyes install /vagrant/liblockfile-1.08-9.el6.x86_64.rpm 
@@ -68,8 +65,11 @@ git reset --hard
 sudo /etc/init.d/vboxadd setup
 
 ## klarna stuff
+### graphviz
+GV=http://www.graphviz.org/graphviz-rhel.repo
+sudo wget $GV -O /etc/yum.repos.d/graphviz.repo
 ### dependencies
-sudo yum install autoconf cracklib-devel ncurses-devel openssl-devel
+sudo yum install autoconf cracklib-devel ncurses-devel openssl-devel graphviz
 ### OTP
 cd ~/git
 git clone --branch otp_r14b03_klarna gitosis@git.hq.kred:otp.git

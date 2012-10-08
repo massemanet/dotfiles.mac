@@ -55,7 +55,7 @@ if [ "$TERM" != "dumb" ]; then
     # set a fancy prompt
     export GIT_PS1_SHOWSTASHSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
-    unset GIT_PS1_SHOWDIRTYSTATE
+    export GIT_PS1_SHOWDIRTYSTATE=true
     PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi'
 
     if [ "$USER" == "root" ];then
