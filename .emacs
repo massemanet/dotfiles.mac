@@ -89,7 +89,7 @@
 		(erlang-indent-level . 2))))
 
   (defvar erlang-erl-path
-    (shell-command-to-string "echo -n `brew --prefix erlang`"))
+    (shell-command-to-string "echo -n `/usr/local/bin/brew --prefix erlang`"))
   (defvar erlang-distel-path "~/git/distel")
   (defvar erlang-erlmode-path "~/elisp")
 

@@ -14,9 +14,6 @@
 .cups/
 
 # droppings
-*~
-foo*
-.foo*
 /.IABootFiles/
 /.Xauthority
 /.aspell.*
@@ -47,9 +44,9 @@ foo*
 /boxes/
 
 # erlang droppings
+*.trz
 /.erlang-flymake/
 /flymaker.log
-erl_crash.dump
 .erlang.cookie
 
 # git projects

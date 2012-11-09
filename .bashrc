@@ -44,6 +44,7 @@ mygitdir () {
     fi
 }
 
+PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi'
 if [ "$TERM" != "dumb" ]; then
     # enable color support of grep
     export GREP_OPTIONS='--color=auto'
@@ -56,7 +57,6 @@ if [ "$TERM" != "dumb" ]; then
     export GIT_PS1_SHOWSTASHSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
     export GIT_PS1_SHOWDIRTYSTATE=true
-    PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi'
 
     if [ "$USER" == "root" ];then
         PS1='\[$(tput setaf 5)\]\h\[$(tput setaf 3)\]($(mygitdir):$(__git_ps1 "%s"))\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}#\[$(tput sgr0)\] '
@@ -87,10 +87,10 @@ export HISTFILESIZE=$HISTSIZE
 # agglomerate history from multiple shells
 export HISTCONTROL="ignoredups"
 shopt -s histappend
+
 PROMPT_COMMAND="$PROMPT_COMMAND;history -a"
 
 #the below will make all commands visible in all shells
-
 #PROMPT_COMMAND="$PROMPT_COMMAND ; history -a ; history -c; history -r"
 
 # multi-line commands
