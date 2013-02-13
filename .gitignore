@@ -18,6 +18,7 @@
 /.Xauthority
 /.aspell.*
 /.bash_history
+/.boxes/
 /.config/
 /.dropbox/
 /.emacs.d/
@@ -42,7 +43,6 @@
 /Google Drive/
 /Sports Interactive/
 /iterm.log
-/box/
 /boxes/
 /epub/
 
