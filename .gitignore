@@ -21,6 +21,7 @@
 /.config/
 /.dropbox/
 /.emacs.d/
+/.esets/
 /.fontconfig/
 /.gem/
 /.lein/

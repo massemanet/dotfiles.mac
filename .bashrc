@@ -68,7 +68,7 @@ else
     PS1="\h\$ "
 fi
 
-dir()  { $LS --color=$lscols -lF "$@";}
+dir()  { $LS --color=$lscols -lFh "$@";}
 dirt() { dir -rt "$@";}
 dird() { dir -d "$@";}
 dira() { for d in "${@:-.}"; do (cd "$d";pwd; dird .*); done;}
