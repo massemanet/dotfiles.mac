@@ -44,6 +44,7 @@
 /iterm.log
 /box/
 /boxes/
+/epub/
 
 # erlang droppings
 *.trz

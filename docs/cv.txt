@@ -1,0 +1,94 @@
+Curriculum Vitae
+
+Name: Mats Cronqvist
+Phone (mobile): +46765260059
+E-mail: mats@cronqvi.st
+URL: http://www.cronqvi.st/masse
+Based in: Stockholm, Sweden (GMT +1)
+Languages: Fluent in Swedish and English, basic German
+Passport: EU (Swedish)
+Education: Ph.D. in Physics
+Professional Programming Experience: 20 years
+
+Education
+  1992:	Ph.D. in Nuclear Physics from the University of Goteborg, Sweden
+  1986:	B.Sc. in Physics from the University of Goteborg, Sweden
+
+  The subject of my Ph.D. thesis was: "Reaction Mechanisms in
+  Intermediate Energy Heavy-Ion Collisions"
+
+Experience
+
+  2012-present: Chief Architect, at Klarna, Sweden
+    Responsible for the migration of the Klarna legacy business system from
+    a monolithic Erlang application to system of loosely coupled services.
+
+  2011: Manager, Core Development, at Klarna, Sweden
+    Managed a team of ~10 developers (mostly Erlang). Main task was to
+    migrate functions from the legacy system to isolated services.
+
+  2010: Manager, Live Operations, at Klarna, Sweden
+    Managed the team that operated the Klarna business system. The teams
+    tasks included system administration (Debian), application monitoring,
+    upgrades of hardware and software.
+
+  2007-2009: Senior Developer at Klarna (a.k.a. Kreditor), Sweden
+    Implemented various parts of the Klarna business system (written in
+    Erlang.) Profiling and debugging.
+
+  2003-2007: System Expert at Ericsson Telecom, Hungary
+
+    Implemented a suite of profiling and troubleshooting tools for
+    Erlang applications. Enabled us to identify numerous bottlenecks,
+    significantly improving performance.
+    In order to write the GUI for the profiler I invented and
+    implemented a GTK binding for Erlang. The C-side is a daemon
+    implementing the Erlang distribution protocol. Most of the C code
+    is generated from the GTK header files.
+
+  1997-2003: System expert at Ericsson Telecom, Sweden
+
+    Implemented the first distributed version of our product. Allowed
+    us to scale out the application on multiple CPUs.
+    Invented the first serious Erlang troubleshooting tools. Still in
+    heavy in-house use.
+
+  1993-1997: Post Doctoral Researcher at Lawrence Berkeley Laboratory, CA, USA
+
+    Wrote major pieces of the software for the E896 experiment at Brookhaven
+    National Lab, including the on-line monitoring system, the event
+    visualization, and most of the track reconstruction.
+
+    Wrote most of the statistical analysis code for the TRANSPORT
+    experiment at Lawrence Berkeley Lab.
+
+  1986-1992: Graduate school at the University of Goteborg, Sweden
+
+    Wrote many pieces of code for several experiments, mostly related to
+    data analysis and visualization.
+
+    Awarded a grant by the Sweden-America Foundation to spend a year at
+    Michigan State University, MI, USA.
+
+    Awarded a grant to develop a simple data analysis program for the
+    Mac to be used in undergrad teaching lab. It was still in use when
+    I graduated.
+
+  1986: Software contractor
+
+    Hired over summer break by the Nuclear Physics group at the
+    University to develop a data visualization program for nuclear
+    physics experiments. Hugely impressed everyone since it used 2-D
+    graphics.
+
+Open Source Programs
+
+     At github.com/massemanet
+      gtknode - an Erlang GTK binding
+      inotify - an Erlang binding to the Linux inotify API
+      eper - a set of tools for performance tuning Erlang applications
+
+     At github.com/marijnh/CodeMirror/tree/master/mode/erlang
+      An erlang mode for CodeMirror (a code editor javascript component.)
+
+    Contributed to distel (Erlang-Emacs interface) and Yaws (Erlang web server)
