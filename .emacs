@@ -330,8 +330,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background "black"))))
- '(ediff-current-diff-A ((t (:background "color-236" :foreground "firebrick"))) t)
- '(ediff-current-diff-B ((t (:background "color-236" :foreground "DarkOrchid"))) t)
+ '(ediff-current-diff-A
+   ((t (:background "color-236" :foreground "firebrick"))) t)
+ '(ediff-current-diff-B
+   ((t (:background "color-236" :foreground "DarkOrchid"))) t)
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-diff-del ((t (:foreground "red"))))
  '(magit-item-highlight ((t (:background "color-239")))))
