@@ -10,24 +10,24 @@
 (iswitchb-mode t)
 (if (fboundp 'custom-available-themes)
     (if (member 'tango-dark (custom-available-themes))
-	(load-theme 'tango-dark)
+        (load-theme 'tango-dark)
       (if (fboundp 'color-theme-initialize)
-	  (progn
-	    (color-theme-initialize)
-	    (color-theme-calm-forest)))))
+          (progn
+            (color-theme-initialize)
+            (color-theme-calm-forest)))))
 
 (if (locate-library "package")
     (progn
       (require 'package)
       (package-initialize)
       (add-to-list 'package-archives
-		   '("ELPA" . "http://tromey.com/elpa/"))
+                   '("ELPA" . "http://tromey.com/elpa/"))
       (add-to-list 'package-archives
-		   '("marmalade" . "http://marmalade-repo.org/packages/"))))
+                   '("marmalade" . "http://marmalade-repo.org/packages/"))))
 
 ; turn off bad shit
 (if (featurep 'tool-bar)   (tool-bar-mode   -1))
-(if (featurep 'tabbar)     (tabbar-mode	    -1))
+(if (featurep 'tabbar)     (tabbar-mode     -1))
 (if (featurep 'tooltip)    (tooltip-mode    -1))
 (if (featurep 'scroll-bar) (scroll-bar-mode -1))
 (if (featurep 'menu-bar)   (menu-bar-mode   -1))
@@ -67,11 +67,11 @@
 (global-set-key (kbd "M-z") 'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
-(defun last-line () 
+(defun last-line ()
   (interactive)
   (recenter -2))
 
-(defun first-line () 
+(defun first-line ()
   (interactive)
   (recenter 1))
 
@@ -85,19 +85,19 @@
 (defun my-erlang-setup ()
 
   (setq safe-local-variable-values
-	(quote ((erlang-indent-level . 4)
-		(erlang-indent-level . 2))))
+        (quote ((erlang-indent-level . 4)
+                (erlang-indent-level . 2))))
 
   (defvar erlang-erl-path
     (shell-command-to-string "echo -n `/usr/local/bin/brew --prefix erlang`"))
   (defvar erlang-distel-path "~/git/distel")
   (defvar erlang-erlmode-path "~/elisp")
 
-  (add-paths (list 
-	      (car (file-expand-wildcards erlang-erlmode-path))
-	      (car (file-expand-wildcards
-		    (concat erlang-erl-path "/lib/erlang/lib/tools-*/emacs")))
-	      (concat erlang-distel-path "/elisp")))
+  (add-paths (list
+              (car (file-expand-wildcards erlang-erlmode-path))
+              (car (file-expand-wildcards
+                    (concat erlang-erl-path "/lib/erlang/lib/tools-*/emacs")))
+              (concat erlang-distel-path "/elisp")))
 
   ;; use to start an erlang shell with boot flags
 
@@ -205,10 +205,9 @@
         js2-mode-indent-ignore-first-tab t
         js2-basic-offset 2))
 
-
 (defun my-whitespace-setup()
   (require 'whitespace)
-  (setq whitespace-style (list 'tabs 'trailing 'lines-tail)
+  (setq whitespace-style (list 'face 'tabs 'trailing 'lines-tail)
         whitespace-line-column 79)
   (global-whitespace-mode t))
 
@@ -256,9 +255,9 @@
       (setq hl-paren-colors '("firebrick1" "color-160" "color-88"
                               "IndianRed4" "brightred" "white"))
       (define-globalized-minor-mode global-highlight-parentheses-mode
-	highlight-parentheses-mode
-	(lambda ()
-	  (highlight-parentheses-mode t)))
+        highlight-parentheses-mode
+        (lambda ()
+          (highlight-parentheses-mode t)))
       (global-highlight-parentheses-mode t)))
 
 (if (locate-library "erlang-start")
@@ -307,12 +306,12 @@
   (interactive)
   (set-language-environment "utf-8")
   (setq default-input-method "swedish-postfix"
-	erc-hide-list '("JOIN" "NICK" "PART" "QUIT")
-	erc-modules '(autojoin completion fill irccontrols match noncommands
-			       readonly ring scrolltobottom stamp spelling
-			       track truncate)
-	erc-autojoin-channels-alist '(("freenode.net" "#erlang")
-				      ("internal.machines" "#tech")))
+        erc-hide-list '("JOIN" "NICK" "PART" "QUIT")
+        erc-modules '(autojoin completion fill irccontrols match noncommands
+                               readonly ring scrolltobottom stamp spelling
+                               track truncate)
+        erc-autojoin-channels-alist '(("freenode.net" "#erlang")
+                                      ("internal.machines" "#tech")))
   (erc :server "irc.freenode.net" :nick "massemanet")
   (erc :server "irc.hq.kred" :nick "masse"))
 
@@ -337,8 +336,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background "black"))))
- '(ediff-current-diff-A ((t (:background "color-236" :foreground "firebrick"))) t)
- '(ediff-current-diff-B ((t (:background "color-236" :foreground "DarkOrchid"))) t)
+ '(ediff-current-diff-A
+   ((t (:background "color-236" :foreground "firebrick"))) t)
+ '(ediff-current-diff-B
+   ((t (:background "color-236" :foreground "DarkOrchid"))) t)
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-diff-del ((t (:foreground "red"))))
  '(magit-item-highlight ((t (:background "color-239"))))
