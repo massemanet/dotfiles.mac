@@ -221,6 +221,12 @@
   (require 'psvn)
   (setq svn-status-custom-hide-function 'my-svn-status-hide))
 
+(if (locate-library "sml-modeline")
+    (progn
+      (require 'sml-modeline)
+      (sml-modeline-mode t)
+      (setq sml-modeline-numbers 'line-numbers)))
+
 (if (locate-library "fdlcap")
     (require 'fdlcap))
 
@@ -313,7 +319,7 @@
 (defun my-elpa ()
   (interactive)
   (package-refresh-contents)
-  (dolist (p '(magit highlight-parentheses clojure-mode js2-mode slime))
+  (dolist (p '(magit highlight-parentheses sml-modeline js2-mode ))
     (progn
       (if (package-installed-p p)
           (message "already installed %s" p)
@@ -335,11 +341,15 @@
  '(ediff-current-diff-B ((t (:background "color-236" :foreground "DarkOrchid"))) t)
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-diff-del ((t (:foreground "red"))))
- '(magit-item-highlight ((t (:background "color-239")))))
+ '(magit-item-highlight ((t (:background "color-239"))))
+ '(sml-modeline-end-face ((t (:inherit match :foreground "black"))))
+ '(sml-modeline-vis-face ((t (:inherit region :foreground "black")))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(safe-local-variable-values (quote ((allout-layout . t)
+                                      (erlang-indent-level . 4)
+                                      (erlang-indent-level . 2)))))
