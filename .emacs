@@ -85,7 +85,8 @@
 (defun my-erlang-setup ()
 
   (setq safe-local-variable-values
-        (quote ((erlang-indent-level . 4)
+        (quote ((allout-layout . t)
+                (erlang-indent-level . 4)
                 (erlang-indent-level . 2))))
 
   (defvar erlang-erl-path
@@ -159,9 +160,10 @@
     (defun erl-align-arrows ()
       (interactive)
       (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)->" 1 1))
-    ;; run flymake iff buffer has a file
     (local-set-key (kbd "M-L") 'erl-show-arglist)
     (local-set-key (kbd "M-A") 'erl-align-arrows)
+
+    ;; run flymake iff buffer has a file
     (if (and (locate-library "erlang-flymake")
              buffer-file-truename)
         (progn
@@ -277,10 +279,11 @@
 
 (add-hook 'text-mode-hook 'my-text-mode-hook)
 (defun my-text-mode-hook ()
-  (setq fill-column 79)
+  (setq fill-column 79
+        flyspell-dictionaries (quote ("american" "svenska")))
   (longlines-mode t)
-  (highlight-parentheses-mode -1)
-  (setq flyspell-dictionaries (quote ("american" "svenska")))
+  (if (locate-library "highlight-parentheses")
+      (highlight-parentheses-mode -1))
   (flyspell-mode))
 
 (add-hook 'comint-mode-hook 'my-comint)
@@ -335,11 +338,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background "black"))))
- '(ediff-current-diff-A
-   ((t (:background "color-236" :foreground "firebrick"))) t)
- '(ediff-current-diff-B
-   ((t (:background "color-236" :foreground "DarkOrchid"))) t)
+ '(default ((t (:background "#000"))))
+ '(ediff-current-diff-A ((t (:background "color-23"))))
+ '(ediff-current-diff-B ((t (:background "color-52"))))
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-diff-del ((t (:foreground "red"))))
  '(magit-item-highlight ((t (:background "color-239"))))
