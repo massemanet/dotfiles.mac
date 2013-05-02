@@ -14,7 +14,6 @@
 .cups/
 
 # droppings
-/.IABootFiles/
 /.Xauthority
 /.aspell.*
 /.bash_history
@@ -25,16 +24,11 @@
 /.esets/
 /.fontconfig/
 /.gem/
-/.lein/
 /.lesshst
 /.local/
-/.m2/
 /.npm/
-/.pip/
 /.serverauth*
-/.sh_history
 /.ssh/
-/.jline-clojure.main.history
 /.vagrant.d/
 /.wine/
 /Dropbox/
