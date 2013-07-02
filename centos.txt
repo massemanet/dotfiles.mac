@@ -35,7 +35,8 @@ ln ~/Dropbox/masse/rpm/*repo ~/boxes/$NAME
 # CENTOS
 ## oneshot normal RPMs
 ### rpmforge
-FORGE=rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm 
+FORGE=`wget http://pkgs.repoforge.org/rpmforge-release -o /dev/null -O - \
+ | grep _64 | grep -i centos-6 | cut -f6 -d"\"" | tail -1`
 wget http://pkgs.repoforge.org/rpmforge-release/$FORGE -O/tmp/$FORGE
 sudo rpm -i /tmp/$FORGE
 ### esl erlang
