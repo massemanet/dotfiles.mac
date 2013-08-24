@@ -1,7 +1,7 @@
 ;; -*- mode: lisp -*-
 
 ; turn on good shit
-(set-language-environment "Latin-1")
+(set-language-environment "ASCII")
 (show-paren-mode t)
 (transient-mark-mode t)
 (global-font-lock-mode t)
