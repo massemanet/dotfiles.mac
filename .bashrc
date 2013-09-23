@@ -4,7 +4,7 @@
 # one path to rule them all
 export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 
-# two locales to rule them all
+# one locale to rule them all
 unset  LC_ALL
 unset  LANGUAGE
 unset  LC_CTYPE
@@ -19,6 +19,10 @@ LS=ls ; [ `which gls` ] && LS=gls
 # Enable sane completion
 . `brew --prefix`/etc/bash_completion
 . `brew --prefix git`/etc/bash_completion.d/git-completion.bash
+
+# macos doesn't have pgrep/pkill
+pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
+pkill() { pgrep "$1" | awk '{print $2}' | xargs kill -9 ; }
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
