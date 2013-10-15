@@ -22,7 +22,7 @@ LS=ls ; [ `which gls` ] && LS=gls
 
 # macos doesn't have pgrep/pkill
 pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
-pkill() { pgrep "$1" | awk '{print $2}' | xargs kill -9 ; }
+pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
