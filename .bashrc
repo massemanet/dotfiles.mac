@@ -2,7 +2,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
 # one path to rule them all
-export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 
 # one locale to rule them all
 unset  LC_ALL
@@ -23,6 +23,13 @@ LS=ls ; [ `which gls` ] && LS=gls
 # macos doesn't have pgrep/pkill
 pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
 pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
+
+# find-grep
+fgrep() {
+    [ -z "$1" ] && exit 1
+    [ -n "$2" ] && d="$2" || d=".";
+    find "$d" -type f -exec grep -iH \""$1"\" {} \;
+}
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
