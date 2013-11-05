@@ -2,7 +2,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
 # one path to rule them all
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 # one locale to rule them all
 unset  LC_ALL
@@ -13,12 +13,15 @@ export LANG=en_US.UTF-8
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-# check for GNU ls from brew
-LS=ls ; [ `which gls` ] && LS=gls
+# check for GNU ls
+LS=ls ; [ `which gls 2> /dev/null` ] && LS=gls
 
 # Enable sane completion
 . `brew --prefix`/etc/bash_completion
 . `brew --prefix git`/etc/bash_completion.d/git-completion.bash
+
+# emacs
+EMACS=`brew --prefix`/bin/emacs
 
 # macos doesn't have pgrep/pkill
 pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
@@ -28,7 +31,7 @@ pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
 fgrep() {
     [ -z "$1" ] && exit 1
     [ -n "$2" ] && d="$2" || d=".";
-    find "$d" -type f -exec grep -iH \""$1"\" {} \;
+    sudo find -L "$d" -type f -exec grep -iH "$1" {} \;
 }
 
 # check the window size after each command and, if necessary,
@@ -37,21 +40,16 @@ shopt -s checkwinsize
 
 # find the basename of the dir that contains the current .git
 mygitdir () {
-    local g;
-    g="`__gitdir`";
-    if [ "$g" == "" ]; then
-        g="";
-    else
-        if [ "$g" == ".git" ]; then
-            g="`pwd`";
-        else
-            g=`dirname "$g"`;
-        fi;
-    fi;
-    if [ "$g" == "`echo ~`" ]; then
+    local D;
+    D=`git rev-parse --git-dir 2> /dev/null`
+    [ "$D" == ".git" ] && D="$PWD/$D"
+    D=`dirname "$D"`
+    if [ "$D" == "." ]; then
+        echo "";
+    elif [ "$D" == ~ ]; then
         echo "~";
     else
-        basename "$g";
+        basename "$D"
     fi
 }
 
@@ -85,10 +83,10 @@ dird() { dir -d "$@";}
 dira() { for d in "${@:-.}"; do (cd "$d";pwd; dird .*); done;}
 rea()  { history | egrep "${@:-}";}
 m()    { less "$@";}
-e()    { `brew --prefix`/bin/emacs -nw "$@";}
+e()    { $EMACS -nw "$@";}
 c()    { cat "$@";}
 
-export EDITOR=emacs
+export EDITOR=$EMACS
 
 ## history
 # lots of history
