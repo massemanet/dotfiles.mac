@@ -1,5 +1,16 @@
 ;; -*- mode: lisp -*-
 
+;; try to find and add my favourite paths
+  (let ((ps (list "~/elisp/*.el"
+                  "~/git/distel/elisp/*.el"
+                  (concat (shell-command-to-string
+                           "echo -n `/usr/local/bin/brew --prefix erlang`")
+                          "/lib/erlang/lib/tools-*/emacs/*.el"))))
+    (dolist (f0 (nreverse ps))
+      (let ((f (car (file-expand-wildcards f0))))
+        (when (and (stringp f) (file-exists-p f))
+          (add-to-list 'load-path (file-name-directory f))))))
+
 ; turn on good shit
 (set-language-environment "ASCII")
 (show-paren-mode t)
@@ -8,14 +19,19 @@
 (delete-selection-mode t)
 (column-number-mode t)
 (iswitchb-mode t)
+
+; turn off bad shit
+(if (featurep 'tool-bar)   (tool-bar-mode   -1))
+(if (featurep 'tabbar)     (tabbar-mode     -1))
+(if (featurep 'tooltip)    (tooltip-mode    -1))
+(if (featurep 'scroll-bar) (scroll-bar-mode -1))
+(if (featurep 'menu-bar)   (menu-bar-mode   -1))
+
 (if (fboundp 'custom-available-themes)
     (if (member 'tango-dark (custom-available-themes))
-        (load-theme 'tango-dark)
-      (if (fboundp 'color-theme-initialize)
-          (progn
-            (color-theme-initialize)
-            (color-theme-calm-forest)))))
+        (load-theme 'tango-dark)))
 
+; init package handler
 (if (locate-library "package")
     (progn
       (require 'package)
@@ -24,13 +40,6 @@
                    '("ELPA" . "http://tromey.com/elpa/"))
       (add-to-list 'package-archives
                    '("marmalade" . "http://marmalade-repo.org/packages/"))))
-
-; turn off bad shit
-(if (featurep 'tool-bar)   (tool-bar-mode   -1))
-(if (featurep 'tabbar)     (tabbar-mode     -1))
-(if (featurep 'tooltip)    (tooltip-mode    -1))
-(if (featurep 'scroll-bar) (scroll-bar-mode -1))
-(if (featurep 'menu-bar)   (menu-bar-mode   -1))
 
 (setq-default
  indent-tabs-mode         nil)
@@ -75,30 +84,12 @@
   (interactive)
   (recenter 1))
 
-(defun add-paths (ps)
-  (dolist (f (nreverse ps))
-  (when (and (stringp f) (file-exists-p f))
-    (add-to-list 'load-path f))))
-
-(add-paths (list "~/elisp"))
-
 (defun my-erlang-setup ()
 
   (setq safe-local-variable-values
         (quote ((allout-layout . t)
                 (erlang-indent-level . 4)
                 (erlang-indent-level . 2))))
-
-  (defvar erlang-erl-path
-    (shell-command-to-string "echo -n `/usr/local/bin/brew --prefix erlang`"))
-  (defvar erlang-distel-path "~/git/distel")
-  (defvar erlang-erlmode-path "~/elisp")
-
-  (add-paths (list
-              (car (file-expand-wildcards erlang-erlmode-path))
-              (car (file-expand-wildcards
-                    (concat erlang-erl-path "/lib/erlang/lib/tools-*/emacs")))
-              (concat erlang-distel-path "/elisp")))
 
   ;; use to start an erlang shell with boot flags
 
@@ -135,10 +126,8 @@
      erl-macro-face             'font-lock-preprocessor-face
      erl-record-face            'font-lock-preprocessor-face
 
-     ;; i need some space
-     erlang-indent-level 2
-     ;; find the man pages
-     setq erlang-root-dir erlang-erl-path))
+;;     setq erlang-root-dir erlang-erl-path))     ;; find the man pages
+     erlang-indent-level 2))
 
   (add-hook 'erlang-new-file-hook 'my-erlang-new-file-hook)
   (defun my-erlang-new-file-hook ()
@@ -167,6 +156,27 @@
     (if (and (locate-library "erlang-flymake")
              buffer-file-truename)
         (progn
+          (defun updir (n f)
+            (if (eq n 0)
+                f
+              (updir (- n 1) (substring (file-name-directory f) 0 -1))))
+          (defun erlc-paths (f base)
+            (cond
+             ((string= (file-name-nondirectory (updir 3 f)) "lib")
+              (file-expand-wildcards (concat (updir 3 f) "/*/" base)))
+             ((string= (file-name-nondirectory (updir 1 f)) "src")
+              (file-expand-wildcards (concat (updir 2 f) "/" base)))
+             (t
+              nil)))
+          (defun epaths(base)
+            (interactive)
+            (append (klarna-paths (buffer-file-name) base)
+                    (erlc-paths (buffer-file-name) base)))
+
+          (defun klarna-paths (f base)
+            (if (string= (file-name-nondirectory (updir 3 f)) "lib")
+              (file-expand-wildcards (concat (updir 4 f) "/test/shared/" base))))
+
           (defun erlang-flymake-next-error ()
             "Goto next error, if any. Display error in mini-buffer."
             (interactive)
@@ -176,6 +186,9 @@
                 (message err))))
           (setq flymake-no-changes-timeout 3)
           (load "erlang-flymake")
+          (setq
+           erlang-flymake-get-code-path-dirs-function (lambda() (epaths "ebin"))
+           erlang-flymake-get-include-dirs-function (lambda() (epaths "include")))
           (flymake-mode)
           (local-set-key (kbd "M-'") 'erlang-flymake-next-error)))
     ;; stupid electricity
@@ -343,8 +356,8 @@
  '(ediff-current-diff-A ((t (:background "color-23"))) t)
  '(ediff-current-diff-B ((t (:background "color-52"))) t)
  '(magit-diff-add ((t (:foreground "green"))))
- '(magit-diff-del ((t (:foreground "red"))))
- '(magit-item-highlight ((t (:background "color-239"))))
+ '(magit-diff-del ((t (:foreground "color-169"))))
+ '(magit-item-highlight ((t (:background "color-237"))))
  '(sml-modeline-end-face ((t (:inherit match :foreground "black"))))
  '(sml-modeline-vis-face ((t (:inherit region :foreground "black")))))
 
