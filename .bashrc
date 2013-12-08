@@ -31,7 +31,8 @@ pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
 fgrep() {
     [ -z "$1" ] && exit 1
     [ -n "$2" ] && d="$2" || d=".";
-    sudo find -L "$d" -type f -exec grep -iH "$1" {} \;
+    2>/dev/null find -L "$d" -type f -exec grep -iH "$1" {} \; |\
+      grep -vE "^Binary"
 }
 
 # check the window size after each command and, if necessary,
