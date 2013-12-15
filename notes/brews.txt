@@ -1,2 +1,13 @@
+https://developer.apple.com/downloads/index.action
+
+hdiutil attach "command_line_tools_os_x_*.dmg"
+cd "/Volumes/Command Line Developer Tools"/
+sudo installer -verbose -pkg "Command Line Tools *.pkg" -target /
+cd
+hdiutil detach /dev/disk3s2
+rm command_line_tools_os_x_*.dmg
+
+ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+
 brew install bash-completion coreutils emacs erlang git mobile-shell tmux
-brew install aspell autoconf automake grep icu4c node wget
+brew install aspell autoconf automake icu4c node wget
