@@ -13,11 +13,13 @@
 .Trash/
 .cups/
 
+
 # droppings
 /.Xauthority
 /.aspell.*
 /.bash_history
 /.boxes/
+/.cache/
 /.config/
 /.dropbox/
 /.emacs.d/
@@ -29,6 +31,7 @@
 /.npm/
 /.serverauth*
 /.ssh/
+/.subversion/
 /.vagrant.d/
 /.wine/
 /Dropbox/
