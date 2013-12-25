@@ -1,8 +1,10 @@
 # -*- mode: shell-script -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
+# macos/homebrew style
 
 # one path to rule them all
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+[ -d /opt/bin ] && export PATH=$PATH:/opt/bin
 
 # one locale to rule them all
 unset  LC_ALL
@@ -23,17 +25,22 @@ LS=ls ; [ `which gls 2> /dev/null` ] && LS=gls
 # emacs
 EMACS=`brew --prefix`/bin/emacs
 
+# find-grep
+fgrep() {
+    set -f
+    [ -z "$1" ] && exit 1
+    [ -n "$2" ] && d="$2" || d="."
+    [ -n "$3" ] && n="-name $3"
+    find "$d" -path "*/.svn" -prune -o \
+              -path "*/.git" -prune -o \
+              -path "*/.deps" -prune -o \
+              -type f $n -exec grep -iH "$1" {} \;
+    set +f
+}
+
 # macos doesn't have pgrep/pkill
 pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
 pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
-
-# find-grep
-fgrep() {
-    [ -z "$1" ] && exit 1
-    [ -n "$2" ] && d="$2" || d=".";
-    2>/dev/null find -L "$d" -type f -exec grep -iH "$1" {} \; |\
-      grep -vE "^Binary"
-}
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -105,3 +112,6 @@ PROMPT_COMMAND="$PROMPT_COMMAND;history -a"
 
 # multi-line commands
 shopt -s cmdhist
+
+# machine-local file outside git
+[ -f ~/.localbashrc ] && . ~/.localbashrc || uname -a
