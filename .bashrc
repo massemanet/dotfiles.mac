@@ -34,7 +34,7 @@ fgrep() {
     find "$d" -path "*/.svn" -prune -o \
               -path "*/.git" -prune -o \
               -path "*/.deps" -prune -o \
-              -type f $n -exec grep -iH "$1" {} \;
+              -type f $n -exec grep -iIH "$1" {} \;
     set +f
 }
 
