@@ -21,10 +21,12 @@
 /.boxes/
 /.cache/
 /.config/
+/.ddd/
 /.dropbox/
 /.emacs.d/
 /.esets/
 /.fontconfig/
+/.gdb_history
 /.gem/
 /.lesshst
 /.local/
