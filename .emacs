@@ -340,7 +340,8 @@
 (defun my-elpa ()
   (interactive)
   (package-refresh-contents)
-  (dolist (p '(magit highlight-parentheses sml-modeline js2-mode ))
+  (dolist (p '(magit highlight-parentheses
+                     sml-modeline js2-mode flymake-jshint))
     (progn
       (if (package-installed-p p)
           (message "already installed %s" p)
