@@ -218,7 +218,7 @@
   (if (locate-library "flymake-jshint")
       (progn
         (require 'flymake-jshint)
-        (add-hook 'js2-mode-hook 'flymake-mode)))
+        (flymake-mode)))
   (js2-leave-mirror-mode)
   (setq js2-mirror-mode nil
         js2-bounce-indent-p t
