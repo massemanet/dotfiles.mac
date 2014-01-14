@@ -10,6 +10,7 @@
          ,tab/0
          ,long/1,flat/1,dump/1
          ,e/2
+         ,inet/0
          ,kill/1
          ,pi/1,pi/2
          ,os/1
@@ -77,3 +78,8 @@ pid(Pid) when is_pid(Pid) -> Pid;
 pid(Atom) when is_atom(Atom) -> whereis(Atom);
 pid({0,I2,I3}) when is_integer(I2) -> c:pid(0,I2,I3);
 pid(I2) when is_integer(I2) -> pid({0,I2,0}).
+
+inet() ->
+  [element(2,prim_inet:sockname(P)) ||
+    P <- erlang:ports(),
+    erlang:port_info(P,name) == {name,"tcp_inet"}].
