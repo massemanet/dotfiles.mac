@@ -1,15 +1,15 @@
 ;; -*- mode: lisp -*-
 
 ;; try to find and add my favourite paths
-  (let ((ps (list "~/elisp/*.el"
-                  "~/git/distel/elisp/*.el"
-                  (concat (shell-command-to-string
-                           "echo -n `/usr/local/bin/brew --prefix erlang`")
-                          "/lib/erlang/lib/tools-*/emacs/*.el"))))
-    (dolist (f0 (nreverse ps))
-      (let ((f (car (file-expand-wildcards f0))))
-        (when (and (stringp f) (file-exists-p f))
-          (add-to-list 'load-path (file-name-directory f))))))
+(let ((ps (list "~/elisp/*.el"
+                "~/git/distel/elisp/*.el"
+                (concat (shell-command-to-string
+                         "echo -n `/usr/local/bin/brew --prefix erlang`")
+                        "/lib/erlang/lib/tools-*/emacs/*.el"))))
+  (dolist (f0 (nreverse ps))
+    (let ((f (car (file-expand-wildcards f0))))
+      (when (and (stringp f) (file-exists-p f))
+        (add-to-list 'load-path (file-name-directory f))))))
 
 ; turn on good shit
 (set-language-environment "ASCII")
