@@ -17,16 +17,19 @@ export LANG=en_US.UTF-8
 
 # check for GNU ls
 LS=ls ; [ `which gls 2> /dev/null` ] && LS=gls
+DIRCOLS=dircolors ; [ `which gdircolors 2> /dev/null` ] && DIRCOLS=gdircolors
 
 # Enable sane completion
 . `brew --prefix`/etc/bash_completion
 . `brew --prefix git`/etc/bash_completion.d/git-completion.bash
 
+GITPROMPT=`brew --prefix`/etc/bash_completion.d/git-prompt.sh
+
 # emacs
 EMACS=`brew --prefix`/bin/emacs
 
 # find-grep
-fgrep() {
+function fgrep() {
     set -f
     [ -z "$1" ] && exit 1
     [ -n "$2" ] && d="$2" || d="."
@@ -48,8 +51,26 @@ pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+function mygitps1() {
+    if type __git_ps1 &> /dev/null ; then
+        __git_ps1 "%s";
+    elif [[ -f $GITPROMPT ]]; then
+        . $GITPROMPT
+        __git_ps1 "%s";
+    else
+        for b in `git log --format='%d' 2> /dev/null | head -1 | tr "(,)" " "`
+        do echo $b | awk '
+/HEAD/       {next}
+/origin\//   {next}
+/upstream\// {next}
+/tag:/       {next}
+             {print $1}'
+        done | head -1
+    fi
+}
+
 # find the basename of the dir that contains the current .git
-mygitdir () {
+function mygitdir () {
     local D;
     D=`git rev-parse --git-dir 2> /dev/null`
     [ "$D" == ".git" ] && D="$PWD/$D"
@@ -69,7 +90,7 @@ if [ "$TERM" != "dumb" ]; then
     export GREP_OPTIONS='--color=auto'
     # enable color support of ls
     lscols=auto
-    eval "`gdircolors -b $HOME/.dircolors`"
+    [ -f $HOME/.dircolors ] && eval "`$DIRCOLS -b $HOME/.dircolors`"
     # to get emacs -nw to use 256 colors
     export TERM=xterm-256color
     # set a fancy prompt
@@ -78,9 +99,9 @@ if [ "$TERM" != "dumb" ]; then
     export GIT_PS1_SHOWDIRTYSTATE=true
 
     if [ "$USER" == "root" ];then
-        PS1='\[$(tput setaf 5)\]\h\[$(tput setaf 3)\]($(mygitdir):$(__git_ps1 "%s"))\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}#\[$(tput sgr0)\] '
+        PS1='\[$(tput setaf 5)\]\h\[$(tput setaf 3)\]($(mygitdir):$(mygitps1))\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}#\[$(tput sgr0)\] '
     else
-        PS1='\[$(tput setaf 3)\]\h\[$(tput setaf 5)\]($(mygitdir):$(__git_ps1 "%s"))\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}\$\[$(tput sgr0)\] '
+        PS1='\[$(tput setaf 3)\]\h\[$(tput setaf 5)\]($(mygitdir):$(mygitps1))\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}\$\[$(tput sgr0)\] '
     fi
 else
     lscols=none
