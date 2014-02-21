@@ -23,10 +23,15 @@ DIRCOLS=dircolors ; [ `which gdircolors 2> /dev/null` ] && DIRCOLS=gdircolors
 . `brew --prefix`/etc/bash_completion
 . `brew --prefix git`/etc/bash_completion.d/git-completion.bash
 
-GITPROMPT=`brew --prefix`/etc/bash_completion.d/git-prompt.sh
-
 # emacs
 EMACS=`brew --prefix`/bin/emacs
+
+# prompt
+GITPROMPT=`brew --prefix`/etc/bash_completion.d/git-prompt.sh
+
+# macos doesn't have pgrep/pkill
+pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
+pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
 
 # find-grep
 function fgrep() {
@@ -42,10 +47,6 @@ function fgrep() {
               -type f $n -exec grep -iIH "$1" {} \;
     set +f
 }
-
-# macos doesn't have pgrep/pkill
-pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
-pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
