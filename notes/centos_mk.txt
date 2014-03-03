@@ -67,7 +67,7 @@ yum --assumeyes install ~/emacs-nox-24.0.93-3.el6.x86_64.rpm
 
 # set up personal user
 ME=<name>
-useradd -G admin $ME
+useradd -G wheel $ME
 passwd $ME
 sudo -i -u $ME
 sudo cp /vagrant/id_rsa ~/.ssh ; chown $ME.$ME ~/.ssh/id_rsa
