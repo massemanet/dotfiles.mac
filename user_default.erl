@@ -30,16 +30,26 @@ export_all(M) ->
   end.
 
 lm() ->
-    T = fun(L) -> [X || X <- L, element(1,X) =:= time] end,
-    Tm = fun(M) -> T(M:module_info(compile)) end,
-    Tf = fun(F) -> {ok,{_,[{_,I}]}}=beam_lib:chunks(F,[compile_info]),T(I) end,
-    Load = fun(M) -> c:l(M),M end,
+  MD5File =
+    fun(F) ->
+        case beam_lib:md5(F) of
+          {ok,{_,<<I:128>>}} -> [I];
+          _ -> undefined
+        end
+    end,
 
-    [Load(M) || {M,F} <- code:all_loaded(), is_beamfile(F), Tm(M)<Tf(F)].
+  MD5Loaded =
+    fun(M) ->
+        proplists:get_value(vsn,M:module_info(attributes))
+    end,
 
-is_beamfile(F) ->
-    ok == element(1,file:read_file_info(F)) andalso
-        ".beam" == filename:extension(F).
+  Load =
+    fun(M,F) ->
+        true = code:soft_purge(M),
+        code:load_abs(filename:rootname(F,".beam"))
+    end,
+
+  [Load(M,F) || {M,F} <- code:all_loaded(), MD5Loaded(M) =/= MD5File(F)].
 
 tab() ->
   N=node(),
