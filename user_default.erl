@@ -14,6 +14,7 @@
          ,kill/1
          ,pi/1,pi/2
          ,os/1
+         ,callstack/1
          ,bt/1
          ,pid/1
          ,lm/0]).
@@ -44,9 +45,12 @@ lm() ->
     end,
 
   Load =
-    fun(M,F) ->
-        true = code:soft_purge(M),
-        code:load_abs(filename:rootname(F,".beam"))
+    fun(M,"") ->
+        {cannot_load,M};
+       (M,F) ->
+        code:purge(M),
+        {module,M} = code:load_abs(filename:rootname(F,".beam")),
+        M
     end,
 
   [Load(M,F) || {M,F} <- code:all_loaded(), MD5Loaded(M) =/= MD5File(F)].
@@ -80,6 +84,8 @@ wr(E) -> wr("~p.~n",E).
 wr(F,E) -> wr(user,F,E).
 wr(FD,F,E) -> io:fwrite(FD,F,[E]).
 
+callstack(P) ->
+  [string:strip(e(2,string:tokens(L,"(+)"))) || L<- bt(P), $0 =:= hd(L)].
 bt(P) ->
   string:tokens(binary_to_list(e(2,process_info(pid(P),backtrace))),"\n").
 
