@@ -28,7 +28,7 @@ export_all(M) ->
       {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(F,[abstract_code]),
       {ok,_,B} = compile:forms(AC,[export_all]),
       code:soft_purge(M),
-      code:load_binary(M,"",B)
+      code:load_binary(M,F,B)
   end.
 
 lm() ->
