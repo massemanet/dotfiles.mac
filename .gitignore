@@ -17,6 +17,7 @@
 # droppings
 /.Xauthority
 /.aspell.*
+/.account
 /.bash_history
 /.boxes/
 /.cache/
@@ -31,6 +32,7 @@
 /.lesshst
 /.local/
 /.npm/
+/.rnd
 /.serverauth*
 /.ssh/
 /.subversion/
