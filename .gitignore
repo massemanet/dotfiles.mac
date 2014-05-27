@@ -53,6 +53,7 @@
 /.erlang-flymake/
 /flymaker.log
 .erlang.cookie
+.dialyzer_plt
 
 # git projects
 /git/
