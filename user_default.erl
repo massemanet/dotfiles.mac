@@ -6,11 +6,12 @@
 
 -module('user_default').
 -author('Mats Cronqvist').
--export([export_all/1
+-export([ineti/0
+         ,ports/0
+         ,export_all/1
          ,tab/0
          ,long/1,flat/1,dump/1
          ,e/2
-         ,inet/0
          ,kill/1
          ,pi/1,pi/2
          ,os/1
@@ -95,7 +96,38 @@ pid(Atom) when is_atom(Atom) -> whereis(Atom);
 pid({0,I2,I3}) when is_integer(I2) -> c:pid(0,I2,I3);
 pid(I2) when is_integer(I2) -> pid({0,I2,0}).
 
-inet() ->
-  [element(2,prim_inet:sockname(P)) ||
-    P <- erlang:ports(),
-    erlang:port_info(P,name) == {name,"tcp_inet"}].
+ineti() ->
+  lists:foreach(fun ineti/1,ports()).
+
+ineti(P) ->
+  {_Fam,Type} = proplists:get_value(type,P),
+  [Status|_] = proplists:get_value(status,P),
+  {LIP,LPort} = proplists:get_value(local,P),
+  Sent = proplists:get_value(sent,P),
+  Recvd = proplists:get_value(received,P),
+  {RIP,RPort} =
+    case proplists:get_value(remote,P) of
+      enotconn -> {"*","*"};
+      {Rip,Rp} -> {inet_parse:ntoa(Rip),integer_to_list(Rp)}
+    end,
+  io:fwrite("~14s:~-5w ~14s:~-5s ~w ~w ~w ~w~n",
+            [inet_parse:ntoa(LIP),LPort,RIP,RPort,Type,Status,Sent,Recvd]).
+
+ports() ->
+  [port_info(P)++PI ||
+    {P,PI}<-[{P,erlang:port_info(P)}||P<-erlang:ports()],
+    lists:sublist(proplists:get_value(name,PI),4,100)=="_inet"].
+
+port_info(P) ->
+  {ok,Type} = prim_inet:gettype(P),
+  {ok,Status} = prim_inet:getstatus(P),
+  {ok,[{_,Sent}]} = prim_inet:getstat(P,[send_oct]),
+  {ok,[{_,Recvd}]} = prim_inet:getstat(P,[recv_oct]),
+  {ok,Local} = prim_inet:sockname(P),
+  Remote = case prim_inet:peername(P) of
+             {ok,R} -> R;
+             {error,R} -> R
+           end,
+  [{type,Type},{status,Status},
+   {sent,Sent},{received,Recvd},
+   {local,Local},{remote,Remote}].
