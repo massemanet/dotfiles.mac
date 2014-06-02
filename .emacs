@@ -177,20 +177,29 @@
               (file-expand-wildcards (concat (updir 2 f) "/" base)))
              (t
               nil)))
+          (defun rebar-paths (f base)
+            (cond
+             ((string= (file-name-nondirectory (updir 1 f)) "src")
+              (file-expand-wildcards (concat (updir 2 f) "/deps/*/" base)))
+             (t
+              nil)))
+          (defun klarna-paths (f base)
+            (if (string= (file-name-nondirectory (updir 3 f)) "lib")
+              (file-expand-wildcards
+               (concat (updir 4 f) "/test/shared/" base))))
           (defun epaths(base)
             (interactive)
             (append (klarna-paths (buffer-file-name) base)
+                    (rebar-paths (buffer-file-name) base)
                     (erlc-paths (buffer-file-name) base)))
-
-          (defun klarna-paths (f base)
-            (if (string= (file-name-nondirectory (updir 3 f)) "lib")
-              (file-expand-wildcards (concat (updir 4 f) "/test/shared/" base))))
 
           (setq flymake-no-changes-timeout 3)
           (load "erlang-flymake")
           (setq
-           erlang-flymake-get-code-path-dirs-function (lambda() (epaths "ebin"))
-           erlang-flymake-get-include-dirs-function (lambda() (epaths "include")))
+           erlang-flymake-get-code-path-dirs-function
+           (lambda() (epaths "ebin"))
+           erlang-flymake-get-include-dirs-function
+           (lambda() (epaths "include")))
           (flymake-mode)))
     ;; stupid electricity
     (set-variable 'erlang-electric-commands nil)
