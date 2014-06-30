@@ -113,7 +113,7 @@
     (interactive)
     (insert "%% -*- mode: erlang; erlang-indent-level: 2 -*-\n")
     (insert (concat "%%% Created : " (erlang-skel-dd-mmm-yyyy) " by "
-                    (user-full-name) " <" erlang-skel-mail-address ">\n\n"))
+                    (user-full-name) " <" user-mail-address ">\n\n"))
     (insert "%% @doc\n")
     (insert "%% @end\n\n")
     (insert (concat "-module('" (erlang-get-module-from-file-name) "').\n"))
@@ -123,7 +123,7 @@
   (add-hook 'erlang-load-hook 'my-erlang-load-hook)
   (defun my-erlang-load-hook ()
     (setq
-     ;; syntax haighlighting
+     ;; syntax highlighting
      erl-atom-face              'default         ;'font-lock-doc-face
      erl-quotes-face            'font-lock-doc-string-face
      erl-list-operator-face     'font-lock-warning-face
@@ -135,7 +135,6 @@
      erl-macro-face             'font-lock-preprocessor-face
      erl-record-face            'font-lock-preprocessor-face
 
-;;     setq erlang-root-dir erlang-erl-path))     ;; find the man pages
      erlang-indent-level 2))
 
   (add-hook 'erlang-new-file-hook 'my-erlang-new-file-hook)
@@ -210,13 +209,13 @@
     (unless (null buffer-file-name)
       (make-local-variable 'compile-command)
       (setq compile-command
-            (if (file-exists-p "Makefile")
-                "make -k"
-              (concat
-               "erlc "
-               (if (file-exists-p "../ebin") "-o ../ebin " "")
-               (if (file-exists-p "../inc") "-I ../inc " "")
-               "+debug_info -W " buffer-file-name))))))
+            (cond ((file-exists-p "Makefile")  "make -k")
+                  ((file-exists-p "../Makefile")  "make -kC..")
+                  (t (concat
+                      "erlc "
+                      (if (file-exists-p "../ebin") "-o ../ebin " "")
+                      (if (file-exists-p "../include") "-I ../include " "")
+                      "+debug_info -W " buffer-file-name)))))))
 
 (defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
@@ -307,9 +306,10 @@
 
 (add-hook 'text-mode-hook 'my-text-mode-hook)
 (defun my-text-mode-hook ()
+  (setq ispell-program-name "hunspell")
+  (require 'rw-hunspell)
   (setq fill-column 79
         flyspell-dictionaries (quote ("american" "svenska")))
-  (longlines-mode t)
   (if (locate-library "highlight-parentheses")
       (highlight-parentheses-mode -1))
   (flyspell-mode))
@@ -349,7 +349,7 @@
 (defun my-elpa ()
   (interactive)
   (package-refresh-contents)
-  (dolist (p '(magit highlight-parentheses
+  (dolist (p '(magit highlight-parentheses rw-hunspell markdown-mode
                      sml-modeline js2-mode flymake-jshint))
     (progn
       (if (package-installed-p p)
@@ -368,11 +368,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background "#000"))))
- '(ediff-current-diff-A ((t (:background "color-23"))) t)
- '(ediff-current-diff-B ((t (:background "color-52"))) t)
+ '(ediff-current-diff-A ((t (:background "color-23"))))
+ '(ediff-current-diff-B ((t (:background "color-52"))))
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-diff-del ((t (:foreground "color-169"))))
- '(magit-item-highlight ((t (:background "color-237"))))
+ '(magit-item-highlight ((t (:background "color-234"))))
  '(sml-modeline-end-face ((t (:inherit match :foreground "black"))))
  '(sml-modeline-vis-face ((t (:inherit region :foreground "black")))))
 
