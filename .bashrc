@@ -52,6 +52,32 @@ function fgrep() {
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+gitstat ()
+{
+    if [ -z "$1" ]; then
+        base=~/git/*;
+    else
+        base=$1;
+    fi;
+    for d in $base;
+    do
+        echo -n `basename $d`;
+        echo -n " ";
+        ( cd $d;
+          stat=$(git status);
+          branch=$(echo $stat | grep -Eo "On branch .*$" | cut -f3 -d" ");
+          [ -z "$branch" ] && branch="!";
+          uptodate=$($(echo $stat | grep -q "is behind") && echo "!");
+          uptodate=$($(echo $stat | grep -q "is ahead") && echo "*");
+          uptodate=$($(echo $stat | grep -Eq "# Change|# Untra") && echo "#");
+          echo -n $branch;
+          echo -n "  ";
+          echo -n "("$uptodate")";
+          echo -n "  ";
+          echo $(2>/dev/null git describe --tags HEAD) );
+    done | column -t
+}
+
 function mygitps1() {
     if type __git_ps1 &> /dev/null ; then
         __git_ps1 "%s";
