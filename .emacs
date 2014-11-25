@@ -20,6 +20,7 @@
 (column-number-mode t)
 (iswitchb-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ; turn off bad shit
 (if (featurep 'tool-bar)   (tool-bar-mode   -1))
@@ -220,7 +221,13 @@
 
 (defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
-  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
+  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+  (autoload 'json-mode "json" nil t)
+  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
+
+(add-hook 'json-mode-hook
+          (lambda ()
+            (setq js-indent-level 2)))
 
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 (defun my-js2-mode-hook ()
@@ -355,7 +362,7 @@
   (interactive)
   (package-refresh-contents)
   (dolist (p '(magit highlight-parentheses rw-hunspell markdown-mode
-                     sml-modeline js2-mode flymake-jshint))
+                     sml-modeline js2-mode flymake-jshint json-mode))
     (progn
       (if (package-installed-p p)
           (message "already installed %s" p)

@@ -16,8 +16,8 @@
 
 # droppings
 /.Xauthority
-/.aspell.*
 /.account
+/.aspell.*
 /.bash_history
 /.boxes/
 /.cache/
@@ -32,28 +32,30 @@
 /.lesshst
 /.local/
 /.npm/
+/.psci_modules/
+/.purescript/
 /.rnd
 /.serverauth*
 /.ssh/
 /.subversion/
 /.vagrant.d/
 /.wine/
-/Dropbox/
 /DOS Games/
-/VirtualBox VMs/
+/Dropbox/
 /Google Drive/
 /Sports Interactive/
-/iterm.log
+/VirtualBox VMs/
 /boxes/
 /epub/
+/iterm.log
 /rasperl/
 
 # erlang droppings
 *.trz
+/.dialyzer_plt
 /.erlang-flymake/
+/.erlang.cookie
 /flymaker.log
-.erlang.cookie
-.dialyzer_plt
 
 # git projects
 /git/
