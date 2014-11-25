@@ -15,6 +15,11 @@
 
 
 # droppings
+foo*
+*~
+\#*
+.\#*
+
 /.Xauthority
 /.account
 /.aspell.*
@@ -48,14 +53,11 @@
 /boxes/
 /epub/
 /iterm.log
-/rasperl/
 
 # erlang droppings
-*.trz
 /.dialyzer_plt
-/.erlang-flymake/
 /.erlang.cookie
-/flymaker.log
+erl_crash.dump
 
 # git projects
 /git/

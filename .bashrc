@@ -6,6 +6,13 @@
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 [ -d /opt/bin ] && export PATH=$PATH:/opt/bin
 
+# force globbing on
+set +f
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
 # one locale to rule them all
 unset  LC_ALL
 unset  LANGUAGE
@@ -35,6 +42,7 @@ pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
 
 # find-grep
 function fgrep() {
+    local d n
     set -f
     [ -z "$1" ] && exit 1
     [ -n "$2" ] && d="$2" || d="."
@@ -44,38 +52,56 @@ function fgrep() {
               -path "*/.eunit" -prune -o \
               -path "*/.deps" -prune -o \
               -path "*/deps" -prune -o \
-              -type f $n -exec grep -iIH "$1" {} \;
+              -path "*~" -prune -o \
+              -type f $n -exec grep -inIH "$1" {} \;
     set +f
 }
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-gitstat ()
-{
+function gitstat () {
     if [ -z "$1" ]; then
         base=~/git/*;
     else
         base=$1;
     fi;
-    for d in $base;
-    do
+    for d in $base; do
         echo -n `basename $d`;
         echo -n " ";
         ( cd $d;
           stat=$(git status);
           branch=$(echo $stat | grep -Eo "On branch .*$" | cut -f3 -d" ");
+          [ -z "$branch" ] && \
+              branch=$(echo $stat | \
+                              grep -Eo "HEAD detached at .*$|Not currently on any" | \
+                              echo "DETACHED");
           [ -z "$branch" ] && branch="!";
           uptodate=$($(echo $stat | grep -q "is behind") && echo "!");
-          uptodate=$($(echo $stat | grep -q "is ahead") && echo "*");
-          uptodate=$($(echo $stat | grep -Eq "# Change|# Untra") && echo "#");
+          [ -z "$uptodate" ] && \
+              uptodate=$($(echo $stat | grep -q "is ahead") && echo "*");
+          [ -z "$uptodate" ] && \
+              uptodate=$($(echo $stat | \
+                                  grep -Eq "# Changes|# Untracked") && echo "#");
           echo -n $branch;
           echo -n "  ";
           echo -n "("$uptodate")";
           echo -n "  ";
           echo $(2>/dev/null git describe --tags HEAD) );
     done | column -t
+}
+
+function gitupd() {
+    if [ -z "$1" ]; then
+        base=~/git/*
+    else
+        base=$1
+    fi
+    for d in $base
+    do
+        echo `basename $d`
+        (
+            cd $d
+            git remote update 1> /dev/null
+        )
+    done
 }
 
 function mygitps1() {
