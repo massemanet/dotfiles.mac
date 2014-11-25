@@ -21,8 +21,5 @@
   who = "!git shortlog -s -- | sort -n -k1"
   alias = "!git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'"
 
-[core]
-# global per user gitignore file
-  excludesfile = "~/.gitignore_global"
 [push]
 	default = simple

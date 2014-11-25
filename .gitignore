@@ -10,21 +10,20 @@
 /Public/
 /Sites/
 .CFUserTextEncoding
+.DS_Store
 .Trash/
 .cups/
 
-
 # droppings
-foo*
 *~
-\#*
 .\#*
+\#*
+foo*
 
 /.Xauthority
 /.account
 /.aspell.*
 /.bash_history
-/.boxes/
 /.cache/
 /.config/
 /.ddd/
@@ -55,9 +54,10 @@ foo*
 /iterm.log
 
 # erlang droppings
+*.beam
+erl_crash.dump
 /.dialyzer_plt
 /.erlang.cookie
-erl_crash.dump
 
 # git projects
 /git/
