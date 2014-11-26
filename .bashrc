@@ -71,15 +71,17 @@ function gitstat () {
           branch=$(echo $stat | grep -Eo "On branch .*$" | cut -f3 -d" ");
           [ -z "$branch" ] && \
               branch=$(echo $stat | \
-                              grep -Eo "HEAD detached at .*$|Not currently on any" | \
-                              echo "DETACHED");
-          [ -z "$branch" ] && branch="!";
+                              grep -Eo "HEAD detached|Not currently on any" | \
+                              echo "!");
+          [ -z "$branch" ] && branch="()";
           uptodate=$($(echo $stat | grep -q "is behind") && echo "!");
           [ -z "$uptodate" ] && \
               uptodate=$($(echo $stat | grep -q "is ahead") && echo "*");
           [ -z "$uptodate" ] && \
+              uptodate=$($(echo $stat | grep -q "diverged") && echo "<");
+          [ -z "$uptodate" ] && \
               uptodate=$($(echo $stat | \
-                                  grep -Eq "# Changes|# Untracked") && echo "#");
+                                  grep -Eq "Changes|Untracked") && echo "#");
           echo -n $branch;
           echo -n "  ";
           echo -n "("$uptodate")";
