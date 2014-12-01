@@ -24,6 +24,7 @@ foo*
 /.account
 /.aspell.*
 /.bash_history
+/.boot2docker/
 /.cache/
 /.config/
 /.ddd/

@@ -2,4 +2,4 @@
 ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 
 brew install bash-completion coreutils emacs erlang git mobile-shell tmux \
-             aspell autoconf automake node wget
+             aspell autoconf automake node wget boot2docker
