@@ -18,7 +18,7 @@
 (global-font-lock-mode t)
 (delete-selection-mode t)
 (column-number-mode t)
-(iswitchb-mode t)
+(ido-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)
 ;;(add-hook 'after-init-hook #'global-flycheck-mode)
 
