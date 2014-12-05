@@ -38,10 +38,10 @@
     (progn
       (require 'package)
       (package-initialize)
-      (add-to-list 'package-archives
-                   '("ELPA" . "http://tromey.com/elpa/"))
-      (add-to-list 'package-archives
-                   '("marmalade" . "http://marmalade-repo.org/packages/"))))
+      (setq package-archives
+            '(("gnu" . "http://elpa.gnu.org/packages/")
+              ("marmalade" . "https://marmalade-repo.org/packages/")
+              ("melpa" . "http://melpa.milkbox.net/packages/")))))
 
 (setq-default
  indent-tabs-mode         nil)
@@ -378,19 +378,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background "#000"))))
- '(ediff-current-diff-A ((t (:background "color-23"))) t)
- '(ediff-current-diff-B ((t (:background "color-52"))) t)
- '(flymake-errline ((t (:background "color-52"))))
- '(magit-diff-add ((t (:foreground "green"))))
- '(magit-diff-del ((t (:foreground "color-169"))))
- '(magit-item-highlight ((t (:background "color-234"))))
+ '(default               ((t (:background "#000"))))
+ '(ediff-current-diff-A  ((t (:background "color-23"))) t)
+ '(ediff-current-diff-B  ((t (:background "color-52"))) t)
+ '(flymake-errline       ((t (:background "color-52"))))
+ '(magit-diff-add        ((t (:foreground "green"))))
+ '(magit-diff-del        ((t (:foreground "color-169"))))
+ '(magit-item-highlight  ((t (:background "color-234"))))
  '(sml-modeline-end-face ((t (:inherit match :foreground "black"))))
  '(sml-modeline-vis-face ((t (:inherit region :foreground "black")))))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values (quote ((allout-layout . t) (erlang-indent-level . 4) (erlang-indent-level . 2)))))
