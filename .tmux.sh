@@ -10,7 +10,7 @@ elif [ $nsession -eq 0 ]; then
     tmux new-session -d
     tmux send-keys -t 0 "emacs" C-m
     tmux split-window
-    tmux send-keys -t 1 "erl" C-m
+    tmux send-keys -t 1 "erl -sname erl@localhost -pa ~/git/eper/ebin" C-m
     tmux split-window
 fi
 
