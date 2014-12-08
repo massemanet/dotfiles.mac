@@ -28,10 +28,12 @@ else
     tmux -q resize-pane -t 1 -x 81 > /dev/null
 fi
 
-# move emacs, if it exists, to pane 0 (narrrow) or pane 1 (wide)
+# panes alist
 panes=$(tmux list-panes -F "#P:#{pane_current_command}\n")
-if [ $(echo $panes | grep -Eo ":emacs" | wc -l) -eq 1 ]; then
-    emacspane=$(echo $panes | grep -Eo "[0-9]*:emacs" | cut -f1 -d":")
+
+# move emacs, if it exists, to pane 0 (narrrow) or pane 1 (wide)
+emacspane=$(echo $panes | grep -Eo "[0-9]*:emacs" | cut -f1 -d":" | head -1)
+if [ -n "$emacspane" ]; then
     if [ -n "$narrowp" ]; then
         tmux swap-pane -s $emacspane -t 0
     else
