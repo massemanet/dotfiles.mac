@@ -21,17 +21,17 @@ fi
 W=$(tmux list-sessions | grep -Eo "\[[0-9]*x" | cut -f1 -d"x" | cut -f2 -d"[")
 [ $W -lt 240 ] && narrowp="t" || narrowp=""
 if [ -n "$narrowp" ]; then
-    tmux set-window-option main-pane-width 81
-    tmux select-layout main-vertical
+    tmux -q set-window-option main-pane-width 81  > /dev/null
+    tmux -q select-layout main-vertical > /dev/null
 else
-    tmux select-layout even-horizontal
-    tmux resize-pane -t 1 -x 81
+    tmux -q select-layout even-horizontal > /dev/null
+    tmux -q resize-pane -t 1 -x 81 > /dev/null
 fi
 
 # move emacs, if it exists, to pane 0 (narrrow) or pane 1 (wide)
-emacsen=$(tmux list-panes -F "#P:#{pane_current_command}" | grep emacs)
-if [ $(echo $emacsen | wc -l) -eq 1 ]; then
-    emacspane=$(echo $emacsen | cut -f1 -d":")
+panes=$(tmux list-panes -F "#P:#{pane_current_command}\n")
+if [ $(echo $panes | grep -Eo ":emacs" | wc -l) -eq 1 ]; then
+    emacspane=$(echo $panes | grep -Eo "[0-9]*:emacs" | cut -f1 -d":")
     if [ -n "$narrowp" ]; then
         tmux swap-pane -s $emacspane -t 0
     else
@@ -39,9 +39,10 @@ if [ $(echo $emacsen | wc -l) -eq 1 ]; then
     fi
 fi
 
-# select the bash window (pane 2)
-tmux select-pane -t 2
+# select a bash window, if there is one
+bashpane=$(echo $panes | grep -Eo "[0-9]*:bash" | cut -f1 -d":" | head -1)
+[ -n $bashpane ] && tmux select-pane -t $bashpane
 
 # attach if needed
 $(tmux list-session | grep -q attached) && attachedp="t" || attachedp=""
-[ -z "$attachedp" ] && tmux attach
+[ -n "$attachedp" ] || tmux attach

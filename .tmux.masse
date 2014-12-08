@@ -1,8 +1,0 @@
-# -*- mode: shell-script -*-
-send-keys     emacs C-m
-split-window  -t 0
-send-keys     'erl -pa ~/git/eper/ebin -sname erl@localhost' C-m
-split-window  -t 1
-set-window-option main-pane-width 81
-select-layout main-vertical
-select-pane   -t 0
