@@ -1,7 +1,9 @@
 #!/bin/bash
+# set up three panes; emacs, erl, bash.
+# change layout depending on how wide the terminal is.
 
 # make sure we have exactly one session
-# if there is no session, start it, and start emacs in pane 0
+# if there is no session, start it, and start emacs in pane 0, erl in pane 1
 nsession=$(2>/dev/null tmux list-session | wc -l)
 if [ $nsession -gt 1 ]; then
     echo "many sessions"
@@ -12,10 +14,12 @@ elif [ $nsession -eq 0 ]; then
     tmux split-window
     tmux send-keys -t 1 "erl -sname erl@localhost -pa ~/git/eper/ebin" C-m
     tmux split-window
+    sleep 1
 fi
 
 # check if the term is narrow/wide, set layout accordingly
-[ $(tput cols) -lt 240 ] && narrowp="t" || narrowp=""
+W=$(tmux list-sessions | grep -Eo "\[[0-9]*x" | cut -f1 -d"x" | cut -f2 -d"[")
+[ $W -lt 240 ] && narrowp="t" || narrowp=""
 if [ -n "$narrowp" ]; then
     tmux set-window-option main-pane-width 81
     tmux select-layout main-vertical
@@ -34,6 +38,9 @@ if [ $(echo $emacsen | wc -l) -eq 1 ]; then
         tmux swap-pane -s $emacspane -t 1
     fi
 fi
+
+# select the bash window (pane 2)
+tmux select-pane -t 2
 
 # attach if needed
 $(tmux list-session | grep -q attached) && attachedp="t" || attachedp=""
