@@ -10,7 +10,7 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 unset  LC_ALL
 unset  LANGUAGE
 unset  LC_CTYPE
-export LANG=en_US.UTF-8
+export LANG=`locale -a | grep -Ei "en.us.utf"`
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -27,13 +27,13 @@ LS=ls ; [ `which gls 2> /dev/null` ] && LS=gls
 DIRCOLS=dircolors ; [ `which gdircolors 2> /dev/null` ] && DIRCOLS=gdircolors
 
 # Enable sane completion
-. `brew --prefix`/etc/bash_completion
+BASH_COMPLETION=$(brew --prefix)/etc/bash_completion
+[ -f $BASH_COMPLETION ] && . $BASH_COMPLETION
 
 # define some git helpers
 [ -f ~/.gitfunctions ] && . ~/.gitfunctions
 
 # emacs
-EMACS=`brew --prefix`/bin/emacs
 export EDITOR=$EMACS
 
 # gitified prompt
@@ -106,7 +106,7 @@ dird()  { dir -d "$@";}
 dira()  { for d in "${@:-.}"; do (cd "$d";pwd; dird .*); done;}
 rea()   { history | egrep "${@:-}";}
 m()     { less "$@";}
-e()     { $EMACS -nw "$@";}
+e()     { emacs -nw "$@";}
 c()     { cat "$@";}
 
 ## history
