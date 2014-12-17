@@ -1,7 +1,6 @@
 #!/bin/bash
 # -*- mode: shell-script -*-
 
-local d n
 set -f
 [ -z "$1" ] && set +f && exit 1
 [ -n "$2" ] && d="$2" || d="."

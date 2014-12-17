@@ -1,0 +1,30 @@
+# -*- mode: shell-script -*-
+#!/bin/bash
+
+function usage () {
+    echo "$1"
+    exit
+}
+
+# get homebrew
+if test ! $(which brew); then
+    echo "Installing homebrew..."
+    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+fi
+
+# Install stuff
+brew update
+brew install aspell autoconf automake bash bash-completion boot2docker \
+             coreutils emacs erlang findutils git hunspell node tmux wget
+
+# Install more recent versions of some OS X tools
+brew tap homebrew/dupes
+brew install homebrew/dupes/grep
+
+# link some nice stuff
+ULB=/usr/local/bin
+[ -x $ULB/find ] || ln -s $(brew --prefix findutils)/bin/gfind $ULB/find
+[ -x $ULB/xargs ] || ln -s $(brew --prefix findutils)/bin/gxargs $ULB/xargs
+[ -x $ULB/grep ] || ln -s $(brew --prefix grep)/bin/ggrep $ULB/grep
+
+echo "add coreutils to PATH: /usr/local/opt/coreutils/libexec/gnubin"

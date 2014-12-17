@@ -5,6 +5,8 @@
 # one path to rule them all
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 [ -d /opt/bin ] && export PATH=$PATH:/opt/bin
+CU=$(brew --prefix coreutils)
+[ -n "$CU" ] && export PATH=$CU/libexec/gnubin:$PATH
 
 # one locale to rule them all
 unset  LC_ALL
