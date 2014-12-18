@@ -71,8 +71,6 @@ function mygitdir () {
 
 PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi'
 if [ "$TERM" != "dumb" ]; then
-    # enable color support of grep
-    export GREP_OPTIONS='--color=auto'
     # enable color support of ls
     lscols=auto
     [ -f $HOME/.dircolors ] && eval "`$DIRCOLS -b $HOME/.dircolors`"
@@ -98,6 +96,7 @@ else
 fi
 
 # macos doesn't have pgrep/pkill
+grep()  { $(brew --prefix grep)/bin/ggrep --color=auto "$@"; }
 fgrep() { ~/.fgrep.sh "$@"; }
 tmx()   { ~/.tmux.sh; }
 pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
