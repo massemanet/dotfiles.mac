@@ -29,8 +29,8 @@ LS=ls ; [ `which gls 2> /dev/null` ] && LS=gls
 DIRCOLS=dircolors ; [ `which gdircolors 2> /dev/null` ] && DIRCOLS=gdircolors
 
 # Enable sane completion
-BASH_COMPLETION=$(brew --prefix)/etc/bash_completion
-[ -f $BASH_COMPLETION ] && . $BASH_COMPLETION
+bash_completion=$(brew --prefix)/etc/bash_completion
+[ -f $bash_completion ] && . $bash_completion
 
 # define some git helpers
 [ -f ~/.gitfunctions ] && . ~/.gitfunctions
