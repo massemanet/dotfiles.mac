@@ -256,6 +256,12 @@
   (require 'psvn)
   (setq svn-status-custom-hide-function 'my-svn-status-hide))
 
+;; this is default in emacs 24.4
+(if (locate-library "uniquify")
+    (progn
+      (require 'uniquify)
+      (setq uniquify-buffer-name-style 'post-forward-angle-brackets)))
+
 (if (locate-library "sml-modeline")
     (progn
       (require 'sml-modeline)
