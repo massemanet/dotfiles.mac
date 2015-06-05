@@ -38,6 +38,7 @@ foo*
 /.lesshst
 /.local/
 /.npm/
+/.openvr/
 /.psci_modules/
 /.purescript/
 /.rnd
