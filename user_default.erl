@@ -61,8 +61,9 @@ tab() ->
   io:setopts([{expand_fun,fun(B)->rpc:call(N,edlin_expand,expand,[B]) end}]).
 
 dump(Term)->
-  {ok,FD}=file:open(filename:join([os:getenv("HOME"),"erlang.dump"]),[write]),
-  try wr(FD,"~p.~n",Term)
+  File = filename:join([os:getenv("HOME"),"erlang.dump"]),
+  {ok,FD}=file:open(File,[write]),
+  try wr(FD,"~p.~n",Term),File
   after file:close(FD)
   end.
 
