@@ -58,6 +58,7 @@ foo*
 
 # erlang droppings
 *.beam
+*.dump
 erl_crash.dump
 /.dialyzer_plt
 /.erlang.cookie
