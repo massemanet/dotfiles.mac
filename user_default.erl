@@ -6,19 +6,20 @@
 
 -module('user_default').
 -author('Mats Cronqvist').
--export([ineti/0
-         ,ports/0
-         ,export_all/1
-         ,tab/0
-         ,long/1,flat/1,dump/1
-         ,e/2
-         ,kill/1
-         ,pi/1,pi/2
-         ,os/1
-         ,callstack/1
-         ,bt/1
-         ,pid/1
-         ,lm/0]).
+-export([ineti/0,
+         sig/1,sig/2,
+         ports/0,
+         export_all/1,
+         tab/0,
+         long/1,flat/1,dump/1,
+         e/2,
+         kill/1,
+         pi/1,pi/2,
+         os/1,
+         callstack/1,
+         bt/1,
+         pid/1,
+         lm/0]).
 
 %% recompiles M with export_all without access to the source.
 export_all(M) ->
@@ -55,6 +56,23 @@ lm() ->
     end,
 
   [Load(M,F) || {M,F} <- code:all_loaded(), MD5Loaded(M) =/= MD5File(F)].
+
+sig(M,F) ->
+  [{F,lists:usort([[siga(A) || A <- As]
+                   || {clause,_,As,_,_} <- C])}
+   || {function,_,G,_,C} <- forms(M),F==G].
+siga({var,_,V}) -> V;
+siga({cons,_,_,_}) -> list;
+siga({nil,_}) -> list;
+siga({match,_,A1,A2}) -> {siga(A1),siga(A2)};
+siga(X) -> X.
+
+sig(M) ->
+  [{F,A}||{function,_,F,A,_}<-forms(M)].
+forms(M) ->
+  {ok,{M,[{"Abst",B}]}} = beam_lib:chunks(code:which(M),["Abst"]),
+  {_,Forms} = binary_to_term(B),
+  Forms.
 
 tab() ->
   N=node(),
