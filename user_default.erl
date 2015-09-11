@@ -6,8 +6,9 @@
 
 -module('user_default').
 -author('Mats Cronqvist').
+
 -export([ineti/0,
-         sig/1,sig/2,
+         sig/2,sig/3,
          ports/0,
          export_all/1,
          tab/0,
@@ -57,23 +58,6 @@ lm() ->
 
   [Load(M,F) || {M,F} <- code:all_loaded(), MD5Loaded(M) =/= MD5File(F)].
 
-sig(M,F) ->
-  [{F,lists:usort([[siga(A) || A <- As]
-                   || {clause,_,As,_,_} <- C])}
-   || {function,_,G,_,C} <- forms(M),F==G].
-siga({var,_,V}) -> V;
-siga({cons,_,_,_}) -> list;
-siga({nil,_}) -> list;
-siga({match,_,A1,A2}) -> {siga(A1),siga(A2)};
-siga(X) -> X.
-
-sig(M) ->
-  [{F,A}||{function,_,F,A,_}<-forms(M)].
-forms(M) ->
-  {ok,{M,[{"Abst",B}]}} = beam_lib:chunks(code:which(M),["Abst"]),
-  {_,Forms} = binary_to_term(B),
-  Forms.
-
 tab() ->
   N=node(),
   io:setopts([{expand_fun,fun(B)->rpc:call(N,edlin_expand,expand,[B]) end}]).
@@ -85,7 +69,8 @@ dump(Term)->
   after file:close(FD)
   end.
 
-flat(L) -> wr("~s~n",lists:flatten(L)).
+flat(Term) -> flat("~p~n",[Term]).
+flat(Form,List) -> wr("~s",io_lib:format(Form,List)).
 
 long(X) -> wr(X).
 
@@ -99,6 +84,17 @@ pi(P,Item) -> process_info(pid(P),Item).
 
 os(Cmd) ->
   lists:foreach(fun(X)->wr("~s~n",X)end,string:tokens(os:cmd(Cmd),"\n")).
+
+sig(M,F) ->
+  sig(M,F,'').
+sig(M,F,A) ->
+  {ok,{M,[{"Abst",Chunk}]}} = beam_lib:chunks(code:which(M),["Abst"]),
+  {_,Abst} = binary_to_term(Chunk),
+  Arg = fun(AA) -> string:join([erl_pp:expr(A1)||A1 <- AA],",") end,
+  Grd = fun(GG) -> erl_pp:guard(GG) end,
+  PP = fun(M0,F0,A0,G0) -> flat("~w:~w(~s) ~s~n",[M0,F0,Arg(A0),Grd(G0)]) end,
+  [[PP(M,F,AA,GG) || {clause,_,AA,GG,_} <- As]
+   || {function,_,Fn,Ari,As} <- Abst, A == '' orelse Ari == A, Fn == F].
 
 wr(E) -> wr("~p.~n",E).
 wr(F,E) -> wr(user,F,E).
