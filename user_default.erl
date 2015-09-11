@@ -93,9 +93,9 @@ sig(M,F,A) ->
   {ok,{M,[{"Abst",Chunk}]}} = beam_lib:chunks(code:which(M),["Abst"]),
   {_,Abst} = binary_to_term(Chunk),
   Exports = lists:append([FAs || {attribute,_,export,FAs} <- Abst]),
-  Arg = fun(AA) -> string:join([erl_pp:expr(A1)||A1 <- AA],",") end,
+  Arg = fun(AA) -> string:join([erl_pp:expr(A1) || A1 <- AA],",") end,
   Grd = fun(GG) -> erl_pp:guard(GG) end,
-  PP = fun(M0,F0,A0,G0) -> flat("~w:~w(~s) ~s~n",[M0,F0,Arg(A0),Grd(G0)]) end,
+  PP  = fun(M0,F0,A0,G) -> flat("~w:~w(~s) ~s~n",[M0,F0,Arg(A0),Grd(G)]) end,
   length([[PP(M,Fn,AA,GG) || {clause,_,AA,GG,_} <- As]
           || {function,_,Fn,Ar,As} <- Abst,
              A == '' orelse A == Ar,
