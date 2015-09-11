@@ -8,7 +8,7 @@
 -author('Mats Cronqvist').
 
 -export([ineti/0,
-         sig/2,sig/3,
+         sig/1,sig/2,sig/3,
          ports/0,
          export_all/1,
          tab/0,
@@ -85,16 +85,22 @@ pi(P,Item) -> process_info(pid(P),Item).
 os(Cmd) ->
   lists:foreach(fun(X)->wr("~s~n",X)end,string:tokens(os:cmd(Cmd),"\n")).
 
+sig(M) ->
+  sig(M,'').
 sig(M,F) ->
   sig(M,F,'').
 sig(M,F,A) ->
   {ok,{M,[{"Abst",Chunk}]}} = beam_lib:chunks(code:which(M),["Abst"]),
   {_,Abst} = binary_to_term(Chunk),
+  Exports = lists:append([FAs || {attribute,_,export,FAs} <- Abst]),
   Arg = fun(AA) -> string:join([erl_pp:expr(A1)||A1 <- AA],",") end,
   Grd = fun(GG) -> erl_pp:guard(GG) end,
   PP = fun(M0,F0,A0,G0) -> flat("~w:~w(~s) ~s~n",[M0,F0,Arg(A0),Grd(G0)]) end,
-  [[PP(M,F,AA,GG) || {clause,_,AA,GG,_} <- As]
-   || {function,_,Fn,Ari,As} <- Abst, A == '' orelse Ari == A, Fn == F].
+  length([[PP(M,Fn,AA,GG) || {clause,_,AA,GG,_} <- As]
+          || {function,_,Fn,Ar,As} <- Abst,
+             A == '' orelse A == Ar,
+             F == '' orelse F == Fn,
+             lists:member({Fn,Ar},Exports)]).
 
 wr(E) -> wr("~p.~n",E).
 wr(F,E) -> wr(user,F,E).
