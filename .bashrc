@@ -5,8 +5,6 @@
 # one path to rule them all
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 [ -d /opt/bin ] && export PATH=$PATH:/opt/bin
-CU=$(brew --prefix coreutils)
-[ -n "$CU" ] && export PATH=$CU/libexec/gnubin:$PATH
 
 # one locale to rule them all
 unset  LC_ALL
@@ -25,11 +23,14 @@ set +f
 shopt -s checkwinsize
 
 # check for GNU ls
-LS=ls ; [ `which gls 2> /dev/null` ] && LS=gls
-DIRCOLS=dircolors ; [ `which gdircolors 2> /dev/null` ] && DIRCOLS=gdircolors
+CU=$(brew --prefix coreutils)
+[ -n "$CU" ] && export PATH=$CU/libexec/gnubin:$PATH
+GREP=grep ; [ $(which ggrep) ] && GREP=ggrep
+LS=ls ; [ $(which gls) ] && LS=gls
+DIRCOLORS=dircolors ; [ $(which gdircolors) ] && DIRCOLORS=gdircolors
+bash_completion=$(brew --prefix)/etc/bash_completion
 
 # Enable sane completion
-bash_completion=$(brew --prefix)/etc/bash_completion
 [ -f $bash_completion ] && . $bash_completion
 
 # define some git helpers
@@ -96,19 +97,19 @@ else
 fi
 
 # macos doesn't have pgrep/pkill
-grep()  { $(brew --prefix grep)/bin/ggrep --color=auto "$@"; }
-fgrep() { ~/.fgrep.sh "$@"; }
-tmx()   { ~/.tmux.sh; }
-pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
-pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
-dir()   { $LS --color=$lscols -lFh "$@";}
-dirt()  { dir -rt "$@";}
-dird()  { dir -d "$@";}
-dira()  { for d in "${@:-.}"; do (cd "$d";pwd; dird .*); done;}
-rea()   { history | egrep "${@:-}";}
-m()     { less "$@";}
-e()     { emacs -nw "$@";}
-c()     { cat "$@";}
+function grep()  { $GREP --color=auto "$@"; }
+function fgrep() { ~/.fgrep.sh "$@"; }
+function tmx()   { ~/.tmux.sh; }
+function pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
+function pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
+function dir()   { $LS --color=$lscols -lFh "$@";}
+function dirt()  { dir -rt "$@";}
+function dird()  { dir -d "$@";}
+function dira()  { for d in "${@:-.}"; do (cd "$d";pwd; dird .*); done;}
+function rea()   { history | egrep "${@:-}";}
+function m()     { less "$@";}
+function e()     { emacs -nw "$@";}
+function c()     { cat "$@";}
 
 ## history
 # lots of history

@@ -122,16 +122,16 @@ ineti() ->
 
 ineti(P) ->
   {_Fam,Type} = proplists:get_value(type,P),
-  [Status|_] = proplists:get_value(status,P),
+  [Status|_]  = proplists:get_value(status,P),
   {LIP,LPort} = proplists:get_value(local,P),
-  Sent = proplists:get_value(sent,P),
-  Recvd = proplists:get_value(received,P),
+  Sent        = proplists:get_value(sent,P),
+  Recvd       = proplists:get_value(received,P),
   {RIP,RPort} =
     case proplists:get_value(remote,P) of
       enotconn -> {"*","*"};
       {Rip,Rp} -> {inet_parse:ntoa(Rip),integer_to_list(Rp)}
     end,
-  io:fwrite("~14s:~-5w ~14s:~-5s ~w ~w ~w ~w~n",
+  io:fwrite("~15s:~-5w ~15s:~-5s ~7w ~9w ~w/~w~n",
             [inet_parse:ntoa(LIP),LPort,RIP,RPort,Type,Status,Sent,Recvd]).
 
 ports() ->

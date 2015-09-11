@@ -1,5 +1,10 @@
 ;; -*- mode: lisp -*-
 
+(defvar my-packages
+  '(magit highlight-parentheses rw-hunspell markdown-mode
+          purescript-mode sml-modeline js2-mode flymake-jshint json-mode)
+  "my packages, to be installed by package")
+
 ;; try to find and add my favourite paths
 (let ((ps (list "~/elisp/*.el"
                 "~/git/distel/elisp/*.el"
@@ -7,11 +12,11 @@
                          "echo -n `/usr/local/bin/brew --prefix erlang`")
                         "/lib/erlang/lib/tools-*/emacs/*.el"))))
   (dolist (f0 (nreverse ps))
-    (let ((f (car (file-expand-wildcards f0))))
+    (let ((f (car (ignore-errors (file-expand-wildcards f0)))))
       (when (and (stringp f) (file-exists-p f))
         (add-to-list 'load-path (file-name-directory f))))))
 
-; turn on good shit
+;; turn on good shit
 (set-language-environment "ASCII")
 (show-paren-mode t)
 (transient-mark-mode t)
@@ -32,16 +37,6 @@
 (if (fboundp 'custom-available-themes)
     (if (member 'tango-dark (custom-available-themes))
         (load-theme 'tango-dark)))
-
-; init package handler
-(if (locate-library "package")
-    (progn
-      (require 'package)
-      (package-initialize)
-      (setq package-archives
-            '(("gnu" . "http://elpa.gnu.org/packages/")
-              ("marmalade" . "https://marmalade-repo.org/packages/")
-              ("melpa" . "http://melpa.milkbox.net/packages/")))))
 
 (setq-default
  indent-tabs-mode         nil)
@@ -369,16 +364,25 @@
   (erc :server "irc.freenode.net" :nick "massemanet")
   (erc :server "irc.hq.kred" :nick "masse"))
 
+;; init package handler
+(if (locate-library "package")
+    (progn
+      (require 'package)
+      (package-initialize)
+      (setq package-archives
+            '(("gnu" . "http://elpa.gnu.org/packages/")
+              ("marmalade" . "https://marmalade-repo.org/packages/")
+              ("melpa" . "http://melpa.milkbox.net/packages/")))))
+
+;;my pyckages
 (defun my-elpa ()
   (interactive)
   (package-refresh-contents)
-  (dolist (p '(magit highlight-parentheses rw-hunspell markdown-mode
-                     sml-modeline js2-mode flymake-jshint json-mode))
-    (progn
-      (if (package-installed-p p)
-          (message "already installed %s" p)
-        (package-install p)))))
-
+  (dolist (p my-packages)
+    (if (not (package-installed-p p))
+        (package-install p)))
+  (dolist (p (package-menu--find-upgrades))
+    (package-install p)))
 
 ;; automatically added stuff
 
