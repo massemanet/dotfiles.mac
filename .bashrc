@@ -1,6 +1,14 @@
 # -*- mode: shell-script -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
+#
 # macos/homebrew style
+
+CU=$(brew --prefix coreutils)
+[ -n "$CU" ] && export PATH=$CU/libexec/gnubin:$PATH
+GREP=grep ; [ $(which ggrep) ] && GREP=ggrep
+LS=ls ; [ $(which gls) ] && LS=gls
+DIRCOLORS=dircolors ; [ $(which gdircolors) ] && DIRCOLORS=gdircolors
+bash_completion=$(brew --prefix)/etc/bash_completion
 
 # one path to rule them all
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
@@ -21,14 +29,6 @@ set +f
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
-# check for GNU ls
-CU=$(brew --prefix coreutils)
-[ -n "$CU" ] && export PATH=$CU/libexec/gnubin:$PATH
-GREP=grep ; [ $(which ggrep) ] && GREP=ggrep
-LS=ls ; [ $(which gls) ] && LS=gls
-DIRCOLORS=dircolors ; [ $(which gdircolors) ] && DIRCOLORS=gdircolors
-bash_completion=$(brew --prefix)/etc/bash_completion
 
 # Enable sane completion
 [ -f $bash_completion ] && . $bash_completion
@@ -74,7 +74,7 @@ PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi'
 if [ "$TERM" != "dumb" ]; then
     # enable color support of ls
     lscols=auto
-    [ -f $HOME/.dircolors ] && eval "`$DIRCOLS -b $HOME/.dircolors`"
+    [ -f $HOME/.dircolors ] && eval "`$DIRCOLORS -b $HOME/.dircolors`"
     # to get emacs -nw to use 256 colors
     export TERM=xterm-256color
     # set a fancy prompt
