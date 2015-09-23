@@ -3,12 +3,12 @@
 #
 # macos/homebrew style
 
+GREP=$(which ggrep)          || GREP=$(which grep)
+LS=$(which gls)              || LS=$(which ls)
+DIRCOLORS=$which(gdircolors) || DIRCOLORS=$(which dircolors)
+bash_completion=$(brew --prefix)/etc/bash_completion
 CU=$(brew --prefix coreutils)
 [ -n "$CU" ] && export PATH=$CU/libexec/gnubin:$PATH
-GREP=grep ; [ $(which ggrep) ] && GREP=ggrep
-LS=ls ; [ $(which gls) ] && LS=gls
-DIRCOLORS=dircolors ; [ $(which gdircolors) ] && DIRCOLORS=gdircolors
-bash_completion=$(brew --prefix)/etc/bash_completion
 
 # one path to rule them all
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
