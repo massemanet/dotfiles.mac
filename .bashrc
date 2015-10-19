@@ -3,16 +3,16 @@
 #
 # macos/homebrew style
 
+# one path to rule them all
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+[ -d /opt/bin ] && export PATH=$PATH:/opt/bin
+CU=$(brew --prefix coreutils)
+[ -n "$CU" ] && export PATH=$CU/libexec/gnubin:$PATH
+
 GREP=$(which ggrep)           || GREP=$(which grep)
 LS=$(which gls)               || LS=$(which ls)
 DIRCOLORS=$(which gdircolors) || DIRCOLORS=$(which dircolors)
 bash_completion=$(brew --prefix)/etc/bash_completion
-CU=$(brew --prefix coreutils)
-[ -n "$CU" ] && export PATH=$CU/libexec/gnubin:$PATH
-
-# one path to rule them all
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
-[ -d /opt/bin ] && export PATH=$PATH:/opt/bin
 
 # one locale to rule them all
 unset  LC_ALL

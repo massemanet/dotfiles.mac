@@ -56,6 +56,7 @@ foo*
 /VirtualBox VMs/
 /boxes/
 /epub/
+/ignore/
 /iterm.log
 
 # erlang droppings
