@@ -90,11 +90,10 @@ sig(M) ->
 sig(M,F) ->
   sig(M,F,'').
 sig(M,F,A) ->
-  case code:which(M) of
-    preloaded ->
-      preloaded;
-    File ->
-      {ok,{M,[{"Abst",Chunk}]}} = beam_lib:chunks(File,["Abst"]),
+  case code:get_object_code(M) of
+    error -> error;
+    {M,Beam,_FN} ->
+      {ok,{M,[{"Abst",Chunk}]}} = beam_lib:chunks(Beam,["Abst"]),
       {_,Abst} = binary_to_term(Chunk),
       Exports = lists:append([FAs || {attribute,_,export,FAs} <- Abst]),
       Arg = fun(AA) -> string:join([erl_pp:expr(A1) || A1 <- AA],",") end,
