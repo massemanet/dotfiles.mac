@@ -49,7 +49,7 @@
  scroll-down-aggressively 0.1
  scroll-up-aggressively   0.1
  special-display-regexps  nil
- user-mail-address        "masse@klarna.com"
+ user-mail-address        "mats.cronqvist@gmail.com"
  utf-translate-cjk-mode   nil
  visible-bell             t)
 
@@ -184,14 +184,9 @@
               (file-expand-wildcards (concat (updir 2 f) "/deps/*/" base)))
              (t
               nil)))
-          (defun klarna-paths (f base)
-            (if (string= (file-name-nondirectory (updir 3 f)) "lib")
-              (file-expand-wildcards
-               (concat (updir 4 f) "/test/shared/" base))))
           (defun epaths(base)
             (interactive)
-            (append (klarna-paths (buffer-file-name) base)
-                    (rebar-paths (buffer-file-name) base)
+            (append (rebar-paths (buffer-file-name) base)
                     (erlc-paths (buffer-file-name) base)))
 
           (setq flymake-no-changes-timeout 3)
@@ -394,12 +389,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default               ((t (:background "#000"))))
- '(ediff-current-diff-A  ((t (:background "color-23"))) t)
- '(ediff-current-diff-B  ((t (:background "color-52"))) t)
- '(flymake-errline       ((t (:background "color-52"))))
- '(magit-diff-add        ((t (:foreground "green"))))
- '(magit-diff-del        ((t (:foreground "color-169"))))
- '(magit-item-highlight  ((t (:background "color-234"))))
+ '(default ((t (:background "#000"))))
+ '(ediff-current-diff-A ((t (:background "color-23"))) t)
+ '(ediff-current-diff-B ((t (:background "color-52"))) t)
+ '(flymake-errline ((t (:background "color-52"))))
+ '(magit-diff-add ((t (:foreground "green"))))
+ '(magit-diff-del ((t (:foreground "color-169"))))
+ '(magit-item-highlight ((t (:background "color-234"))))
  '(sml-modeline-end-face ((t (:inherit match :foreground "black"))))
  '(sml-modeline-vis-face ((t (:inherit region :foreground "black")))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(purescript-mode-hook (quote (turn-on-purescript-indentation))))

@@ -38,6 +38,7 @@ foo*
 /.john/
 /.lesshst
 /.local/
+/.node_repl_history
 /.npm/
 /.openvr/
 /.psci_modules/
