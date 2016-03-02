@@ -28,6 +28,7 @@ foo*
 /.cache/
 /.config/
 /.ddd/
+/.deployinator/
 /.dropbox*/
 /.emacs.d/
 /.esets/
@@ -38,6 +39,7 @@ foo*
 /.john/
 /.lesshst
 /.local/
+/.localbashrc
 /.node_repl_history
 /.npm/
 /.openvr/

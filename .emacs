@@ -169,24 +169,37 @@
           (defun updir (n f)
             (if (eq n 0)
                 f
-              (updir (- n 1) (substring (file-name-directory f) 0 -1))))
+                (updir (- n 1) (substring (file-name-directory f) 0 -1))))
           (defun erlc-paths (f base)
             (cond
-             ((string= (file-name-nondirectory (updir 3 f)) "lib")
-              (file-expand-wildcards (concat (updir 3 f) "/*/" base)))
-             ((string= (file-name-nondirectory (updir 1 f)) "src")
-              (file-expand-wildcards (concat (updir 2 f) "/" base)))
-             (t
-              nil)))
+;;;           .../lib/*/{ebin,include}
+              ((string= (file-name-nondirectory (updir 3 f)) "lib")
+               (file-expand-wildcards (concat (updir 3 f) "/*/" base)))
+;;;           .../{src,ebin,include}
+              ((string= (file-name-nondirectory (updir 1 f)) "src")
+               (file-expand-wildcards (concat (updir 2 f) "/" base)))
+              (t
+               nil)))
           (defun rebar-paths (f base)
             (cond
-             ((string= (file-name-nondirectory (updir 1 f)) "src")
-              (file-expand-wildcards (concat (updir 2 f) "/deps/*/" base)))
-             (t
-              nil)))
+;;;           .../{src,deps/*/{ebin,include}}
+              ((string= (file-name-nondirectory (updir 1 f)) "src")
+               (file-expand-wildcards (concat (updir 2 f) "/deps/*/" base)))
+              (t
+               nil)))
+          (defun apps-paths (f base)
+            (cond
+;;;           .../{apps,deps}/*/{ebin,include}
+              ((string= (file-name-nondirectory (updir 3 f)) "apps")
+               (append
+                (file-expand-wildcards (concat (updir 3 f) "/*/" base))
+                (file-expand-wildcards (concat (updir 4 f) "/deps/*/" base))))
+              (t
+               nil)))
           (defun epaths(base)
             (interactive)
             (append (rebar-paths (buffer-file-name) base)
+                    (apps-paths (buffer-file-name) base)
                     (erlc-paths (buffer-file-name) base)))
 
           (setq flymake-no-changes-timeout 3)
@@ -393,6 +406,7 @@
  '(ediff-current-diff-A ((t (:background "color-23"))) t)
  '(ediff-current-diff-B ((t (:background "color-52"))) t)
  '(flymake-errline ((t (:background "color-52"))))
+ '(flymake-warnline ((t (:background "blue"))))
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-diff-del ((t (:foreground "color-169"))))
  '(magit-item-highlight ((t (:background "color-234"))))
