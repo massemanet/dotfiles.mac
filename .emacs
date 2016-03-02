@@ -25,7 +25,6 @@
 (column-number-mode t)
 (ido-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)
-;;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ; turn off bad shit
 (if (featurep 'tool-bar)   (tool-bar-mode   -1))
@@ -271,12 +270,6 @@
       (require 'uniquify)
       (setq uniquify-buffer-name-style 'post-forward-angle-brackets)))
 
-(if (locate-library "sml-modeline")
-    (progn
-      (require 'sml-modeline)
-      (sml-modeline-mode t)
-      (setq sml-modeline-numbers 'line-numbers)))
-
 (if (locate-library "fdlcap")
     (require 'fdlcap))
 
@@ -299,6 +292,16 @@
     (progn
       (require 'format-spec)
       (require 'git-blame)))
+
+(if (locate-library "sml-modeline")
+    (progn
+      (require 'sml-modeline)
+      (setq sml-modeline-numbers 'line-numbers)
+      (define-globalized-minor-mode global-sml-modeline-mode
+        sml-modeline-mode
+        (lambda ()
+          (sml-modeline-mode t)))
+      (global-sml-modeline-mode t)))
 
 (if (locate-library "highlight-parentheses")
     (progn
