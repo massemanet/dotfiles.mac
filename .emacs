@@ -61,8 +61,6 @@
       (message err))))
 
 (global-set-key (kbd "M-'")     'flymake-next-error)
-(global-set-key (kbd "M-N")     'last-line)
-(global-set-key (kbd "M-P")     'first-line)
 (global-set-key (kbd "C-c a")   'align-regexp)
 (global-set-key (kbd "C-c b")   'bury-buffer)
 (global-set-key (kbd "C-c p")   'point-to-register)
@@ -80,20 +78,6 @@
 (global-set-key (kbd "C-z")     'undo) ; be like a mac
 (global-set-key (kbd "M-z")     'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
-
-(defun last-line ()
-  (interactive)
-  (recenter -2))
-
-(defun first-line ()
-  (interactive)
-  (recenter 1))
-
-(defun macroexpand-point (sexp)
-  (interactive (list (sexp-at-point)))
-  (with-output-to-temp-buffer "*el-macroexpansion*"
-    (pp (macroexpand sexp)))
-  (with-current-buffer "*el-macroexpansion*" (emacs-lisp-mode)))
 
 (defun my-erlang-setup ()
   (setq safe-local-variable-values
@@ -155,12 +139,6 @@
 
   (add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
   (defun my-erlang-mode-hook ()
-    (defun erl-align-arrows ()
-      (interactive)
-      (align-regexp (region-beginning) (region-end) "\\(\\s-*\\)->" 1 1))
-    (local-set-key (kbd "M-L") 'erl-show-arglist)
-    (local-set-key (kbd "M-A") 'erl-align-arrows)
-
     ;; run flymake iff buffer has a file
     (if (and (locate-library "erlang-flymake")
              buffer-file-truename)
@@ -237,6 +215,7 @@
             (setq js-indent-level 2)))
 
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
+
 (defun my-js2-mode-hook ()
   (if (locate-library "flymake-jshint")
       (progn
