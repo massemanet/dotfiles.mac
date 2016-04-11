@@ -3,13 +3,13 @@
 # change layout depending on how wide the terminal is.
 
 # make sure we have exactly one session
+SESSION=masse
+
 # if there is no session, start it, and start emacs in pane 0, erl in pane 1
-nsession=$(2>/dev/null tmux list-session | wc -l)
-if [ $nsession -gt 1 ]; then
-    echo "many sessions"
-    exit 0
-elif [ $nsession -eq 0 ]; then
-    tmux new-session -d
+if $(tmux has-session -t =$SESSION); then
+    echo "session exists."
+else
+    tmux new-session -d -s $SESSION
     tmux send-keys -t 0 "emacs" C-m
     tmux split-window
     tmux send-keys -t 1 "erl -sname erl@localhost -pa ~/git/eper/ebin" C-m
@@ -18,7 +18,7 @@ elif [ $nsession -eq 0 ]; then
 fi
 
 # check if the term is narrow/wide, set layout accordingly
-W=$(tmux list-sessions | grep -Eo "\[[0-9]*x" | cut -f1 -d"x" | cut -f2 -d"[")
+W=$(tmux list-sessions | grep "$SESSION:" | cut -f2 -d"[" | cut -f1 -d"x")
 [ $W -lt 240 ] && narrowp="t" || narrowp=""
 if [ -n "$narrowp" ]; then
     tmux -q set-window-option main-pane-width 81  > /dev/null
@@ -45,6 +45,5 @@ fi
 bashpane=$(echo $panes | grep -Eo "[0-9]*:bash" | cut -f1 -d":" | head -1)
 [ -n $bashpane ] && tmux select-pane -t $bashpane
 
-# attach if needed
-$(tmux list-session | grep -q attached) && attachedp="t" || attachedp=""
-[ -n "$attachedp" ] || tmux attach
+Q=$(tmux list-sessions | grep "$SESSION:" | grep "(attached)")
+[ -z "$Q" ] && tmux attach -t $SESSION
