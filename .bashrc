@@ -40,30 +40,15 @@ shopt -s checkwinsize
 export EDITOR=emacs
 
 # gitified prompt
-function mygitps1() {
-    if type __git_ps1 &> /dev/null ; then
-        __git_ps1 "%s";
-    else
-        for b in `git log --format='%d' 2> /dev/null | head -1 | tr "(,)" " "`
-        do echo $b | awk '
-/HEAD/       {next}
-/origin\//   {next}
-/upstream\// {next}
-/tag:/       {next}
-             {print $1}'
-        done | head -1
-    fi
+function mygitbranch() {
+    git rev-parse --abbrev-ref HEAD
 }
 
 # find the basename of the dir that contains the current .git
 function mygitdir () {
     local D;
-    D=`git rev-parse --git-dir 2> /dev/null`
-    [ "$D" == ".git" ] && D="$PWD/$D"
-    D=`dirname "$D"`
-    if [ "$D" == "." ]; then
-        echo "";
-    elif [ "$D" == ~ ]; then
+    D=$(git rev-parse --show-toplevel)
+    if [ "$D" == ~ ] ; then
         echo "~";
     else
         basename "$D"
@@ -84,11 +69,11 @@ if [ "$TERM" != "dumb" ]; then
 
     if [ "$USER" == "root" ];then
         PS1='\[$(tput setaf 5)\]\h\[$(tput setaf 3)\]'
-        PS1+='($(mygitdir):$(mygitps1))\[$(tput setaf 2)\]'
+        PS1+='($(mygitdir):$(mygitbranch))\[$(tput setaf 2)\]'
         PS1+='${ERROR_FLAG:+\[$(tput setaf 1)\]}#\[$(tput sgr0)\] '
     else
         PS1='\[$(tput setaf 3)\]\h\[$(tput setaf 5)\]'
-        PS1+='($(mygitdir):$(mygitps1))\[$(tput setaf 2)\]'
+        PS1+='($(mygitdir):$(mygitbranch))\[$(tput setaf 2)\]'
         PS1+='${ERROR_FLAG:+\[$(tput setaf 1)\]}\$\[$(tput sgr0)\] '
     fi
 else
