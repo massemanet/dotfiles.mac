@@ -171,6 +171,9 @@
                (append
                 (file-expand-wildcards (concat (updir 3 f) "/*/" base))
                 (file-expand-wildcards (concat (updir 4 f) "/deps/*/" base))))
+              ((string= (file-name-nondirectory (updir 3 f)) "deps")
+               (append
+                (file-expand-wildcards (concat (updir 3 f) "/*/" base))))
               (t
                nil)))
           (defun epaths(base)
