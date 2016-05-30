@@ -36,15 +36,20 @@ export_all(M) ->
 lm() ->
   MD5File =
     fun(F) ->
-        case beam_lib:md5(F) of
-          {ok,{_,<<I:128>>}} -> [I];
-          _ -> undefined
+        case F of
+          preloaded -> preloaded;
+          _ ->
+            {ok,{_,MD5}} = beam_lib:md5(F),
+            MD5
         end
     end,
 
   MD5Loaded =
     fun(M) ->
-        proplists:get_value(vsn,M:module_info(attributes))
+        case M:module_info(compile) of
+          [] -> preloaded;
+          _  -> M:module_info(md5)
+        end
     end,
 
   Load =
