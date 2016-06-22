@@ -4,11 +4,11 @@
 # show status of all repos under "$1" (deafults to "~/git")
 function gitstat () {
     if [ -z "$1" ]; then
-        base=~/git/*;
+        base=~/git;
     else
         base=$1;
     fi;
-    for d in $base; do
+    for d in $base/* ; do
         echo -n `basename $d`;
         echo -n " ";
         ( cd $d;
@@ -19,14 +19,13 @@ function gitstat () {
                               grep -Eo "HEAD detached|Not currently on any" | \
                               echo "!");
           [ -z "$branch" ] && branch="()";
-          uptodate=$($(echo $stat | grep -q "is behind") && echo "!");
+              uptodate=$($(echo $stat | grep -q "is behind") && echo "!");
           [ -z "$uptodate" ] && \
               uptodate=$($(echo $stat | grep -q "is ahead") && echo "*");
           [ -z "$uptodate" ] && \
               uptodate=$($(echo $stat | grep -q "diverged") && echo "<");
           [ -z "$uptodate" ] && \
-              uptodate=$($(echo $stat | \
-                                  grep -Eq "Changes|Untracked") && echo "#");
+              uptodate=$($(echo $stat | grep -Eq "Change|Untrac") && echo "#");
           echo -n $branch;
           echo -n "  ";
           echo -n "("$uptodate")";
