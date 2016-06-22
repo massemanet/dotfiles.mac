@@ -41,13 +41,13 @@ export EDITOR=emacs
 
 # gitified prompt
 function mygitbranch() {
-    git rev-parse --abbrev-ref HEAD
+    2> /dev/null git rev-parse --abbrev-ref HEAD
 }
 
 # find the basename of the dir that contains the current .git
 function mygitdir () {
     local D;
-    D=$(git rev-parse --show-toplevel)
+    D=$(2> /dev/null git rev-parse --show-toplevel)
     if [ "$D" == ~ ] ; then
         echo "~";
     else
