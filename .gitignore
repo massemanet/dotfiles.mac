@@ -24,6 +24,7 @@ foo*
 /.account
 /.aspell.*
 /.bash_history
+/.bash_sessions/
 /.boot2docker/
 /.cache/
 /.config/
@@ -32,6 +33,7 @@ foo*
 /.dropbox*/
 /.docker/
 /.emacs.d/
+/.escobar/
 /.esets/
 /.fontconfig/
 /.gdb_history
