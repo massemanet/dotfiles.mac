@@ -41,7 +41,11 @@ export EDITOR=emacs
 
 # gitified prompt
 function mygitbranch() {
-    2> /dev/null git rev-parse --abbrev-ref HEAD
+    if 2>&1 type __git_ps1 >/dev/null ; then
+        __git_ps1 | cut -f1 -d")" | cut -f2 -d"("
+    else
+        2> /dev/null git rev-parse --abbrev-ref HEAD
+    fi
 }
 
 # find the basename of the dir that contains the current .git
