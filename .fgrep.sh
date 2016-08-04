@@ -6,6 +6,7 @@ set -f
 [ -n "$2" ] && d="$2" || d="."
 [ -n "$3" ] && n="-name $3"
 find "$d" \
+     -follow \
      -path "*/.svn"   -prune -o \
      -path "*/.git"   -prune -o \
      -path "*/.eunit" -prune -o \
