@@ -1,7 +1,7 @@
 ;; -*- mode: lisp -*-
 
 (defvar my-packages
-  '(magit highlight-parentheses rw-hunspell markdown-mode
+  '(magit highlight-parentheses markdown-mode
           purescript-mode sml-modeline js2-mode flymake-jshint json-mode)
   "my packages, to be installed by package")
 
@@ -314,10 +314,7 @@
 (add-hook 'text-mode-hook 'my-text-mode-hook)
 (defun my-text-mode-hook ()
   (setq fill-column 79)
-  (if (locate-library "rw-hunspell")
-      (progn
-        (setq ispell-program-name "hunspell")
-        (require 'rw-hunspell)))
+  (setq ispell-program-name "aspell")
   (if (locate-library "highlight-parentheses")
       (highlight-parentheses-mode -1))
   (if (locate-library "flyspell")

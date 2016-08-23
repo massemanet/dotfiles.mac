@@ -40,6 +40,7 @@ foo*
 /.gem/
 /.gnuplot_history
 /.john/
+/.kube/
 /.lesshst
 /.local/
 /.localbashrc
@@ -53,6 +54,7 @@ foo*
 /.ssh/
 /.subversion/
 /.vagrant.d/
+/.viminfo
 /.wine/
 /.wx*
 /BitTorrent Sync/
@@ -76,4 +78,5 @@ erl_crash.dump
 /.erlang.cookie
 
 # git projects
+/anaconda/
 /git/
