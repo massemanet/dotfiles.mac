@@ -30,8 +30,8 @@ foo*
 /.config/
 /.ddd/
 /.deployinator/
-/.dropbox*/
 /.docker/
+/.dropbox*/
 /.emacs.d/
 /.escobar/
 /.esets/
@@ -39,6 +39,7 @@ foo*
 /.gdb_history
 /.gem/
 /.gnuplot_history
+/.ivy2/
 /.john/
 /.kube/
 /.lesshst
@@ -47,6 +48,7 @@ foo*
 /.node_repl_history
 /.npm/
 /.openvr/
+/.oracle_jre_usage/
 /.psci_modules/
 /.purescript/
 /.rnd
@@ -57,16 +59,21 @@ foo*
 /.viminfo
 /.wine/
 /.wx*
+
 /BitTorrent Sync/
 /DOS Games/
 /Dropbox/
 /Google Drive/
 /Sports Interactive/
 /VirtualBox VMs/
+/anaconda/
+/bin/
 /boxes/
 /epub/
+/git/
 /ignore/
 /iterm.log
+/spark/
 
 # erlang droppings
 .*.etz
@@ -76,7 +83,3 @@ foo*
 erl_crash.dump
 /.dialyzer_plt
 /.erlang.cookie
-
-# git projects
-/anaconda/
-/git/
