@@ -37,19 +37,30 @@ lm() ->
   MD5File =
     fun(F) ->
         case F of
-          preloaded -> preloaded;
+          preloaded -> dont_load;
           _ ->
-            {ok,{_,MD5}} = beam_lib:md5(F),
-            MD5
+            case beam_lib:md5(F) of
+              {ok,{_,MD5}} -> MD5;
+              _ -> dont_load
+            end
         end
     end,
 
   MD5Loaded =
     fun(M) ->
         case M:module_info(compile) of
-          [] -> preloaded;
+          [] -> dont_load;
           _  -> M:module_info(md5)
         end
+    end,
+
+  Loadp =
+    fun(M,F) ->
+        Loaded = MD5Loaded(M),
+        File = MD5File(F),
+        Loaded =/= dont_load andalso
+          File =/= dont_load andalso
+          Loaded =/= MD5File
     end,
 
   Load =
@@ -61,7 +72,7 @@ lm() ->
         M
     end,
 
-  [Load(M,F) || {M,F} <- code:all_loaded(), MD5Loaded(M) =/= MD5File(F)].
+  [Load(M,F) || {M,F} <- code:all_loaded(), Loadp(M,F)].
 
 tab() ->
   N=node(),
