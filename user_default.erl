@@ -60,7 +60,7 @@ lm() ->
         File = MD5File(F),
         Loaded =/= dont_load andalso
           File =/= dont_load andalso
-          Loaded =/= MD5File
+          Loaded =/= File
     end,
 
   Load =
