@@ -39,6 +39,7 @@ foo*
 /.gdb_history
 /.gem/
 /.gnuplot_history
+/.gnupg/
 /.ivy2/
 /.john/
 /.kube/
