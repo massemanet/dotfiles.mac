@@ -38,6 +38,7 @@ foo*
 /.fontconfig/
 /.gdb_history
 /.gem/
+/.gnupg
 /.gnuplot_history
 /.gnupg/
 /.ivy2/
