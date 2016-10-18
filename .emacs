@@ -97,12 +97,9 @@
     "insert my very own erlang file header"
     (interactive)
     (insert "%% -*- mode: erlang; erlang-indent-level: 2 -*-\n")
-    (insert (concat "%%% Created : " (erlang-skel-dd-mmm-yyyy) " by "
-                    (user-full-name) " <" user-mail-address ">\n\n"))
     (insert "%% @doc\n")
     (insert "%% @end\n\n")
-    (insert (concat "-module('" (erlang-get-module-from-file-name) "').\n"))
-    (insert (concat "-author('" user-full-name "').\n"))
+    (insert (concat "-module('" (erlang-get-module-from-file-name) "').\n\n"))
     (insert (concat "-export([]).\n\n")))
 
   (add-hook 'erlang-load-hook 'my-erlang-load-hook)
@@ -120,7 +117,7 @@
      erl-macro-face             'font-lock-preprocessor-face
      erl-record-face            'font-lock-preprocessor-face
 
-     erlang-indent-level 2))
+     erlang-indent-level 4))
 
   (add-hook 'erlang-new-file-hook 'my-erlang-new-file-hook)
   (defun my-erlang-new-file-hook ()
