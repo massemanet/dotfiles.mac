@@ -41,7 +41,7 @@ export EDITOR=emacs
 
 # gitified prompt
 function mygitbranch() {
-    if 2>&1 type __git_ps1 >/dev/null ; then
+    if type __git_ps1 &> /dev/null ; then
         __git_ps1 | cut -f1 -d")" | cut -f2 -d"("
     else
         2> /dev/null git rev-parse --abbrev-ref HEAD
@@ -59,7 +59,9 @@ function mygitdir () {
     fi
 }
 
-PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi'
+PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi ; '
+PROMPT_COMMAND+='KUBE_CONTEXT='
+PROMPT_COMMAND+='$(type kubectl &> /dev/null && kubectl config current-context)'
 if [ "$TERM" != "dumb" ]; then
     # enable color support of ls
     lscols=auto
@@ -72,13 +74,17 @@ if [ "$TERM" != "dumb" ]; then
     export GIT_PS1_SHOWDIRTYSTATE=true
 
     if [ "$USER" == "root" ];then
-        PS1='\[$(tput setaf 5)\]\h\[$(tput setaf 3)\]'
-        PS1+='($(mygitdir):$(mygitbranch))\[$(tput setaf 2)\]'
-        PS1+='${ERROR_FLAG:+\[$(tput setaf 1)\]}#\[$(tput sgr0)\] '
+        PS1='\[$(tput setaf 5)\]\h'
+        PS1+='\[$(tput setaf 6)\][$KUBE_CONTEXT]'
+        PS1+='\[$(tput setaf 3)\]($(mygitdir):$(mygitbranch))'
+        PS1+='\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}#'
+        PS1+='\[$(tput sgr0)\] '
     else
-        PS1='\[$(tput setaf 3)\]\h\[$(tput setaf 5)\]'
-        PS1+='($(mygitdir):$(mygitbranch))\[$(tput setaf 2)\]'
-        PS1+='${ERROR_FLAG:+\[$(tput setaf 1)\]}\$\[$(tput sgr0)\] '
+        PS1='\[$(tput setaf 3)\]\h'
+        PS1+='\[$(tput setaf 6)\][$KUBE_CONTEXT]'
+        PS1+='\[$(tput setaf 5)\]($(mygitdir):$(mygitbranch))'
+        PS1+='\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}\$'
+        PS1+='\[$(tput sgr0)\] '
     fi
 else
     lscols=none
