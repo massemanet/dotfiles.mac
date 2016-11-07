@@ -99,7 +99,7 @@
     (insert "%% -*- mode: erlang; erlang-indent-level: 2 -*-\n")
     (insert "%% @doc\n")
     (insert "%% @end\n\n")
-    (insert (concat "-module('" (erlang-get-module-from-file-name) "').\n\n"))
+    (insert (concat "-module(" (erlang-get-module-from-file-name) ").\n\n"))
     (insert (concat "-export([]).\n\n")))
 
   (add-hook 'erlang-load-hook 'my-erlang-load-hook)
