@@ -41,12 +41,14 @@ foo*
 /.gnupg
 /.gnuplot_history
 /.gnupg/
+/.hex/
 /.ivy2/
 /.john/
 /.kube/
 /.lesshst
 /.local/
 /.localbashrc
+/.mix/
 /.node_repl_history
 /.npm/
 /.openvr/
