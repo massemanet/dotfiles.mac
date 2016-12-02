@@ -52,6 +52,8 @@
  utf-translate-cjk-mode   nil
  visible-bell             t)
 
+(defun ido-kill-emacs-hook () (ignore-errors (ido-save-history)))
+
 (defun flymake-next-error ()
   "Goto next error, if any. Display error in mini-buffer."
   (interactive)
