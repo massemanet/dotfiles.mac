@@ -97,14 +97,14 @@ function fgrep() { ~/.fgrep.sh "$@"; }
 function tmx()   { ~/.tmux.sh; }
 function pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
 function pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
-function dir()   { $LS --color=$lscols -lFh "$@";}
-function dirt()  { dir -rt "$@";}
-function dird()  { dir -d "$@";}
-function dira()  { for d in "${@:-.}"; do (cd "$d";pwd; dird .*); done;}
-function rea()   { history | egrep "${@:-}";}
-function m()     { less "$@";}
-function e()     { emacs -nw "$@";}
-function c()     { cat "$@";}
+function dir()   { $LS --color=$lscols -lFh "$@"; }
+function dirt()  { dir -rt "$@"; }
+function dird()  { dir -d "$@"; }
+function dira()  { for d in "${@:-.}"; do (cd "$d";pwd; dird .*); done; }
+function rea()   { egrep "${@:-}" ~/.bash_history; }
+function m()     { less "$@"; }
+function e()     { emacs -nw "$@"; }
+function c()     { cat "$@"; }
 
 ## history
 # lots of history
