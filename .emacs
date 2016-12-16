@@ -67,13 +67,16 @@
 (defun my-after-init-hook ()
   (require 'edts-start))
 (add-hook 'after-init-hook 'my-after-init-hook)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(require 'flycheck-rebar3)
+(flycheck-rebar3-setup)
 
 (defun my-erlang-setup ()
   (setq safe-local-variable-values
         (quote ((allout-layout . t)
                 (erlang-indent-level . 4)
                 (erlang-indent-level . 2))))
-
   (defun erl-file-header ()
     "insert my very own erlang file header"
     (interactive)
@@ -102,7 +105,7 @@
                       (if (file-exists-p "../include") "-I ../include " "")
                       "+debug_info -W " buffer-file-name))))))
 
- (defun my-js-setup()
+(defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
   (autoload 'json-mode "json" nil t)
@@ -146,6 +149,11 @@
 
 (if (locate-library "js2")
     (my-js-setup))
+
+(if (locate-library "erlang-start")
+    (progn
+      (require 'erlang-start)
+      (my-erlang-setup)))
 
 (if (locate-library "whitespace")
     (my-whitespace-setup))
