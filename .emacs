@@ -1,20 +1,10 @@
 ;; -*- mode: lisp -*-
 
-(defvar my-packages
-  '(magit highlight-parentheses markdown-mode
-          purescript-mode sml-modeline js2-mode flymake-jshint json-mode)
-  "my packages, to be installed by package")
-
-;; try to find and add my favourite paths
-(let ((ps (list "~/elisp/*.el"
-                "~/git/distel/elisp/*.el"
-                (concat (shell-command-to-string
-                         "echo -n `/usr/local/bin/brew --prefix erlang`")
-                        "/lib/erlang/lib/tools-*/emacs/*.el"))))
-  (dolist (f0 (nreverse ps))
-    (let ((f (car (ignore-errors (file-expand-wildcards f0)))))
-      (when (and (stringp f) (file-exists-p f))
-        (add-to-list 'load-path (file-name-directory f))))))
+;; package handling
+(require 'cask (car (file-expand-wildcards "~/.emacs.d/*/cask-*/cask.el")))
+(cask-initialize)
+(require 'pallet)
+(pallet-mode t)
 
 ;; turn on good shit
 (set-language-environment "ASCII")
@@ -52,15 +42,8 @@
  utf-translate-cjk-mode   nil
  visible-bell             t)
 
-(defun ido-kill-emacs-hook () (ignore-errors (ido-save-history)))
-
-(defun flymake-next-error ()
-  "Goto next error, if any. Display error in mini-buffer."
-  (interactive)
-  (flymake-goto-next-error)
-  (let ((err (get-char-property (point) 'help-echo)))
-    (when err
-      (message err))))
+(defun ido-kill-emacs-hook ()
+  (ignore-errors (ido-save-history)))
 
 (global-set-key (kbd "M-'")     'flymake-next-error)
 (global-set-key (kbd "C-c a")   'align-regexp)
@@ -81,19 +64,15 @@
 (global-set-key (kbd "M-z")     'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
+(defun my-after-init-hook ()
+  (require 'edts-start))
+(add-hook 'after-init-hook 'my-after-init-hook)
+
 (defun my-erlang-setup ()
   (setq safe-local-variable-values
         (quote ((allout-layout . t)
                 (erlang-indent-level . 4)
                 (erlang-indent-level . 2))))
-
-  ;; use to start an erlang shell with boot flags
-
-  (defun erl-shell (flags)
-    "Start an erlang shell with flags"
-    (interactive (list (read-string "Flags: ")))
-    (set 'inferior-erlang-machine-options (split-string flags))
-    (erlang-shell))
 
   (defun erl-file-header ()
     "insert my very own erlang file header"
@@ -104,95 +83,12 @@
     (insert (concat "-module(" (erlang-get-module-from-file-name) ").\n\n"))
     (insert (concat "-export([]).\n\n")))
 
-  (add-hook 'erlang-load-hook 'my-erlang-load-hook)
-  (defun my-erlang-load-hook ()
-    (setq
-     ;; syntax highlighting
-     erl-atom-face              'default         ;'font-lock-doc-face
-     erl-quotes-face            'font-lock-doc-string-face
-     erl-list-operator-face     'font-lock-warning-face
-     erl-match-operator-face    'font-lock-warning-face
-     erl-operator-face          'font-lock-warning-face
-     erl-arrow-face             'font-lock-keyword-face
-     erl-ext-function-call-face 'font-lock-constant-face
-     erl-int-function-call-face 'font-lock-constant-face
-     erl-macro-face             'font-lock-preprocessor-face
-     erl-record-face            'font-lock-preprocessor-face
-
-     erlang-indent-level 4))
-
   (add-hook 'erlang-new-file-hook 'my-erlang-new-file-hook)
   (defun my-erlang-new-file-hook ()
     (erl-file-header))
 
-  (add-hook 'erlang-shell-mode-hook 'my-erlang-shell)
-  (defun my-erlang-shell ()
-    (setq comint-dynamic-complete-functions
-          '(my-erl-complete  comint-replace-by-expanded-history)))
-
-  (defun my-erl-complete ()
-    "Call erl-complete if we have an Erlang node name"
-    (if erl-nodename-cache
-        (erl-complete erl-nodename-cache)
-      nil))
-
-  (add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
-  (defun my-erlang-mode-hook ()
-    ;; run flymake iff buffer has a file
-    (if (and (locate-library "erlang-flymake")
-             buffer-file-truename)
-        (progn
-          (defun updir (n f)
-            (if (eq n 0)
-                f
-                (updir (- n 1) (substring (file-name-directory f) 0 -1))))
-          (defun erlc-paths (f base)
-            (cond
-;;;           .../lib/*/{ebin,include}
-              ((string= (file-name-nondirectory (updir 3 f)) "lib")
-               (file-expand-wildcards (concat (updir 3 f) "/*/" base)))
-;;;           .../{src,ebin,include}
-              ((string= (file-name-nondirectory (updir 1 f)) "src")
-               (file-expand-wildcards (concat (updir 2 f) "/" base)))
-              (t
-               nil)))
-          (defun rebar-paths (f base)
-            (cond
-;;;           .../{src,deps/*/{ebin,include}}
-              ((string= (file-name-nondirectory (updir 1 f)) "src")
-               (file-expand-wildcards (concat (updir 2 f) "/deps/*/" base)))
-              (t
-               nil)))
-          (defun apps-paths (f base)
-            (cond
-;;;           .../{apps,deps}/*/{ebin,include}
-              ((string= (file-name-nondirectory (updir 3 f)) "apps")
-               (append
-                (file-expand-wildcards (concat (updir 3 f) "/*/" base))
-                (file-expand-wildcards (concat (updir 4 f) "/deps/*/" base))))
-              ((string= (file-name-nondirectory (updir 3 f)) "deps")
-               (append
-                (file-expand-wildcards (concat (updir 3 f) "/*/" base))))
-              (t
-               nil)))
-          (defun epaths(base)
-            (interactive)
-            (append (rebar-paths (buffer-file-name) base)
-                    (apps-paths (buffer-file-name) base)
-                    (erlc-paths (buffer-file-name) base)))
-
-          (setq flymake-no-changes-timeout 3)
-          (load "erlang-flymake")
-          (setq
-           erlang-flymake-get-code-path-dirs-function
-           (lambda() (epaths "ebin"))
-           erlang-flymake-get-include-dirs-function
-           (lambda() (epaths "include")))
-          (flymake-mode)))
     ;; stupid electricity
     (set-variable 'erlang-electric-commands nil)
-    ;; stupid default
-    ;; (set-variable 'erlang-indent-level 2)
     ;; make hack for compile command
     ;; uses Makefile if it exists, else looks for ../inc & ../ebin
     (unless (null buffer-file-name)
@@ -204,9 +100,9 @@
                       "erlc "
                       (if (file-exists-p "../ebin") "-o ../ebin " "")
                       (if (file-exists-p "../include") "-I ../include " "")
-                      "+debug_info -W " buffer-file-name)))))))
+                      "+debug_info -W " buffer-file-name))))))
 
-(defun my-js-setup()
+ (defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
   (autoload 'json-mode "json" nil t)
@@ -236,15 +132,6 @@
         whitespace-line-column 79)
   (global-whitespace-mode t))
 
-(defun my-distel-setup ()
-  (require 'distel)
-  (distel-setup)
-  (setq erl-reload-dwim t))
-
-(defun my-svn-setup ()
-  (require 'psvn)
-  (setq svn-status-custom-hide-function 'my-svn-status-hide))
-
 ;; this is default in emacs 24.4
 (if (locate-library "uniquify")
     (progn
@@ -262,9 +149,6 @@
 
 (if (locate-library "whitespace")
     (my-whitespace-setup))
-
-(if (locate-library "psvn")
-    (my-svn-setup))
 
 (if (locate-library "git")
     (require 'git))
@@ -295,17 +179,6 @@
           (highlight-parentheses-mode t)))
       (global-highlight-parentheses-mode t)))
 
-(if (locate-library "erlang-start")
-    (progn
-      (require 'erlang-start)
-      (my-erlang-setup)
-      (if (locate-library "distel")
-          (my-distel-setup))))
-
-(defun my-svn-status-hide (line-info)
-  "Hide externals."
-  (eq (svn-status-line-info->filemark line-info) ?X))
-
 (defun my-outline ()
   (setq outline-minor-mode-prefix "")
   (outline-minor-mode))
@@ -321,15 +194,6 @@
         (flyspell-mode)
         (setq flyspell-dictionaries (quote ("american" "svenska"))))))
 
-(add-hook 'comint-mode-hook 'my-comint)
-(defun my-comint ()
-  ;; try to make the shell more like the real shell
-  (local-set-key [tab] 'comint-dynamic-complete)
-  (local-set-key [(control up)] 'previous-line)
-  (local-set-key [(control down)] 'next-line)
-  (local-set-key [up] 'comint-previous-input)
-  (local-set-key [down] 'comint-next-input))
-
 (defun indent-buffer ()
   "indent current buffer"
   (interactive)
@@ -338,40 +202,6 @@
 
 (if window-system
     (set-background-color "black"))
-
-(defun my-erc ()
-  "start erc, connect to some servers, join some channels"
-  (interactive)
-  (set-language-environment "utf-8")
-  (setq default-input-method "swedish-postfix"
-        erc-hide-list '("JOIN" "NICK" "PART" "QUIT")
-        erc-modules '(autojoin completion fill irccontrols match noncommands
-                               readonly ring scrolltobottom stamp spelling
-                               track truncate)
-        erc-autojoin-channels-alist '(("freenode.net" "#erlang")
-                                      ("internal.machines" "#tech")))
-  (erc :server "irc.freenode.net" :nick "massemanet")
-  (erc :server "irc.hq.kred" :nick "masse"))
-
-;; init package handler
-(if (locate-library "package")
-    (progn
-      (require 'package)
-      (package-initialize)
-      (setq package-archives
-            '(("gnu" . "http://elpa.gnu.org/packages/")
-              ("marmalade" . "https://marmalade-repo.org/packages/")
-              ("melpa" . "http://melpa.milkbox.net/packages/")))))
-
-;;my pyckages
-(defun my-elpa ()
-  (interactive)
-  (package-refresh-contents)
-  (dolist (p my-packages)
-    (if (not (package-installed-p p))
-        (package-install p)))
-  (dolist (p (package-menu--find-upgrades))
-    (package-install p)))
 
 ;; automatically added stuff
 
