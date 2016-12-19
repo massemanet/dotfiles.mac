@@ -57,6 +57,7 @@ foo*
 /.purescript/
 /.rnd
 /.serverauth*
+/.s3cfg
 /.ssh/
 /.subversion/
 /.vagrant.d/
