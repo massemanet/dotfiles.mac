@@ -9,6 +9,7 @@
 
 -export([ineti/0,
          sig/1,sig/2,sig/3,
+         print_source/1,
          ports/0,
          export_all/1,
          tab/0,
@@ -77,6 +78,11 @@ lm() ->
 tab() ->
   N=node(),
   io:setopts([{expand_fun,fun(B)->rpc:call(N,edlin_expand,expand,[B]) end}]).
+
+print_source(Mod) ->
+  {ok,{_,[{"Abst",AChunk}]}} = beam_lib:chunks(code:which(Mod),["Abst"]),
+  {_,Forms} = binary_to_term(AChunk),
+  io:fwrite("~s~n",[erl_prettypr:format(erl_syntax:form_list(Forms))]).
 
 dump(Term)->
   File = filename:join([os:getenv("HOME"),"erlang.dump"]),
