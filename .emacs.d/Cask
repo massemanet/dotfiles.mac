@@ -15,6 +15,7 @@
 (depends-on "eproject")
 (depends-on "erlang")
 (depends-on "f")
+(depends-on "flycheck")
 (depends-on "flycheck-rebar3")
 (depends-on "flymake-easy")
 (depends-on "flymake-jshint")
