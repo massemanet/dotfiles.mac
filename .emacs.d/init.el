@@ -6,6 +6,9 @@
 (require 'pallet)
 (pallet-mode t)
 
+;; add legacy
+(add-to-list 'load-path "~/.emacs.d/fdlcap")
+
 ;; turn on good shit
 (set-language-environment "ASCII")
 (show-paren-mode t)
