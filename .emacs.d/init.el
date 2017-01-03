@@ -19,36 +19,36 @@
 (ido-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)
 
-; turn off bad shit
+;; turn off bad shit
 (if (featurep 'tool-bar)   (tool-bar-mode   -1))
 (if (featurep 'tabbar)     (tabbar-mode     -1))
 (if (featurep 'tooltip)    (tooltip-mode    -1))
 (if (featurep 'scroll-bar) (scroll-bar-mode -1))
 (if (featurep 'menu-bar)   (menu-bar-mode   -1))
+(defun ido-kill-emacs-hook () (ignore-errors (ido-save-history)))
+(setq-default indent-tabs-mode nil)
+(setq
+ special-display-regexps  nil
+ align-to-tab-stop        nil
+ inhibit-startup-screen   t
+ utf-translate-cjk-mode   nil
+ visible-bell             t)
 
+;; set theme
 (if (fboundp 'custom-available-themes)
     (if (member 'tango-dark (custom-available-themes))
         (load-theme 'tango-dark)))
 
-(setq-default
- indent-tabs-mode         nil)
-
+;; configs
 (setq
- align-to-tab-stop        nil
  default-input-method     "swedish-postfix"
- inhibit-startup-screen   t
  max-lisp-eval-depth      40000
  scroll-down-aggressively 0.1
  scroll-up-aggressively   0.1
- special-display-regexps  nil
- user-mail-address        "mats.cronqvist@gmail.com"
- utf-translate-cjk-mode   nil
- visible-bell             t)
+ user-mail-address        "mats.cronqvist@gmail.com")
 
-(defun ido-kill-emacs-hook ()
-  (ignore-errors (ido-save-history)))
-
-(global-set-key (kbd "M-'")     'flymake-next-error)
+;; keybindings
+(global-set-key (kbd "M-'")     'flycheck-next-error)
 (global-set-key (kbd "C-c a")   'align-regexp)
 (global-set-key (kbd "C-c b")   'bury-buffer)
 (global-set-key (kbd "C-c p")   'point-to-register)
@@ -67,6 +67,7 @@
 (global-set-key (kbd "M-z")     'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
+;; erlang stuff
 (defun my-after-init-hook ()
   (require 'edts-start))
 (add-hook 'after-init-hook 'my-after-init-hook)
@@ -108,6 +109,7 @@
                       (if (file-exists-p "../include") "-I ../include " "")
                       "+debug_info -W " buffer-file-name))))))
 
+;; javascript stuff
 (defun my-js-setup()
   (autoload 'js2-mode "js2" nil t)
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
@@ -121,10 +123,6 @@
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
 (defun my-js2-mode-hook ()
-  (if (locate-library "flymake-jshint")
-      (progn
-        (require 'flymake-jshint)
-        (flymake-mode)))
   (js2-leave-mirror-mode)
   (setq js2-mirror-mode nil
         js2-bounce-indent-p t
@@ -227,8 +225,6 @@
  '(default ((t (:background "#000"))))
  '(ediff-current-diff-A ((t (:background "color-23"))) t)
  '(ediff-current-diff-B ((t (:background "color-52"))) t)
- '(flymake-errline ((t (:background "color-52"))))
- '(flymake-warnline ((t (:background "blue"))))
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-diff-del ((t (:foreground "color-169"))))
  '(magit-item-highlight ((t (:background "color-234"))))
