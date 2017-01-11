@@ -20,8 +20,8 @@ brew install \
      aspell autoconf automake bash bash-completion cask coreutils curl \
      elixir emacs erlang findutils grep git go jq rebar3 tmux wget
 brew cask install \
-     chromium gpgtools slack virtualbox docker iterm2 spotify tunnelblick \
-     xquartz
+     android-file-transfer chromium gpgtools slack virtualbox docker iterm2 \
+     spotify tunnelblick xquartz
 
 # link some nice stuff
 ULB=/usr/local/bin
