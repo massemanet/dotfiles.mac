@@ -18,7 +18,7 @@ brew tap homebrew/dupes
 
 brew install \
      aspell autoconf automake bash bash-completion cask coreutils curl \
-     elixir emacs erlang findutils grep git go jq rebar3 tmux wget
+     elixir emacs erlang findutils grep git go htop jq rebar3 tmux wget
 brew cask install \
      android-file-transfer chromium gpgtools slack virtualbox docker iterm2 \
      spotify tunnelblick xquartz
