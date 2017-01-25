@@ -1,6 +1,7 @@
 ;; -*- mode: lisp -*-
 
 ;; package handling
+(package-initialize)
 (require 'cask (car (file-expand-wildcards "~/.emacs.d/*/cask-*/cask.el")))
 (cask-initialize)
 (require 'pallet)

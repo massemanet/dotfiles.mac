@@ -6,3 +6,6 @@ shell:results(2).
       andalso
       filelib:is_file(filename:join(os:getenv("HOME"), "user_default.erl"))].
 code:load_abs(filename:join(os:getenv("HOME"), "user_default")).
+
+%% code:add_patha("/Users/masse/git/redbug/_build/default/lib/redbug/ebin").
+%% io:fwrite("~p~n",[redbug:start("a",[{msgs,999}])]).
