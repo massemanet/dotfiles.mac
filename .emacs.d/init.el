@@ -76,7 +76,7 @@
   (setq whitespace-style (list 'face 'trailing 'lines-tail 'empty))
   (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
-           "go build -v && go test -v && go vet"))
+           "go build -v && go test -v && go vet && go install"))
   (local-set-key (kbd "M-.") 'godef-jump)
   (local-set-key (kbd "M-*") 'pop-tag-mark))
 (add-hook 'go-mode-hook 'my-go-mode-hook)
