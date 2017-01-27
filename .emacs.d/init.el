@@ -68,16 +68,40 @@
 (global-set-key (kbd "M-z")     'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
 
-;; erlang stuff
-(defun my-after-init-hook ()
-  (require 'edts-start))
-(add-hook 'after-init-hook 'my-after-init-hook)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(global-flycheck-mode)
 
+;; go stuff
+(defun my-go-mode-hook ()
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (setq whitespace-style (list 'face 'trailing 'lines-tail 'empty))
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet"))
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-*") 'pop-tag-mark))
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
+;; erlang stuff
 ;;(require 'flycheck-rebar3)
 ;;(flycheck-rebar3-setup)
 
+;(add-hook 'after-init-hook #'global-flycheck-mode)
 (defun my-erlang-setup ()
+  (require 'edts-start)
+  (flycheck-define-checker erlang
+    "awesome erlang checker"
+    :command ("erlc"
+              "-o" temporary-directory
+              (option-list "-I" flycheck-erlang-include-path)
+              (option-list "-pa" flycheck-erlang-library-path)
+              "-Wall"
+              source)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ": Warning:" (message) line-end)
+     (error line-start (file-name) ":" line ": " (message) line-end))
+    :modes erlang-mode
+    :predicate (lambda ()
+                 (string-suffix-p ".erl" (buffer-file-name))))
   (setq flycheck-erlang-include-path '("../include"))
   (setq safe-local-variable-values
         (quote ((allout-layout . t)
@@ -134,7 +158,7 @@
 
 (defun my-whitespace-setup()
   (require 'whitespace)
-  (setq whitespace-style (list 'face 'tabs 'trailing 'lines-tail)
+  (setq whitespace-style (list 'face 'tabs 'trailing 'lines-tail 'empty)
         whitespace-line-column 79)
   (global-whitespace-mode t))
 

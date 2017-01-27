@@ -36,6 +36,11 @@ shopt -s checkwinsize
 # define some git helpers
 [ -f ~/.gitfunctions ] && . ~/.gitfunctions
 
+# go is a special snowflake
+export GOROOT=/usr/local/opt/go/libexec
+export GOPATH=~/go
+export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+
 # emacs
 export EDITOR=emacs
 
