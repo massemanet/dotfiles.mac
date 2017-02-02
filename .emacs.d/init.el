@@ -182,6 +182,9 @@
       (require 'erlang-start)
       (my-erlang-setup)))
 
+(if (locate-library "alchemist")
+    (require 'alchemist))
+
 (if (locate-library "whitespace")
     (my-whitespace-setup))
 

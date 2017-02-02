@@ -49,6 +49,7 @@ foo*
 /.local/
 /.localbashrc
 /.mix/
+/.mysql_history
 /.node_repl_history
 /.npm/
 /.openvr/
