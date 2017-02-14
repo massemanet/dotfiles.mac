@@ -50,6 +50,7 @@
 
 ;; keybindings
 (global-set-key (kbd "M-'")     'flycheck-next-error)
+(global-set-key (kbd "M-;")     'flycheck-previous-error)
 (global-set-key (kbd "C-c a")   'align-regexp)
 (global-set-key (kbd "C-c b")   'bury-buffer)
 (global-set-key (kbd "C-c p")   'point-to-register)
@@ -82,12 +83,12 @@
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
 ;; erlang stuff
-;;(require 'flycheck-rebar3)
-;;(flycheck-rebar3-setup)
 
 ;(add-hook 'after-init-hook #'global-flycheck-mode)
 (defun my-erlang-setup ()
   (require 'edts-start)
+  (require 'flycheck-rebar3)
+  (flycheck-rebar3-setup)
   (flycheck-define-checker erlang
     "awesome erlang checker"
     :command ("erlc"
