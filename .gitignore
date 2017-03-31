@@ -23,6 +23,7 @@ foo*
 /.Xauthority
 /.account
 /.aspell.*
+/.aws/
 /.bash_history
 /.bash_sessions/
 /.boot2docker/
