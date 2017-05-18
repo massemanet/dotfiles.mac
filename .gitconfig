@@ -12,16 +12,10 @@
 [alias]
   co = checkout
   st = status
-  lol   = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-  in    = log HEAD..origin/master
-  out   = log origin/master..HEAD
+  lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   unstage = reset HEAD --
-  last = log -1 HEAD
-  alias = "!git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'"
+  sync = "! git fetch --prune && git pull"
+  alias = "! git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'"
 
 [push]
   default = simple
-[filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
