@@ -38,6 +38,7 @@ foo*
 /.esets/
 /.fontconfig/
 /.gdb_history
+/.gdrive/
 /.gem/
 /.gnupg
 /.gnuplot_history
