@@ -46,8 +46,7 @@ function gitupd() {
         echo `basename $d`
         (
             cd $d
-            git fetch --prune 1> /dev/null
+            git fetch --prune 1> /dev/null && git pull
         )
     done
 }
-
