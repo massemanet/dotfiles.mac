@@ -3,11 +3,18 @@
 #
 # macos/homebrew style
 
+# go is a special snowflake
+export GOROOT=/usr/local/opt/go/libexec
+export GOPATH=~/go
+
 # one path to rule them all
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
-[ -d /opt/bin ] && export PATH=$PATH:/opt/bin
-CU=$(brew --prefix coreutils)
-[ -n "$CU" ] && export PATH=$CU/libexec/gnubin:$PATH
+function add_to_path() {
+    [ -d "$1" ] && export PATH="$1":$PATH
+}
+add_to_path /opt/bin
+add_to_path $(brew --prefix coreutils)/libexec/gnubin
+add_to_path $GOPATH/bin
+add_to_path $GOROOT/bin
 
 GREP=$(which ggrep)           || GREP=$(which grep)
 LS=$(which gls)               || LS=$(which ls)
@@ -35,11 +42,6 @@ shopt -s checkwinsize
 
 # define some git helpers
 [ -f ~/.gitfunctions ] && . ~/.gitfunctions
-
-# go is a special snowflake
-export GOROOT=/usr/local/opt/go/libexec
-export GOPATH=~/go
-export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 
 # emacs
 export EDITOR=emacs
