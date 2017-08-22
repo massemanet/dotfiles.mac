@@ -32,6 +32,7 @@ foo*
 /.ddd/
 /.deployinator/
 /.docker/
+/.dotnet/
 /.dropbox*/
 /.emacs.d/
 /.escobar/
