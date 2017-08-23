@@ -2,7 +2,6 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 #
 # macos/homebrew style
-echo bashrc
 
 # force globbing on
 set +f
@@ -17,7 +16,7 @@ shopt -s checkwinsize
 # check for coreutils
 GREP=$(which ggrep)            || GREP=$(which grep)
 LS="$(which gls) --color=auto" || LS=$(which ls)
-DIRCOLORS=$(which gdircolors)  || DIRCOLORS=$(which dircolors)
+DIRCOLORS=$(gdircolors)        || DIRCOLORS=$(dircolors)
 
 # Enable sane completion
 bash_completion=$(brew --prefix)/etc/bash_completion
@@ -27,21 +26,23 @@ bash_completion=$(brew --prefix)/etc/bash_completion
 [ -f ~/bin/gitfunctions ] && . ~/bin/gitfunctions
 
 # emacs
-export EDITOR="emacsclient -c"
+export EDITOR="emacsclient -c -a ''"
 
-PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi ; '
-PROMPT_COMMAND+='KUBE_CONTEXT='
-PROMPT_COMMAND+='$(type kubectl &> /dev/null && kubectl config current-context)'
+PROMPT_COMMAND='[ "$?" == "0" ] && ERROR_FLAG= || ERROR_FLAG=1'
+if type kubectl &> /dev/null ; then
+    PROMPT_COMMAND+=' ; KUBE_CONTEXT=[$(kubectl config current-context)]'
+fi
 if [ "$TERM" != "dumb" ]; then
     # to get emacs -nw to use 256 colors
     export TERM=xterm-256color
-    eval $(dircolors)
+    eval $DIRCOLORS
     # set a fancy prompt
     export GIT_PS1_SHOWSTASHSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
     export GIT_PS1_SHOWDIRTYSTATE=true
 
     PS1='\[$(tput setaf 3)\]\h'
+    PS1+='\[$(tput setaf 6)\]$KUBE_CONTEXT'
     PS1+='\[$(tput setaf 5)\]($(mygitdir):$(mygitbranch))'
     PS1+='\[$(tput setaf 2)\]${ERROR_FLAG:+\[$(tput setaf 1)\]}\$'
     PS1+='\[$(tput sgr0)\] '
@@ -71,7 +72,7 @@ export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL="ignoredups"
 shopt -s histappend
 
-PROMPT_COMMAND="$PROMPT_COMMAND;history -a"
+PROMPT_COMMAND+=";history -a"
 
 #the below will make all commands visible in all shells
 #PROMPT_COMMAND="$PROMPT_COMMAND ; history -a ; history -c; history -r"

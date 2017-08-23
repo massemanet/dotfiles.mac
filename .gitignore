@@ -55,6 +55,7 @@ foo*
 /.mysql_history
 /.node_repl_history
 /.npm/
+/.nuget/
 /.openvr/
 /.oracle_jre_usage/
 /.psci_modules/
@@ -64,6 +65,7 @@ foo*
 /.s3cfg
 /.ssh/
 /.subversion/
+/.templateengine/
 /.vagrant.d/
 /.viminfo
 /.wine/

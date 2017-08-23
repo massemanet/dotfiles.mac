@@ -1,4 +1,3 @@
-echo profile
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile exists.
 
@@ -21,5 +20,3 @@ unset  LC_ALL
 unset  LANGUAGE
 unset  LC_CTYPE
 export LANG=`locale -a | grep -Ei "en.us.utf"`
-
-which emacs && emacs --daemon || echo "no emacs"
