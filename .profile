@@ -13,6 +13,7 @@ add_to_path $GOPATH/bin
 add_to_path $GOROOT/bin
 add_to_path /opt/bin
 add_to_path $(brew --prefix coreutils)/libexec/gnubin
+add_to_path $(brew --prefix)/bin
 add_to_path ~/bin
 
 # one locale to rule them all

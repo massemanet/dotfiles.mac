@@ -9,19 +9,17 @@ function usage () {
 # get homebrew
 if test ! $(which brew); then
     echo "Installing homebrew..."
-    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
 # Install stuff
 brew update
-brew tap homebrew/dupes
 
 brew install \
-     aspell autoconf automake bash bash-completion cask coreutils curl \
-     elixir emacs erlang findutils grep git go htop jq rebar3 tmux wget
+     bash bash-completion cask coreutils curl emacs erlang \
+     findutils grep git htop jq rebar3 tmux wget
 brew cask install \
-     android-file-transfer chromium firefox gpgtools slack virtualbox \
-     docker iterm2 spotify tunnelblick xquartz
+     docker firefox slack spotify tunnelblick xquartz
 
 # link some nice stuff
 ULB=/usr/local/bin
@@ -29,10 +27,11 @@ ULB=/usr/local/bin
 [ -x $ULB/xargs ] || ln -s $(brew --prefix findutils)/bin/gxargs $ULB/xargs
 [ -x $ULB/grep ] || ln -s $(brew --prefix grep)/bin/ggrep $ULB/grep
 
+ssh-keygen
+# upload key to github
+
 # get my stuff
 (cd /tmp && git clone git@github.com:massemanet/dotfiles.mac.git)
 mv /tmp/dotfiles.mac/.git ~
 git reset --hard
 (cd ~/.emacs.d && cask install)
-
-echo "add coreutils to PATH: /usr/local/opt/coreutils/libexec/gnubin"
