@@ -256,6 +256,8 @@
  '(default ((t (:background "#000"))))
  '(ediff-current-diff-A ((t (:background "color-23"))))
  '(ediff-current-diff-B ((t (:background "color-52"))))
+ '(edts-face-failed-test-line ((t (:foreground "brightred" :underline t))))
+ '(edts-face-passed-test-line ((t (:foreground "brightgreen" :underline t))))
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-diff-del ((t (:foreground "color-169"))))
  '(magit-item-highlight ((t (:background "color-234"))))

@@ -19,7 +19,7 @@ brew install \
      bash bash-completion cask coreutils curl emacs erlang \
      findutils grep git htop jq rebar3 tmux wget
 brew cask install \
-     docker firefox slack spotify tunnelblick xquartz
+     chromium docker firefox slack spotify tunnelblick xquartz
 
 # link some nice stuff
 ULB=/usr/local/bin
@@ -35,3 +35,4 @@ ssh-keygen
 mv /tmp/dotfiles.mac/.git ~
 git reset --hard
 (cd ~/.emacs.d && cask install)
+(cd ~/.emacs.d/.cask/*/elpa/edts-* && make)
