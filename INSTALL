@@ -17,9 +17,9 @@ brew update
 
 brew install \
      bash bash-completion cask coreutils curl emacs erlang \
-     findutils grep git htop jq rebar3 tmux wget
+     findutils grep git htop jq pstree rebar3 tmux wget
 brew cask install \
-     chromium docker firefox slack spotify tunnelblick xquartz
+     chromium docker emacs firefox slack spotify tunnelblick xquartz
 
 # link some nice stuff
 ULB=/usr/local/bin

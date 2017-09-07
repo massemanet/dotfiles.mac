@@ -2,10 +2,13 @@
 
 ;; package handling
 (package-initialize)
-(require 'cask (car (file-expand-wildcards "~/.emacs.d/*/cask-*/cask.el")))
+(require 'cask (car (sort (file-expand-wildcards "~/.emacs.d/.cask/*/elpa/cask-*/cask.el") 'string>)))
 (cask-initialize)
 (require 'pallet)
 (pallet-mode t)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 ;; add legacy
 (add-to-list 'load-path "~/.emacs.d/fdlcap")
@@ -269,4 +272,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(edts-xref-checks nil)
+ '(package-selected-packages
+   (quote
+    (magit flycheck exec-path-from-shell yaml-mode sml-modeline purescript-mode pallet markdown-mode json-mode js2-mode highlight-parentheses go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint eproject edts alchemist)))
  '(purescript-mode-hook (quote (turn-on-purescript-indentation))))

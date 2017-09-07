@@ -34,7 +34,7 @@ if type kubectl &> /dev/null ; then
 fi
 if [ "$TERM" != "dumb" ]; then
     # to get emacs -nw to use 256 colors
-    export TERM=xterm-256color
+#    export TERM=xterm-256color
     eval $DIRCOLORS
     # set a fancy prompt
     export GIT_PS1_SHOWSTASHSTATE=true
