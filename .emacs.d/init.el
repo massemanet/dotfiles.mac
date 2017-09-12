@@ -25,6 +25,7 @@
 (ido-mode t)
 (display-time)
 (fset 'yes-or-no-p 'y-or-n-p)
+(server-start)
 
 (add-hook 'after-init-hook 'sml/setup)
 
