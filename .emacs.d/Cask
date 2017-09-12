@@ -37,5 +37,6 @@
 (depends-on "purescript-mode")
 (depends-on "s")
 (depends-on "shut-up")
+(depends-on "smart-mode-line")
 (depends-on "sml-modeline")
 (depends-on "yaml-mode")

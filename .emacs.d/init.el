@@ -1,8 +1,10 @@
-;; -*- mode: lisp -*-
+;;; -*- mode: lisp -*-
 
-;; package handling
+;;; package handling
 (package-initialize)
-(require 'cask (car (sort (file-expand-wildcards "~/.emacs.d/.cask/*/elpa/cask-*/cask.el") 'string>)))
+(require 'cask (car (sort (file-expand-wildcards
+                           "~/.emacs.d/.cask/*/elpa/cask-*/cask.el")
+                          'string>)))
 (cask-initialize)
 (require 'pallet)
 (pallet-mode t)
@@ -21,7 +23,10 @@
 (delete-selection-mode t)
 (column-number-mode t)
 (ido-mode t)
+(display-time)
 (fset 'yes-or-no-p 'y-or-n-p)
+
+(add-hook 'after-init-hook 'sml/setup)
 
 ;; turn off bad shit
 (if (featurep 'tool-bar)   (tool-bar-mode   -1))
@@ -201,16 +206,6 @@
       (require 'format-spec)
       (require 'git-blame)))
 
-(if (locate-library "sml-modeline")
-    (progn
-      (require 'sml-modeline)
-      (setq sml-modeline-numbers 'line-numbers)
-      (define-globalized-minor-mode global-sml-modeline-mode
-        sml-modeline-mode
-        (lambda ()
-          (sml-modeline-mode t)))
-      (global-sml-modeline-mode t)))
-
 (if (locate-library "highlight-parentheses")
     (progn
       (require 'highlight-parentheses)
@@ -243,9 +238,6 @@
   (save-excursion
     (indent-region (point-min) (point-max))))
 
-(if window-system
-    (set-background-color "black"))
-
 ;; automatically added stuff
 
 (put 'downcase-region 'disabled nil)
@@ -256,23 +248,29 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background "#000"))))
+ '(default ((t (:background "#0f0f0f"))))
  '(ediff-current-diff-A ((t (:background "color-23"))))
  '(ediff-current-diff-B ((t (:background "color-52"))))
- '(edts-face-failed-test-line ((t (:foreground "brightred" :underline t))))
- '(edts-face-passed-test-line ((t (:foreground "brightgreen" :underline t))))
+ '(edts-face-failed-test-line ((t (:foreground "VioletRed2" :underline t))))
+ '(edts-face-passed-test-line ((t (:foreground "chartreuse2" :underline t))))
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-diff-del ((t (:foreground "color-169"))))
- '(magit-item-highlight ((t (:background "color-234"))))
- '(sml-modeline-end-face ((t (:inherit match :foreground "black"))))
- '(sml-modeline-vis-face ((t (:inherit region :foreground "black")))))
+ '(magit-item-highlight ((t (:background "color-234")))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
+ '(display-time-24hr-format t)
  '(edts-xref-checks nil)
+ '(hl-paren-colors
+   (quote
+    ("firebrick1" "goldenrod2" "DarkOliveGreen2" "SeaGreen2" "deep sky blue" "plum")))
  '(package-selected-packages
    (quote
-    (magit flycheck exec-path-from-shell yaml-mode sml-modeline purescript-mode pallet markdown-mode json-mode js2-mode highlight-parentheses go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint eproject edts alchemist)))
- '(purescript-mode-hook (quote (turn-on-purescript-indentation))))
+    (smart-mode-line magit flycheck exec-path-from-shell yaml-mode purescript-mode pallet markdown-mode json-mode js2-mode highlight-parentheses go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint eproject edts alchemist)))
+ '(purescript-mode-hook (quote (turn-on-purescript-indentation)))
+ '(sml/theme (quote dark)))
