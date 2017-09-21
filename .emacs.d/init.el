@@ -42,7 +42,13 @@
  align-to-tab-stop        nil
  inhibit-startup-screen   t
  utf-translate-cjk-mode   nil
- visible-bell             t)
+ visible-bell             nil
+ ring-bell-function       #'blink-mode-line)
+
+(defun blink-mode-line ()
+   "Blink the mode line."
+   (invert-face 'mode-line)
+   (run-with-timer 0.1 nil 'invert-face 'mode-line))
 
 ;; set theme
 (if (fboundp 'custom-available-themes)
