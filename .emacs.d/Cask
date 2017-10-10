@@ -30,6 +30,7 @@
 (depends-on "json-snatcher")
 (depends-on "magit")
 (depends-on "markdown-mode")
+(depends-on "nyan-mode")
 (depends-on "package-build")
 (depends-on "pallet")
 (depends-on "pkg-info")
@@ -38,5 +39,4 @@
 (depends-on "s")
 (depends-on "shut-up")
 (depends-on "smart-mode-line")
-(depends-on "sml-modeline")
 (depends-on "yaml-mode")

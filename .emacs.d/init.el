@@ -26,6 +26,7 @@
 (display-time)
 (fset 'yes-or-no-p 'y-or-n-p)
 (server-start)
+(nyan-mode 1)
 
 (add-hook 'after-init-hook 'sml/setup)
 
@@ -216,8 +217,9 @@
 (if (locate-library "highlight-parentheses")
     (progn
       (require 'highlight-parentheses)
-      (setq hl-paren-colors '("firebrick1" "color-160" "color-88"
-                              "IndianRed4" "brightred" "white"))
+      (setq hl-paren-colors
+            '("firebrick1" "goldenrod2" "DarkOliveGreen3"
+              "green" "deep sky blue" "plum"))
       (define-globalized-minor-mode global-highlight-parentheses-mode
         highlight-parentheses-mode
         (lambda ()
@@ -256,8 +258,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background "#0f0f0f"))))
- '(ediff-current-diff-A ((t (:background "color-23"))))
- '(ediff-current-diff-B ((t (:background "color-52"))))
+ '(ediff-current-diff-A ((t (:background "plum4"))))
+ '(ediff-current-diff-B ((t (:background "PaleVioletRed4"))))
  '(edts-face-failed-test-line ((t (:foreground "VioletRed2" :underline t))))
  '(edts-face-passed-test-line ((t (:foreground "chartreuse2" :underline t))))
  '(magit-diff-add ((t (:foreground "green"))))
@@ -272,12 +274,10 @@
    (quote
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
  '(display-time-24hr-format t)
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(edts-xref-checks nil)
- '(hl-paren-colors
-   (quote
-    ("firebrick1" "goldenrod2" "DarkOliveGreen2" "SeaGreen2" "deep sky blue" "plum")))
  '(package-selected-packages
    (quote
-    (smart-mode-line magit flycheck exec-path-from-shell yaml-mode purescript-mode pallet markdown-mode json-mode js2-mode highlight-parentheses go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint eproject edts alchemist)))
+    (nyan-mode smart-mode-line magit flycheck exec-path-from-shell yaml-mode purescript-mode pallet markdown-mode json-mode js2-mode highlight-parentheses go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint eproject edts alchemist)))
  '(purescript-mode-hook (quote (turn-on-purescript-indentation)))
  '(sml/theme (quote dark)))
