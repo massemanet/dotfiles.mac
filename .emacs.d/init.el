@@ -46,6 +46,11 @@
  visible-bell             nil
  ring-bell-function       #'blink-mode-line)
 
+(defun set-80-columns ()
+  "Set the selected window to 80 columns."
+  (interactive)
+  (window-resize (selected-window) (- 81 (window-width)) t))
+
 (defun blink-mode-line ()
    "Blink the mode line."
    (invert-face 'mode-line)
@@ -84,6 +89,7 @@
 (global-set-key (kbd "C-z")     'undo) ; be like a mac
 (global-set-key (kbd "M-z")     'undo) ; if screen eats C-z
 (global-set-key (kbd "C-x C-r") 'revert-buffer)
+(global-set-key (kbd "C-x |")    'set-80-columns)
 
 (global-flycheck-mode)
 
