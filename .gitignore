@@ -41,9 +41,8 @@ foo*
 /.gdb_history
 /.gdrive/
 /.gem/
-/.gnupg
+/.gnupg*/
 /.gnuplot_history
-/.gnupg/
 /.hex/
 /.ivy2/
 /.john/
