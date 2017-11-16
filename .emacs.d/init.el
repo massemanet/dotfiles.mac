@@ -86,10 +86,10 @@
 (global-set-key (kbd "C-M-v")   `scroll-down)
 (global-set-key (kbd "C-M-c")   `compile)
 (global-set-key (kbd "C-M-d")   `kill-current-word)
+(global-set-key (kbd "C-x C-r") 'revert-buffer)
+(global-set-key (kbd "C-x |")   'set-80-columns)
 (global-set-key (kbd "C-z")     'undo) ; be like a mac
 (global-set-key (kbd "M-z")     'undo) ; if screen eats C-z
-(global-set-key (kbd "C-x C-r") 'revert-buffer)
-(global-set-key (kbd "C-x |")    'set-80-columns)
 
 (global-flycheck-mode)
 
@@ -224,8 +224,8 @@
     (progn
       (require 'highlight-parentheses)
       (setq hl-paren-colors
-            '("firebrick1" "goldenrod2" "DarkOliveGreen3"
-              "green" "deep sky blue" "plum"))
+            (quote
+             ("firebrick1" "yellow3" "green3" "blue3" "cyan3" "purple3")))
       (define-globalized-minor-mode global-highlight-parentheses-mode
         highlight-parentheses-mode
         (lambda ()
