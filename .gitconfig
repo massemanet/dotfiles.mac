@@ -13,7 +13,7 @@
   co = checkout
   st = status
   lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-  sync = "! git fetch --prune && git pull && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -n1 git branch -D"
+  sync = "! git fetch --prune && git pull --ff-only && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -n1 git branch -D"
   alias = "! git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'"
 
 [push]

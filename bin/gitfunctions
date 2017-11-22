@@ -21,6 +21,12 @@ function mygitdir () {
     fi
 }
 
+function gitcheck() {
+    BRANCH=$(git branch | awk '{print $2}')
+    REMOTE=$(git remote)
+    git fetch $REMOTE && git rev-list HEAD ^$REMOTE/$BRANCH
+}
+
 # show status of all repos under "$1" (deafults to "~/git")
 function gitstat () {
     if [ -z "$1" ]; then

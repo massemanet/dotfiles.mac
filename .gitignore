@@ -46,6 +46,7 @@ foo*
 /.hex/
 /.ivy2/
 /.john/
+/.julia_history
 /.kube/
 /.lesshst
 /.local/
