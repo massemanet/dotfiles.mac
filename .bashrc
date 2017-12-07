@@ -26,7 +26,8 @@ bash_completion=$(brew --prefix)/etc/bash_completion
 [ -f ~/bin/gitfunctions ] && . ~/bin/gitfunctions
 
 # emacs
-export EDITOR="emacsclient -s $(lsof -U -a | grep Emacs | awk '{print $8}')"
+SOCKET="$(lsof -U 2>/dev/null | grep Emacs | awk '{print $8}')"
+export EDITOR="emacsclient -s $SOCKET"
 
 PROMPT_COMMAND='[ "$?" == "0" ] && ERROR_FLAG= || ERROR_FLAG=1'
 if type kubectl &> /dev/null ; then
