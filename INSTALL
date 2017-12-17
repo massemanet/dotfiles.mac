@@ -35,4 +35,4 @@ ssh-keygen
 mv /tmp/dotfiles.mac/.git ~
 git reset --hard
 (cd ~/.emacs.d && cask install)
-(cd ~/.emacs.d/.cask/*/elpa/edts-* && make)
+for e in ~/.emacs.d/.cask/*/elpa/edts-* ; do (cd $e && pwd && make) ; done
