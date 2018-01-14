@@ -3,15 +3,8 @@
 #
 # macos/homebrew style
 
-# force globbing on
-set +f
-
 # clean up
 unalias -a
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
 
 # check for coreutils
 GREP=$(which ggrep)            || GREP=$(which grep)
