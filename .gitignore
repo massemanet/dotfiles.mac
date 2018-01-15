@@ -8,7 +8,6 @@
 /Music/
 /Pictures/
 /Public/
-/Sites/
 .CFUserTextEncoding
 .DS_Store
 .Trash/
@@ -21,70 +20,31 @@
 foo*
 
 /.Xauthority
-/.account
-/.aspell.*
 /.aws/
 /.bash_history
 /.bash_sessions/
-/.boot2docker/
 /.cache/
 /.config/
-/.ddd/
-/.deployinator/
 /.docker/
 /.dotnet/
-/.dropbox*/
 /.emacs.d/
-/.escobar/
-/.esets/
-/.fontconfig/
-/.gdb_history
 /.gdrive/
-/.gem/
 /.gnupg*/
-/.gnuplot_history
 /.hex/
-/.ivy2/
-/.john/
-/.julia_history
 /.kube/
 /.lesshst
 /.local/
 /.localbashrc
-/.mix/
-/.mysql_history
-/.node_repl_history
-/.npm/
-/.nuget/
-/.openvr/
 /.oracle_jre_usage/
-/.psci_modules/
-/.purescript/
 /.rnd
-/.serverauth*
 /.s3cfg
+/.serverauth*
 /.ssh/
-/.subversion/
 /.templateengine/
-/.vagrant.d/
 /.viminfo
-/.wine/
-/.wx*
 
-/BitTorrent Sync/
-/DOS Games/
-/Dropbox/
-/Google Drive/
-/Sports Interactive/
-/VirtualBox VMs/
 /bin/
-/boxes/
-/epub/
 /git/
-/go/
-/ignore/
-/iterm.log
-/spark/
 
 # erlang droppings
 .*.etz
@@ -94,3 +54,4 @@ foo*
 erl_crash.dump
 /.dialyzer_plt
 /.erlang.cookie
+/.escobar/
