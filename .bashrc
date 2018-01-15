@@ -49,10 +49,9 @@ export PS1
 function grep()  { $GREP --color=auto "$@"; }
 function pgrep() { ps -ef > $$ ; egrep -i "$1" $$ ; rm $$ ; }
 function pkill() { pgrep "$1" | awk '{print $2}' | xargs sudo kill -9 ; }
-function dir()   { $LS -lFh "$@"; }
+function dir()   { $LS -AlFh "$@"; }
 function dirt()  { dir -rt "$@"; }
 function dird()  { dir -d "$@"; }
-function dira()  { for d in "${@:-.}"; do (cd "$d"; pwd; dird .*); done; }
 function rea()   { history | grep -E "${@:-}"; }
 function m()     { less "$@"; }
 function c()     { cat "$@"; }
