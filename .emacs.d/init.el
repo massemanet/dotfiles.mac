@@ -39,12 +39,14 @@
 (defun ido-kill-emacs-hook () (ignore-errors (ido-save-history)))
 (setq-default indent-tabs-mode nil)
 (setq
- special-display-regexps  nil
- align-to-tab-stop        nil
- inhibit-startup-screen   t
- utf-translate-cjk-mode   nil
- visible-bell             nil
- ring-bell-function       #'blink-mode-line)
+ align-to-tab-stop           nil
+ display-time-24hr-format    t
+ ediff-window-setup-function 'ediff-setup-windows-plain
+ inhibit-startup-screen      t
+ ring-bell-function          #'blink-mode-line
+ special-display-regexps     nil
+ utf-translate-cjk-mode      nil
+ visible-bell                nil)
 
 (defun set-80-columns ()
   "Set the selected window to 80 columns."
@@ -55,11 +57,6 @@
    "Blink the mode line."
    (invert-face 'mode-line)
    (run-with-timer 0.1 nil 'invert-face 'mode-line))
-
-;; set theme
-(if (fboundp 'custom-available-themes)
-    (if (member 'tango-dark (custom-available-themes))
-        (load-theme 'tango-dark)))
 
 ;; configs
 (setq
@@ -75,6 +72,8 @@
 (global-set-key (kbd "C-c p")   'point-to-register)
 (global-set-key (kbd "C-c r")   'register-to-point)
 (global-set-key (kbd "C-\"")    'flycheck-next-error)
+(global-set-key (kbd "C-<")     'beginning-of-buffer)
+(global-set-key (kbd "C->")     'end-of-buffer)
 (global-set-key (kbd "C-:")     'flycheck-previous-error)
 (global-set-key (kbd "C-%")     `query-replace)
 (global-set-key (kbd "C-{")     `previous-error)
@@ -108,6 +107,7 @@
 ;(add-hook 'after-init-hook #'global-flycheck-mode)
 (defun my-erlang-setup ()
   (require 'edts-start)
+  (setq edts-xref-checks nil)
   (require 'flycheck-rebar3)
   (flycheck-rebar3-setup)
   (flycheck-define-checker erlang
@@ -224,7 +224,7 @@
       (require 'highlight-parentheses)
       (setq hl-paren-colors
             (quote
-             ("firebrick1" "yellow3" "green3" "blue3" "cyan3" "purple3")))
+             ("orange" "yellow3" "green3" "blue1" "cyan3" "purple2")))
       (define-globalized-minor-mode global-highlight-parentheses-mode
         highlight-parentheses-mode
         (lambda ()
@@ -247,7 +247,7 @@
         (setq flyspell-dictionaries (quote ("american" "svenska"))))))
 
 (defun indent-buffer ()
-  "indent current buffer"
+  "Indent current buffer."
   (interactive)
   (save-excursion
     (indent-region (point-min) (point-max))))
@@ -256,33 +256,93 @@
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:background "#0f0f0f"))))
- '(ediff-current-diff-A ((t (:background "plum4"))))
- '(ediff-current-diff-B ((t (:background "PaleVioletRed4"))))
- '(edts-face-failed-test-line ((t (:foreground "VioletRed2" :underline t))))
- '(edts-face-passed-test-line ((t (:foreground "chartreuse2" :underline t))))
- '(magit-diff-add ((t (:foreground "green"))))
- '(magit-diff-del ((t (:foreground "color-169"))))
- '(magit-item-highlight ((t (:background "color-234")))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
+ '(compilation-message-face (quote default))
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#839496")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
+ '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes
    (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
- '(display-time-24hr-format t)
- '(ediff-window-setup-function (quote ediff-setup-windows-plain))
- '(edts-xref-checks nil)
+    ("82fce2cada016f736dbcef237780516063a17c2436d1ee7f42e395e38a15793b" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "b67cb8784f6a2d1a3f605e39d2c376937f3bf8460cb8a0d6fc625c0331c00c83" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
+ '(fci-rule-color "#073642")
+ '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#002b36" 0.25)
+    (quote
+     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ '(highlight-symbol-foreground-color "#93a1a1")
+ '(highlight-tail-colors
+   (quote
+    (("#073642" . 0)
+     ("#546E00" . 20)
+     ("#00736F" . 30)
+     ("#00629D" . 50)
+     ("#7B6000" . 60)
+     ("#8B2C02" . 70)
+     ("#93115C" . 85)
+     ("#073642" . 100))))
+ '(hl-bg-colors
+   (quote
+    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
+ '(hl-fg-colors
+   (quote
+    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(magit-diff-use-overlays nil)
+ '(nrepl-message-colors
+   (quote
+    ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (nyan-mode smart-mode-line magit flycheck exec-path-from-shell yaml-mode purescript-mode pallet markdown-mode json-mode js2-mode highlight-parentheses go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint eproject edts alchemist)))
- '(purescript-mode-hook (quote (turn-on-purescript-indentation)))
- '(sml/theme (quote dark)))
+    (color-theme-sanityinc-solarized yaml-mode solarized-theme smart-mode-line purescript-mode pallet nyan-mode markdown-mode magit json-mode js2-mode highlight-parentheses gruvbox-theme go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint exec-path-from-shell eproject edts alchemist)))
+ '(pos-tip-background-color "#073642")
+ '(pos-tip-foreground-color "#93a1a1")
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
+ '(term-default-bg-color "#002b36")
+ '(term-default-fg-color "#839496")
+ '(vc-annotate-background nil)
+ '(vc-annotate-background-mode nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#dc322f")
+     (40 . "#c85d17")
+     (60 . "#be730b")
+     (80 . "#b58900")
+     (100 . "#a58e00")
+     (120 . "#9d9100")
+     (140 . "#959300")
+     (160 . "#8d9600")
+     (180 . "#859900")
+     (200 . "#669b32")
+     (220 . "#579d4c")
+     (240 . "#489e65")
+     (260 . "#399f7e")
+     (280 . "#2aa198")
+     (300 . "#2898af")
+     (320 . "#2793ba")
+     (340 . "#268fc6")
+     (360 . "#268bd2"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (quote
+    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
+ '(xterm-color-names
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
+ '(xterm-color-names-bright
+   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(font-lock-warning-face ((t (:inherit error :background "blue" :weight bold)))))
