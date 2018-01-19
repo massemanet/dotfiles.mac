@@ -27,6 +27,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (server-start)
 (nyan-mode 1)
+(global-flycheck-mode)
 
 (add-hook 'after-init-hook 'sml/setup)
 
@@ -81,6 +82,8 @@
 (global-set-key (kbd "C-S-u")   `fdlcap-change-case-current-word)
 (global-set-key (kbd "C-S-t")   `transpose-lines)
 (global-set-key (kbd "C-v")     `scroll-up)
+(global-set-key (kbd "C-S-n")   `forward-list)
+(global-set-key (kbd "C-S-p")   `backward-list)
 (global-set-key (kbd "C-S-v")   `scroll-down)
 (global-set-key (kbd "C-S-c")   `compile)
 (global-set-key (kbd "C-x c")   'execute-extended-command)
@@ -89,7 +92,9 @@
 (global-set-key (kbd "C-z")     'undo) ; be like a mac
 (global-set-key (kbd "M-z")     'undo) ; if screen eats C-z
 
-(global-flycheck-mode)
+(let ((map minibuffer-local-map))
+  (define-key map (kbd "C-n")   'next-history-element)
+  (define-key map (kbd "C-p")   'previous-history-element))
 
 ;; go stuff
 (defun my-go-mode-hook ()
@@ -103,8 +108,6 @@
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
 ;; erlang stuff
-
-;(add-hook 'after-init-hook #'global-flycheck-mode)
 (defun my-erlang-setup ()
   (require 'edts-start)
   (setq edts-xref-checks nil)
