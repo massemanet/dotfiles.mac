@@ -62,17 +62,10 @@ function gitstat () {
 
 # update all remotes for all repos under "$1" (defaults to "~/git")
 function gitupd() {
-    if [ -z "$1" ]; then
-        base=~/git
-    else
-        base=$1
-    fi
+    base=${1:-~/git}
     for d in $base/*
     do
-        echo `basename $d`
-        (
-            cd $d
-            git fetch --prune 1> /dev/null && git pull
-        )
+        echo -n `basename $d`": "
+        (cd $d && git fetch --prune 1> /dev/null && git pull)
     done
 }
