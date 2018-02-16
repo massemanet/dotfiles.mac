@@ -32,6 +32,7 @@
 (depends-on "json-reformat")
 (depends-on "json-snatcher")
 (depends-on "julia-mode")
+(depends-on "julia-repl")
 (depends-on "magit")
 (depends-on "markdown-mode")
 (depends-on "nyan-mode")

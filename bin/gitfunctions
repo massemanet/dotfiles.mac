@@ -65,7 +65,7 @@ function gitupd() {
     base=${1:-~/git}
     for d in $base/*
     do
-        echo -n `basename $d`": "
+        echo -n $(basename $d)": "
         (cd $d && git fetch --prune 1> /dev/null && git pull)
     done
 }

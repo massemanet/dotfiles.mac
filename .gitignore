@@ -31,6 +31,8 @@ foo*
 /.gdrive/
 /.gnupg*/
 /.hex/
+/.julia/
+/.julia_history
 /.kube/
 /.lesshst
 /.local/
