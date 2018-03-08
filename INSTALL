@@ -16,7 +16,7 @@ fi
 brew update
 
 brew install \
-     bash bash-completion cask coreutils curl emacs erlang findutils \
+     aspell bash bash-completion cask coreutils curl emacs erlang findutils \
      git grep htop jq make mosh pstree rebar3 shellcheck tmux wget
 brew cask install \
      chromium docker emacs firefox google-chrome slack spotify tunnelblick xquartz

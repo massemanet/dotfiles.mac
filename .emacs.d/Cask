@@ -8,6 +8,7 @@
 (depends-on "cask")
 (depends-on "color-theme-sanityinc-solarized")
 (depends-on "company")
+(depends-on "dockerfile-mode")
 (depends-on "edts")
 (depends-on "elixir-mode")
 (depends-on "epl")
