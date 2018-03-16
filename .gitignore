@@ -20,6 +20,7 @@
 foo*
 
 /.Xauthority
+/.aspell*
 /.aws/
 /.bash_history
 /.bash_sessions/
@@ -29,6 +30,7 @@ foo*
 /.dotnet/
 /.emacs.d/
 /.gdrive/
+/.gitk
 /.gnupg*/
 /.hex/
 /.julia/
