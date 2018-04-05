@@ -111,98 +111,6 @@ Repeated invocations toggle between the two most recently open buffers."
   (define-key map (kbd "C-n")   'next-history-element)
   (define-key map (kbd "C-p")   'previous-history-element))
 
-;; go stuff
-(defun my-go-mode-hook ()
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (setq whitespace-style (list 'face 'trailing 'lines-tail 'empty))
-  (if (not (string-match "go" compile-command))
-      (set (make-local-variable 'compile-command)
-           "go build -v && go test -v && go vet && go install"))
-  (local-set-key (kbd "M-.") 'godef-jump)
-  (local-set-key (kbd "M-*") 'pop-tag-mark))
-(add-hook 'go-mode-hook 'my-go-mode-hook)
-
-;; erlang stuff
-(defun my-erlang-setup ()
-  (require 'edts-start)
-  (setq edts-xref-checks nil)
-  (require 'flycheck-rebar3)
-  (flycheck-rebar3-setup)
-  (flycheck-define-checker erlang
-    "awesome erlang checker"
-    :command ("erlc"
-              "-o" temporary-directory
-              (option-list "-I" flycheck-erlang-include-path)
-              (option-list "-pa" flycheck-erlang-library-path)
-              "-Wall"
-              source)
-    :error-patterns
-    ((warning line-start (file-name) ":" line ": Warning:" (message) line-end)
-     (error line-start (file-name) ":" line ": " (message) line-end))
-    :modes erlang-mode
-    :predicate (lambda ()
-                 (string-suffix-p ".erl" (buffer-file-name))))
-  (setq flycheck-erlang-include-path '("../include"))
-  (setq flycheck-erlang-library-path '("../_build/default/lib/*/ebin"))
-  (setq safe-local-variable-values
-        (quote ((allout-layout . t)
-                (erlang-indent-level . 4)
-                (erlang-indent-level . 2))))
-  (defun erl-file-header ()
-    "insert my very own erlang file header"
-    (interactive)
-    (insert "%% -*- mode: erlang; erlang-indent-level: 2 -*-\n")
-    (insert "%% @doc\n")
-    (insert "%% @end\n\n")
-    (insert (concat "-module(" (erlang-get-module-from-file-name) ").\n\n"))
-    (insert (concat "-export([]).\n\n")))
-
-  (add-hook 'erlang-new-file-hook 'my-erlang-new-file-hook)
-  (defun my-erlang-new-file-hook ()
-    (erl-file-header))
-
-    ;; stupid electricity
-    (set-variable 'erlang-electric-commands nil)
-    ;; make hack for compile command
-    ;; uses Makefile if it exists, else looks for ../inc & ../ebin
-    (unless (null buffer-file-name)
-      (make-local-variable 'compile-command)
-      (setq compile-command
-            (cond ((file-exists-p "Makefile")  "make -k")
-                  ((file-exists-p "../Makefile")  "make -kC..")
-                  (t (concat
-                      "erlc "
-                      (if (file-exists-p "../ebin") "-o ../ebin " "")
-                      (if (file-exists-p "../include") "-I ../include " "")
-                      "+debug_info -W " buffer-file-name))))))
-
-;; javascript stuff
-(defun my-js-setup()
-  (autoload 'js2-mode "js2" nil t)
-  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-  (autoload 'json-mode "json" nil t)
-  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
-
-(add-hook 'json-mode-hook
-          (lambda ()
-            (setq js-indent-level 2)))
-
-(add-hook 'js2-mode-hook 'my-js2-mode-hook)
-
-(defun my-js2-mode-hook ()
-  (js2-leave-mirror-mode)
-  (setq js2-mirror-mode nil
-        js2-bounce-indent-p t
-        js2-cleanup-whitespace t
-        js2-mode-indent-ignore-first-tab t
-        js2-basic-offset 2))
-
-(defun my-whitespace-setup()
-  (require 'whitespace)
-  (setq whitespace-style (list 'face 'tabs 'trailing 'lines-tail 'empty)
-        whitespace-line-column 79)
-  (global-whitespace-mode t))
-
 ;; this is default in emacs 24.4
 (if (locate-library "uniquify")
     (progn
@@ -214,28 +122,6 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (if (locate-library "magit")
     (require 'magit))
-
-(if (locate-library "js2")
-    (my-js-setup))
-
-(if (locate-library "erlang-start")
-    (progn
-      (require 'erlang-start)
-      (my-erlang-setup)))
-
-(if (locate-library "alchemist")
-    (require 'alchemist))
-
-(if (locate-library "whitespace")
-    (my-whitespace-setup))
-
-(if (locate-library "git")
-    (require 'git))
-
-(if (locate-library "git-blame")
-    (progn
-      (require 'format-spec)
-      (require 'git-blame)))
 
 (if (locate-library "highlight-parentheses")
     (progn

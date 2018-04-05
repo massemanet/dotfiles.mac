@@ -14,12 +14,11 @@ fi
 
 # Install stuff
 brew update
-
 brew install \
-     aspell bash bash-completion cask coreutils curl emacs erlang findutils \
-     git grep htop jq make mosh pstree rebar3 shellcheck tmux wget
+     aspell bash bash-completion cask coreutils curl emacs findutils \
+     git grep htop jq make mosh pstree shellcheck tmux wget
 brew cask install \
-     chromium docker emacs firefox google-chrome slack spotify tunnelblick xquartz
+     chromium docker emacs firefox google-chrome slack spotify tunnelblick xquartz zoomus
 
 # link some nice stuff
 ULB=/usr/local/bin
@@ -27,12 +26,22 @@ ULB=/usr/local/bin
 [ -x $ULB/xargs ] || ln -s $(brew --prefix findutils)/bin/gxargs $ULB/xargs
 [ -x $ULB/grep ] || ln -s $(brew --prefix grep)/bin/ggrep $ULB/grep
 
-ssh-keygen
-# upload key to github
+if [ -f ~/.ssh/id_rsa ]; then
+    echo "found keys"
+else
+    ssh-keygen
+    echo "upload public key to github"
+    exit 1
+fi
 
 # get my stuff
-(cd /tmp && git clone git@github.com:massemanet/dotfiles.mac.git)
-mv /tmp/dotfiles.mac/.git ~
-git reset --hard
+if [ -d ~/.git ]; then
+    echo "found ~/.git"
+else
+    (cd /tmp && git clone git@github.com:massemanet/dotfiles.mac.git)
+    mv /tmp/dotfiles.mac/.git ~
+    git reset --hard
+fi
+
+# install emacs packages
 (cd ~/.emacs.d && cask install)
-for e in ~/.emacs.d/.cask/*/elpa/edts-* ; do (cd $e && pwd && make) ; done
