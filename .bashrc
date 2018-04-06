@@ -3,6 +3,8 @@
 #
 # macos/homebrew style
 
+[ -t 0 ] || exit 0
+
 # clean up
 unalias -a
 
