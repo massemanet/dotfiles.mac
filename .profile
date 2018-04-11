@@ -6,6 +6,7 @@
 function add_to_path() {
     [ -d "$1" ] && export PATH="$1":$PATH
 }
+add_to_path /usr/local/bin
 add_to_path /opt/bin
 add_to_path "$(brew --prefix coreutils)/libexec/gnubin"
 add_to_path "$(brew --prefix)/bin"

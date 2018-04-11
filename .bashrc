@@ -3,6 +3,7 @@
 #
 # macos/homebrew style
 
+# make scp work by checking for a tty
 [ -t 0 ] || return
 
 # clean up
@@ -30,7 +31,7 @@ if [ "$TERM" != "dumb" ]; then
     export GIT_PS1_SHOWDIRTYSTATE=true
     export PROMPT_COMMAND='LAST_EXIT=$? ; [ $LAST_EXIT == 0 ] && unset LAST_EXIT'
     export PS1='\[\e[33m\]\h'
-    export PS1+='\[\e[36m\]${KUBECTX:+[${KUBECTX}]}'
+    export PS1+='\[\e[36m\]${AWS_PROFILE:+[${AWS_PROFILE}]}'
     export PS1+='\[\e[35m\]($(mygitdir):$(mygitbranch))'
     export PS1+='\[\e[32m\]${LAST_EXIT:+\[\e[31m\]($LAST_EXIT)}$'
     export PS1+='\[\e[0m\] '
