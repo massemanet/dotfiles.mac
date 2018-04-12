@@ -7,7 +7,7 @@ function usage () {
 }
 
 # get homebrew
-if test ! $(which brew); then
+if test ! "$(which brew)"; then
     echo "Installing homebrew..."
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
@@ -16,15 +16,15 @@ fi
 brew update
 brew install \
      aspell bash bash-completion cask coreutils curl emacs findutils \
-     git grep htop jq make mosh pstree shellcheck tmux wget
+     git gnu-sed grep htop jq make mosh pstree shellcheck tmux wget
 brew cask install \
      chromium docker emacs firefox google-chrome slack spotify tunnelblick xquartz zoomus
 
 # link some nice stuff
 ULB=/usr/local/bin
-[ -x $ULB/find ] || ln -s $(brew --prefix findutils)/bin/gfind $ULB/find
-[ -x $ULB/xargs ] || ln -s $(brew --prefix findutils)/bin/gxargs $ULB/xargs
-[ -x $ULB/grep ] || ln -s $(brew --prefix grep)/bin/ggrep $ULB/grep
+[ -x $ULB/find ] || ln -s "$(brew --prefix findutils)/bin/gfind" $ULB/find
+[ -x $ULB/xargs ] || ln -s "$(brew --prefix findutils)/bin/gxargs" $ULB/xargs
+[ -x $ULB/grep ] || ln -s "$(brew --prefix grep)/bin/ggrep" $ULB/grep
 
 if [ -f ~/.ssh/id_rsa ]; then
     echo "found keys"
