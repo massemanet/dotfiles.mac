@@ -41,8 +41,9 @@ function dir()   { ls -AlFh --color "$@"; }
 function dirt()  { dir -rt "$@"; }
 function dird()  { dir -d "$@"; }
 function rea()   { history | grep -E "${@:-}"; }
-function m()     { less "$@"; }
 function c()     { cat "$@"; }
+function g()     { grep -nIHE --color "$@"; }
+function m()     { less "$@"; }
 
 ## history
 # lots of history
