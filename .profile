@@ -6,10 +6,12 @@
 function add_to_path() {
     [ -d "$1" ] && export PATH="$1":$PATH
 }
-add_to_path /usr/local/bin
-add_to_path /opt/bin
 add_to_path "$(brew --prefix coreutils)/libexec/gnubin"
+add_to_path "$(brew --prefix findutils)/libexec/gnubin"
+add_to_path "$(brew --prefix gnu-sed)/libexec/gnubin"
+add_to_path "$(brew --prefix grep)/bin"
 add_to_path "$(brew --prefix)/bin"
+add_to_path /opt/bin
 add_to_path ~/bin
 
 # one locale to rule them all

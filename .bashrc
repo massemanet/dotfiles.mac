@@ -9,12 +9,10 @@
 # clean up
 unalias -a
 
-# check for coreutils
-GREP="$(which ggrep)"          || GREP="$(which grep)"
-LS="$(which gls) --color=auto" || LS="$(which ls)"
-DIRCOLORS="$(which gdircolors)"|| DIRCOLORS="$(which dircolors)"
-eval "$($DIRCOLORS)"
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+eval "$(dircolors)"
+
+#shellcheck disable=SC1090
+. "$(brew --prefix bash-completion)/etc/bash_completion"
 
 # define some git helpers
 # shellcheck source=bin/gitfunctions
@@ -39,8 +37,7 @@ else
     export PS1="\\h\\$ "
 fi
 
-function grep()  { $GREP --color=auto "$@"; }
-function dir()   { $LS -AlFh "$@"; }
+function dir()   { ls -AlFh --color "$@"; }
 function dirt()  { dir -rt "$@"; }
 function dird()  { dir -d "$@"; }
 function rea()   { history | grep -E "${@:-}"; }
