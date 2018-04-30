@@ -9,7 +9,8 @@ function usage () {
 # get homebrew
 if test ! "$(which brew)"; then
     echo "Installing homebrew..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    BREW="https://raw.githubusercontent.com/Homebrew/install/master/install"
+    ruby -e "$(curl -fsSL "$BREW")"
 fi
 
 # Install stuff
@@ -18,7 +19,7 @@ brew install --with-default-names \
      grep
 brew install \
      aspell bash bash-completion cask coreutils curl emacs findutils \
-     gawk git gnu-sed htop jq make mosh pstree shellcheck tmux wget
+     gawk git gnu-sed gzip htop jq make mosh pstree shellcheck tmux wget
 brew cask install \
      chromium docker emacs firefox google-chrome slack spotify \
      tunnelblick xquartz zoomus
