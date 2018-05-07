@@ -21,14 +21,18 @@ brew install \
      aspell bash bash-completion cask coreutils curl emacs findutils \
      gawk git gnu-sed gzip htop jq make mosh pstree shellcheck tmux wget
 brew cask install \
-     chromium docker emacs firefox google-chrome slack spotify \
-     tunnelblick xquartz zoomus
+     chromium docker emacs slack spotify tunnelblick xquartz zoomus
+
+# these'll fail if the apps have been installed manually
+brew cask install firefox || true
+brew cask install google-chrome || true
 
 if [ -f ~/.ssh/id_rsa ]; then
     echo "found keys"
 else
-    ssh-keygen
-    echo "upload public key to github"
+    echo "no ssh keys"
+    echo "maybe 'ssh-keygen' + upload public key to github"
+    echo "or 'scp -r some-syst.em:~/.ssh ~/.ssh'"
     exit 1
 fi
 
@@ -42,4 +46,8 @@ else
 fi
 
 # install emacs packages
+# there's a bug in the emacs/mac that makes the cask bootstrapper fail on https
+for CB in $(echo /usr/local/Cellar/cask/*/cask-bootstrap.el); do
+    sed -i 's/https:/http:/g' "$CB"
+done
 (cd ~/.emacs.d && cask install)
