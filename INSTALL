@@ -27,6 +27,11 @@ brew cask install \
 brew cask install firefox || true
 brew cask install google-chrome || true
 
+if ! grep -q "/usr/local/bin/bash" /etc/shells; then
+    echo /usr/local/bin/bash | sudo tee -a /etc/shells
+    sudo chsh -s /usr/local/bin/bash
+fi
+
 if [ -f ~/.ssh/id_rsa ]; then
     echo "found keys"
 else
