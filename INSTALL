@@ -38,7 +38,7 @@ else
     echo "no ssh keys"
     echo "maybe 'ssh-keygen' + upload public key to github"
     echo "or 'scp -r some-syst.em:~/.ssh ~/.ssh'"
-    exit 1
+    return
 fi
 
 # get my stuff
@@ -53,6 +53,6 @@ fi
 # install emacs packages
 # there's a bug in the emacs/mac that makes the cask bootstrapper fail on https
 for CB in $(echo /usr/local/Cellar/cask/*/cask-bootstrap.el); do
-    sed -i 's/https:/http:/g' "$CB"
+    /usr/bin/sed -i "" 's/https:/http:/g' "$CB"
 done
 (cd ~/.emacs.d && cask install)
