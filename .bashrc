@@ -62,7 +62,15 @@ export PROMPT_COMMAND+=" ; history -a"
 # multi-line commands
 shopt -s cmdhist
 
-# machine-local file outside git
-# shellcheck disable=SC1091
-[ -f .localbashrc ] && . .localbashrc
+# set up AWS and k8s if possible
+unset AWS_PROFILE
+if [ -f ~/.aws/config ] && grep -q "profile prod" ~/.aws/config ; then
+    export AWS_PROFILE=prod
+fi
+if [ -f ~/.kube/config ] && test "$(which kubectl)" ; then
+    export AWS_PROFILE
+    PROMPT_COMMAND+=' ; AWS_PROFILE=$(grep -o "current-context.*" ~/.kube/config | cut -c18-)'
+fi
+
+# motd
 uname -a
