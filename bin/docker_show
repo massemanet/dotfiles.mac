@@ -1,0 +1,11 @@
+#!/bin/bash
+
+join <(docker ps | \
+           awk '/PORTS/{print "IMAGE","CONTAINER","PORTS"; next} match($0,/[0-9]+(\.[0-9]+){3}:[0-9]+->[0-9]+/){ print $2,$1,substr($0,RSTART,RLENGTH);next} {print $2,$1,"-"}' | \
+           sort -b) \
+     <(docker images | \
+           awk '{print $3,$1,$2}' | \
+           sort -b) | \
+    awk '{print $2,$1,$4,$5,$3}' | \
+    sort -rf |\
+    column -t
