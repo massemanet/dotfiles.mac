@@ -7,5 +7,5 @@ join <(docker ps | \
            awk '{print $3,$1,$2}' | \
            sort -b) | \
     awk '{print $2,$1,$4,$5,$3}' | \
-    sort -rf |\
+    sort -r -k2 |\
     column -t
