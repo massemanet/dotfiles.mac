@@ -2,13 +2,10 @@
 (source "melpa" "http://melpa.milkbox.net/packages/")
 
 (depends-on "async")
-(depends-on "auto-complete")
-(depends-on "auto-highlight-symbol")
 (depends-on "cargo")
 (depends-on "cask")
 (depends-on "company")
 (depends-on "dockerfile-mode")
-(depends-on "edts")
 (depends-on "epl")
 (depends-on "eproject")
 (depends-on "erlang")

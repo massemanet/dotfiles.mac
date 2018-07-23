@@ -9,11 +9,13 @@
 (require 'pallet)
 (pallet-mode t)
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+(if (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)
+  (load-theme 'gruvbox-dark-hard))
 
 ;; add legacy
 (add-to-list 'load-path "~/.emacs.d/fdlcap")
+(add-to-list 'load-path "~/.emacs.d/masserlang")
 
 ;; turn on good shit
 (set-language-environment "ASCII")
@@ -117,6 +119,9 @@ Repeated invocations toggle between the two most recently open buffers."
       (require 'uniquify)
       (setq uniquify-buffer-name-style 'post-forward-angle-brackets)))
 
+(if (locate-library "masserlang")
+    (require 'masserlang))
+
 (if (locate-library "fdlcap")
     (require 'fdlcap))
 
@@ -175,7 +180,7 @@ Repeated invocations toggle between the two most recently open buffers."
  '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes
    (quote
-    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "82fce2cada016f736dbcef237780516063a17c2436d1ee7f42e395e38a15793b" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "b67cb8784f6a2d1a3f605e39d2c376937f3bf8460cb8a0d6fc625c0331c00c83" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
+    ("858a353233c58b69dbe3a06087fc08905df2d8755a0921ad4c407865f17ab52f" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "82fce2cada016f736dbcef237780516063a17c2436d1ee7f42e395e38a15793b" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "b67cb8784f6a2d1a3f605e39d2c376937f3bf8460cb8a0d6fc625c0331c00c83" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
  '(fci-rule-color "#073642")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
@@ -206,7 +211,7 @@ Repeated invocations toggle between the two most recently open buffers."
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (kubernetes cargo flycheck-rust flymake-rust rust-mode rust-playground dockerfile-mode flycheck-julia julia-mode julia-repl color-theme-sanityinc-solarized yaml-mode solarized-theme smart-mode-line purescript-mode pallet nyan-mode markdown-mode magit json-mode js2-mode highlight-parentheses gruvbox-theme go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint exec-path-from-shell eproject edts alchemist)))
+    (erlang kubernetes cargo flycheck-rust flymake-rust rust-mode rust-playground dockerfile-mode flycheck-julia julia-mode julia-repl color-theme-sanityinc-solarized yaml-mode solarized-theme smart-mode-line purescript-mode pallet nyan-mode markdown-mode magit json-mode js2-mode highlight-parentheses gruvbox-theme go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint exec-path-from-shell eproject alchemist)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))

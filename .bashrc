@@ -9,6 +9,10 @@
 # clean up
 unalias -a
 
+# check terminal resize
+shopt -s checkwinsize
+
+# pretty colors
 eval "$(dircolors)"
 
 #shellcheck disable=SC1090
