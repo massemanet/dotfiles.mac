@@ -94,6 +94,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-set-key (kbd "C-S-u")   `fdlcap-change-case-current-word)
 (global-set-key (kbd "C-S-v")   `scroll-down)
 (global-set-key (kbd "C-S-w")   `kill-ring-save)
+(global-set-key (kbd "C-S-y")   `yank-pop)
 (global-set-key (kbd "C-\"")    'flycheck-next-error)
 (global-set-key (kbd "C-c a")   'align-regexp)
 (global-set-key (kbd "C-c b")   'bury-buffer)

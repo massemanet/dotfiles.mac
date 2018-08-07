@@ -1,5 +1,5 @@
-# -*- mode: shell-script -*-
 #!/bin/bash
+# -*- mode: shell-script -*-
 
 function usage () {
     echo "$1"
@@ -7,7 +7,7 @@ function usage () {
 }
 
 # get homebrew
-if test ! "$(which brew)"; then
+if test ! "$(command -v brew)"; then
     echo "Installing homebrew..."
     BREW="https://raw.githubusercontent.com/Homebrew/install/master/install"
     ruby -e "$(curl -fsSL "$BREW")"
@@ -21,7 +21,7 @@ brew install \
      aspell bash bash-completion cask coreutils curl emacs findutils \
      gawk git gnu-sed gzip htop jq make mosh pstree shellcheck tmux wget
 brew cask install \
-     chromium docker emacs slack spotify tunnelblick xquartz zoomus
+     docker emacs slack spotify tunnelblick xquartz zoomus
 
 # these'll fail if the apps have been installed manually
 brew cask install firefox || true
