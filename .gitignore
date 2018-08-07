@@ -46,6 +46,7 @@ foo*
 /.ssh/
 /.templateengine/
 /.viminfo
+/.zoom*/
 
 /bin/
 /git/
