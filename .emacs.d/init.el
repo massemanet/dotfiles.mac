@@ -114,6 +114,12 @@ Repeated invocations toggle between the two most recently open buffers."
   (define-key map (kbd "C-n")   'next-history-element)
   (define-key map (kbd "C-p")   'previous-history-element))
 
+(defun my-whitespace-setup()
+  (require 'whitespace)
+  (setq whitespace-style (list 'face 'tabs 'trailing 'lines-tail 'empty)
+        whitespace-line-column 79)
+  (global-whitespace-mode t))
+
 ;; this is default in emacs 24.4
 (if (locate-library "uniquify")
     (progn
@@ -128,6 +134,9 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (if (locate-library "magit")
     (require 'magit))
+
+(if (locate-library "whitespace")
+    (my-whitespace-setup))
 
 (if (locate-library "highlight-parentheses")
     (progn
@@ -248,12 +257,3 @@ Repeated invocations toggle between the two most recently open buffers."
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
    ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(font-lock-warning-face ((t (:inherit error :background "blue" :weight bold))))
- '(mode-line ((t (:background "#661111" :foreground "#839496" :inverse-video nil :box (:line-width 1 :color "#073642" :style unspecified) :overline "#073642" :underline "#284b54"))))
- '(smerge-refined-added ((t (:inherit smerge-refined-change :background "#016601")))))
