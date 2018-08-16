@@ -45,21 +45,23 @@ function gitstat () {
           [ -z "$branch" ] && \
               branch=$(echo "$stat" | \
                            grep -Eo "HEAD detached|Not currently on any" && \
-                           echo "!")
+                           echo "(detached)")
           [ -z "$branch" ] && \
               branch="()"
-          uptodate="$(echo "$stat" | grep -q "is behind" && echo "!")"
+          uptodate="$(echo "$stat" | grep -q "is behind" && echo "behind")"
           [ -z "$uptodate" ] && \
-              uptodate=$(echo "$stat" | grep -q "is ahead" && echo "*")
+              uptodate=$(echo "$stat" | grep -q "is ahead" && echo "ahead")
           [ -z "$uptodate" ] && \
-              uptodate=$(echo "$stat" | grep -q "diverged" && echo "<")
+              uptodate=$(echo "$stat" | grep -q "diverged" && echo "diverged")
           [ -z "$uptodate" ] && \
-              uptodate=$(echo "$stat" | grep -Eq "Change|Untrac" && echo "#")
+              uptodate=$(echo "$stat" | grep -Eq "Change|Untrac" && echo "tainted")
+          tag=$(2>/dev/null git describe --tags HEAD)
+          [ -z "$tag" ] && tag="[]"
           echo -n "$branch"
           echo -n "  "
           echo -n "(""$uptodate"")"
           echo -n "  "
-          2>/dev/null git describe --tags HEAD )
+          echo "$tag" )
     done | column -t
 }
 
