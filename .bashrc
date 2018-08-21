@@ -31,23 +31,39 @@ if [ "$TERM" != "dumb" ]; then
     export GIT_PS1_SHOWSTASHSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
     export GIT_PS1_SHOWDIRTYSTATE=true
-    export PROMPT_COMMAND='LAST_EXIT=$? ; [ $LAST_EXIT == 0 ] && unset LAST_EXIT'
+    export PROMPT_COMMAND='prompt_exit LX; prompt_title ; prompt_history'
     export PS1='\[\e[33m\]\h'
     export PS1+='\[\e[36m\]${AWS_PROFILE:+[${AWS_PROFILE}]}'
     export PS1+='\[\e[35m\]($(mygitdir):$(mygitbranch))'
-    export PS1+='\[\e[32m\]${LAST_EXIT:+\[\e[31m\]($LAST_EXIT)}$'
+    export PS1+='\[\e[32m\]${LX:+\[\e[31m\]($LX)}$'
     export PS1+='\[\e[0m\] '
 else
     export PS1="\\h\\$ "
 fi
 
-function dir()   { ls -AlFh --color "$@"; }
-function dirt()  { dir -rt "$@"; }
-function dird()  { dir -d "$@"; }
-function rea()   { history | grep -E "${@:-}"; }
-function c()     { cat "$@"; }
-function g()     { grep -nIHE --color "$@"; }
-function m()     { less "$@"; }
+dir()  { ls -AlFh --color "$@"; }
+dirt() { dir -rt "$@"; }
+dird() { dir -d "$@"; }
+rea()  { history | grep -E "${@:-}"; }
+c()    { cat "$@"; }
+g()    { grep -nIHE --color "$@"; }
+m()    { less "$@"; }
+
+prompt_exit() {
+    eval "$1='$?'; [ \$$1 == 0 ] && unset $1"
+}
+
+prompt_title() {
+    printf "\\e]1;%s\\a" "$(mygitdir)"
+}
+
+prompt_history() {
+    history -a
+}
+
+prompt_aws() {
+    grep -o "current-context.*" ~/.kube/config | cut -c18-
+}
 
 ## history
 # lots of history
@@ -57,8 +73,6 @@ export HISTFILESIZE=$HISTSIZE
 # agglomerate history from multiple shells
 export HISTCONTROL="ignoredups"
 shopt -s histappend
-
-export PROMPT_COMMAND+=" ; history -a"
 
 #the below will make all commands visible in all shells
 #PROMPT_COMMAND="$PROMPT_COMMAND ; history -a ; history -c; history -r"
@@ -71,9 +85,9 @@ unset AWS_PROFILE
 if [ -f ~/.aws/config ] && grep -q "profile prod" ~/.aws/config ; then
     export AWS_PROFILE=prod
 fi
-if [ -f ~/.kube/config ] && test "$(which kubectl)" ; then
+if [ -f ~/.kube/config ] && test "$(command -v kubectl)" ; then
     export AWS_PROFILE
-    PROMPT_COMMAND+=' ; AWS_PROFILE=$(grep -o "current-context.*" ~/.kube/config | cut -c18-)'
+    PROMPT_COMMAND+=' ; AWS_PROFILE=prompt_aws'
 fi
 
 # motd
