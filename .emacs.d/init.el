@@ -114,12 +114,6 @@ Repeated invocations toggle between the two most recently open buffers."
   (define-key map (kbd "C-n")   'next-history-element)
   (define-key map (kbd "C-p")   'previous-history-element))
 
-(defun my-whitespace-setup()
-  (require 'whitespace)
-  (setq whitespace-style (list 'face 'tabs 'trailing 'lines-tail 'empty)
-        whitespace-line-column 79)
-  (global-whitespace-mode t))
-
 ;; this is default in emacs 24.4
 (if (locate-library "uniquify")
     (progn
@@ -134,9 +128,6 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (if (locate-library "magit")
     (require 'magit))
-
-(if (locate-library "whitespace")
-    (my-whitespace-setup))
 
 (if (locate-library "highlight-parentheses")
     (progn
@@ -190,7 +181,7 @@ Repeated invocations toggle between the two most recently open buffers."
  '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes
    (quote
-    ("858a353233c58b69dbe3a06087fc08905df2d8755a0921ad4c407865f17ab52f" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "82fce2cada016f736dbcef237780516063a17c2436d1ee7f42e395e38a15793b" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "b67cb8784f6a2d1a3f605e39d2c376937f3bf8460cb8a0d6fc625c0331c00c83" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
+    ("ed0b4fc082715fc1d6a547650752cd8ec76c400ef72eb159543db1770a27caa7" "3fa81193ab414a4d54cde427c2662337c2cab5dd4eb17ffff0d90bca97581eb6" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "82fce2cada016f736dbcef237780516063a17c2436d1ee7f42e395e38a15793b" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "b67cb8784f6a2d1a3f605e39d2c376937f3bf8460cb8a0d6fc625c0331c00c83" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
  '(fci-rule-color "#073642")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
@@ -221,7 +212,7 @@ Repeated invocations toggle between the two most recently open buffers."
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (erlang kubernetes cargo flycheck-rust flymake-rust rust-mode rust-playground dockerfile-mode flycheck-julia julia-mode julia-repl color-theme-sanityinc-solarized yaml-mode solarized-theme smart-mode-line purescript-mode pallet nyan-mode markdown-mode magit json-mode js2-mode highlight-parentheses gruvbox-theme go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint exec-path-from-shell eproject alchemist)))
+    (kubernetes cargo flycheck-rust flymake-rust rust-mode rust-playground dockerfile-mode flycheck-julia julia-mode julia-repl color-theme-sanityinc-solarized yaml-mode solarized-theme smart-mode-line purescript-mode pallet nyan-mode markdown-mode magit json-mode js2-mode highlight-parentheses gruvbox-theme go-mode flymake-jshint flycheck-rebar3 flycheck-elixir flycheck-demjsonlint exec-path-from-shell eproject edts alchemist)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
@@ -257,3 +248,12 @@ Repeated invocations toggle between the two most recently open buffers."
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
    ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(font-lock-warning-face ((t (:inherit error :background "blue" :weight bold))))
+ '(mode-line ((t (:background "#661111" :foreground "#839496" :inverse-video nil :box (:line-width 1 :color "#073642" :style unspecified) :overline "#073642" :underline "#284b54"))))
+ '(smerge-refined-added ((t (:inherit smerge-refined-change :background "#016601")))))

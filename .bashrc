@@ -54,7 +54,7 @@ prompt_exit() {
 }
 
 prompt_title() {
-    printf "\\e]1;%s\\a" "$(mygitdir)"
+    [ "$TERM_PROGRAM" = "Apple_Terminal" ] && printf "\\e]1;%s\\a" "$(mygitdir)"
 }
 
 prompt_history() {
@@ -87,7 +87,7 @@ if [ -f ~/.aws/config ] && grep -q "profile prod" ~/.aws/config ; then
 fi
 if [ -f ~/.kube/config ] && test "$(command -v kubectl)" ; then
     export AWS_PROFILE
-    PROMPT_COMMAND+=' ; AWS_PROFILE=prompt_aws'
+    PROMPT_COMMAND+=' ; AWS_PROFILE=$(prompt_aws)'
 fi
 
 # motd
