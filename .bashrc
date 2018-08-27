@@ -26,12 +26,12 @@ eval "$(dircolors)"
 export EDITOR="emacsclient -a'' -c -t"
 
 # PS1
+export GIT_PS1_SHOWSTASHSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWDIRTYSTATE=true
+export PROMPT_COMMAND='prompt_exit LX; prompt_title ; prompt_history'
 if [ "$TERM" != "dumb" ]; then
     # set a fancy prompt
-    export GIT_PS1_SHOWSTASHSTATE=true
-    export GIT_PS1_SHOWUNTRACKEDFILES=true
-    export GIT_PS1_SHOWDIRTYSTATE=true
-    export PROMPT_COMMAND='prompt_exit LX; prompt_title ; prompt_history'
     export PS1='\[\e[33m\]\h'
     export PS1+='\[\e[36m\]${AWS_PROFILE:+[${AWS_PROFILE}]}'
     export PS1+='\[\e[35m\]($(mygitdir):$(mygitbranch))'
