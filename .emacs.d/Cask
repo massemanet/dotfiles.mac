@@ -5,6 +5,7 @@
 (depends-on "cargo")
 (depends-on "cask")
 (depends-on "company")
+(depends-on "company-distel")
 (depends-on "dockerfile-mode")
 (depends-on "epl")
 (depends-on "eproject")
