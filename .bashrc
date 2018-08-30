@@ -52,18 +52,18 @@ m()    { less "$@"; }
 startcontainer() {
     local S=~/git/dockerfiles/$1/$1.sh
     if [ -x "$S" ]
-    then eval "$S ${2:-""}"
+    then eval "$S ${2:-""} ${3:-""}"
     else echo "fail - expected this file to exist: $S"
     fi
 }
 
-dotnet() { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
-erlang() { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
-go()     { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
-java()   { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
-julia()  { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
-python() { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
-rust()   { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
+dotnet() { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
+erlang() { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
+go()     { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
+java()   { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
+julia()  { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
+python() { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
+rust()   { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
 
 prompt_exit() {
     eval "$1='$?'; [ \$$1 == 0 ] && unset $1"

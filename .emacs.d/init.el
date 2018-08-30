@@ -165,8 +165,11 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; automatically added stuff
 
 (custom-set-variables
+ '(custom-safe-themes
+   (quote
+    ("f27c3fcfb19bf38892bc6e72d0046af7a1ded81f54435f9d4d09b3bff9c52fc1" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
  '(term-default-bg-color nil)
  '(term-default-fg-color nil))
 
 (custom-set-faces
- '(default ((t (:weight bold :height 80 :family "DejaVu Sans Mono")))))
+ '(default ((t (:weight normal :height 100 :width normal :foundry "font" :family "Courier")))))

@@ -21,6 +21,7 @@ foo*
 
 /.Xauthority
 /.aspell*
+/.authinfo
 /.aws/
 /.bash_history
 /.bash_sessions/
