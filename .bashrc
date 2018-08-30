@@ -49,6 +49,22 @@ c()    { cat "$@"; }
 g()    { grep -nIHE --color "$@"; }
 m()    { less "$@"; }
 
+startcontainer() {
+    local S=~/git/dockerfiles/$1/$1.sh
+    if [ -x "$S" ]
+    then eval "$S ${2:-""}"
+    else echo "fail - expected this file to exist: $S"
+    fi
+}
+
+dotnet() { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
+erlang() { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
+go()     { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
+java()   { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
+julia()  { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
+python() { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
+rust()   { startcontainer "${FUNCNAME[0]}" "${1:-""}"; }
+
 prompt_exit() {
     eval "$1='$?'; [ \$$1 == 0 ] && unset $1"
 }
