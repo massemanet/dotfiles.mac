@@ -130,6 +130,9 @@ Repeated invocations toggle between the two most recently open buffers."
 (if (locate-library "magit")
     (require 'magit))
 
+(if (locate-library "whitespace")
+    (my-whitespace-setup))
+
 (if (locate-library "highlight-parentheses")
     (progn
       (require 'highlight-parentheses)
@@ -141,6 +144,11 @@ Repeated invocations toggle between the two most recently open buffers."
         (lambda ()
           (highlight-parentheses-mode t)))
       (global-highlight-parentheses-mode t)))
+
+(defun my-whitespace-setup()
+  (require 'whitespace)
+  (setq whitespace-style (list 'face 'tabs 'trailing 'lines-tail 'empty)
+        whitespace-line-column 79))
 
 (defun my-outline ()
   (setq outline-minor-mode-prefix "")
