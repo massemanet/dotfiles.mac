@@ -10,8 +10,9 @@
 (pallet-mode t)
 
 (if (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)
-  (load-theme 'gruvbox-dark-hard))
+    (progn
+      (exec-path-from-shell-initialize)
+      (load-theme 'gruvbox-dark-hard t)))
 
 ;; add legacy
 (add-to-list 'load-path "~/.emacs.d/fdlcap")
@@ -165,11 +166,16 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; automatically added stuff
 
 (custom-set-variables
- '(custom-safe-themes
-   (quote
-    ("f27c3fcfb19bf38892bc6e72d0046af7a1ded81f54435f9d4d09b3bff9c52fc1" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(term-default-bg-color nil)
  '(term-default-fg-color nil))
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:weight normal :height 100 :width normal :foundry "font" :family "Courier")))))
