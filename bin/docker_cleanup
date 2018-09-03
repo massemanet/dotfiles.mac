@@ -1,9 +1,11 @@
 #!/bin/bash
 
 for c in $(docker ps -aq); do
-    docker rm $c 2>/dev/null
+    docker rm "$c" 2>/dev/null
 done
 
 for i in $(docker images -f "dangling=true" -q); do
-    docker rmi $i
+    docker rmi "$i"
 done
+
+docker images | sort -V

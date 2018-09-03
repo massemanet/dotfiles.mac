@@ -73,8 +73,13 @@ gitupd() {
     for d in "$base"/*
     do
         if [ -d "$d"/.git ]; then
-            echo -n "$(basename "$d")"": "
-            (cd "$d" && git fetch --prune 1> /dev/null && git pull)
+            printf "\\e[33m"; printf "%s: " "$(basename "$d")"; printf "\\e[0m"
+            r="$(cd "$d" && 2>&1 git fetch --prune && 2>&1 git pull -r)"
+            s=$(grep -Eo "Current branch [^ ]+" <<< "$r" | cut -c 16-)
+            if [ -z "$s" ]
+            then printf "\\e[31m" ; printf "\\n%s\\n" "$r" ; printf "\\e[0m"
+            else printf "%s\\n" "$s"
+            fi
         fi
     done
 }

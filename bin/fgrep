@@ -7,12 +7,16 @@ set -f
 [ -n "$3" ] && n="-name $3"
 find "$d" \
      -follow \
-     -path "*/.svn"   -prune -o \
-     -path "*/.git"   -prune -o \
-     -path "*/.eunit" -prune -o \
-     -path "*/.deps"  -prune -o \
-     -path "*/#*"     -prune -o \
-     -path "*~"       -prune -o \
+     -path "*/Library" -prune -o \
+     -path "*/.Trash"  -prune -o \
+     -path "*/.svn"    -prune -o \
+     -path "*-cache"   -prune -o \
+     -path "*.pem"     -prune -o \
+     -path "*/.git"    -prune -o \
+     -path "*/.eunit"  -prune -o \
+     -path "*/.deps"   -prune -o \
+     -path "*/#*"      -prune -o \
+     -path "*~"        -prune -o \
      -type f $n \
      -exec grep -inIH "$1" {} \;
 set +f
