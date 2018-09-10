@@ -40,6 +40,7 @@
 (depends-on "pallet")
 (depends-on "pkg-info")
 (depends-on "popup")
+(depends-on "projectile")
 (depends-on "purescript-mode")
 (depends-on "rust-mode")
 (depends-on "rust-playground")
