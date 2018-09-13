@@ -26,11 +26,14 @@ foo*
 /.bash_history
 /.bash_sessions/
 /.cache/
+/.cask/
+/.cert/
 /.config/
 /.docker/
-/.dotnet/
+/.dbus/
+/.ddd/
 /.emacs.d/
-/.gdrive/
+/.fontconfig/
 /.gitk
 /.gnupg*/
 /.hex/
@@ -40,24 +43,16 @@ foo*
 /.lesshst
 /.local/
 /.localbashrc
-/.oracle_jre_usage/
-/.rnd
-/.s3cfg
+/.mozilla/
+/.pki/
 /.serverauth*
 /.ssh/
-/.templateengine/
-/.viminfo
-/.zoom*/
+/.xsession-errors*
 
 /bin/
 /git/
 
 # erlang droppings
-.*.etz
 *.beam
-*.dump
-*.trz
 erl_crash.dump
-/.dialyzer_plt
 /.erlang.cookie
-/.escobar/
