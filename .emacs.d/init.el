@@ -32,6 +32,7 @@
 (nyan-mode 1)
 (global-flycheck-mode)
 
+(setq sml/no-confirm-load-theme t)
 (add-hook 'after-init-hook 'sml/setup)
 
 ;; turn off bad shit
