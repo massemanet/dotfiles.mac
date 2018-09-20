@@ -23,7 +23,7 @@ eval "$(dircolors)"
 [ -f ~/bin/gitfunctions ] && . ~/bin/gitfunctions
 
 # emacs
-export EDITOR="emacsclient -a'' -c -t"
+export EDITOR="emacsclient -ct -a ''"
 
 # PS1
 export GIT_PS1_SHOWSTASHSTATE=true
