@@ -28,9 +28,11 @@
 (ido-mode t)
 (display-time)
 (fset 'yes-or-no-p 'y-or-n-p)
-(server-start)
 (nyan-mode 1)
 (global-flycheck-mode)
+
+(require 'server)
+(unless (server-running-p) (server-start))
 
 (setq sml/no-confirm-load-theme t)
 (add-hook 'after-init-hook 'sml/setup)
