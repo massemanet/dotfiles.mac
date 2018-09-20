@@ -1,0 +1,68 @@
+#!/bin/bash
+
+err() {
+    echo "$0 <image> [<command> [<volume>]]"
+    echo "$1"
+    exit
+}
+
+flags() {
+    local r
+    local AWS
+    local K8S
+    local VOL="$2"
+    local DETACH="--detach-keys ctrl-q,ctrl-q"
+    local WRKDIR="/opt/wrk"
+
+    if uname -a | grep -q 'Microsoft'; then
+        VOL="$(sed 's|/mnt/\([a-z]\)|\1:|' <<< "$VOL")"
+    fi
+    if [ -d ~/.aws ]
+    then AWS=" -v ~/.aws:/tmp/.aws"
+    else AWS=""
+    fi
+    if [ -d ~/.kube ]
+    then K8S=" -v ~/.kube:/tmp/.kube"
+    else K8S=""
+    fi
+    r=" --rm $DETACH -v \"$VOL\":$WRKDIR $AWS $K8S"
+    eval "$1='$r'";
+}
+
+xconf() {
+    local r=""
+    case "$(uname)" in
+        "Darwin")
+            if type Xquartz &> /dev/null; then
+                xhost +127.0.0.1
+                defaults write org.macosforge.xquartz.X11 app_to_run /usr/bin/true
+                defaults write org.macosforge.xquartz.X11 no_auth 1
+                defaults write org.macosforge.xquartz.X11 nolisten_tcp 0
+                pgrep -q Xquartz || open -Fga Xquartz.app
+                r="-e DISPLAY=docker.for.mac.host.internal:0 \
+                   -v /tmp/.X11-unix:/tmp/.X11-unix"
+            else
+                echo "You don't have Xquartz. Disabling X"
+            fi
+            ;;
+        "Linux")
+            if [ -n "${DISPLAY:+x}" ]; then
+                r="-e DISPLAY=unix$DISPLAY \
+                   -v /tmp/.X11-unix:/tmp/.X11-unix"
+            else
+                echo "You don't have X. SAD!"
+            fi
+            ;;
+    esac
+    eval "$1='$r'";
+}
+
+[ -z "$1" ] && err "specify image"
+IMAGE="${1}"
+CMD="${2:-/bin/bash}"
+VOL="${3:-/tmp/docker}"
+
+flags FLAGS "$VOL"
+xconf XFLAGS
+
+eval docker run "-it $FLAGS $XFLAGS $IMAGE $CMD"
