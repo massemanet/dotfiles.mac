@@ -57,6 +57,7 @@ startcontainer() {
     fi
 }
 
+basemanet() { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~"}"; }
 dotnet() { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
 erlang() { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
 go()     { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
