@@ -1,3 +1,4 @@
+#!/bin/bash
 # -*- mode: shell-script -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 #
@@ -103,6 +104,7 @@ if [ -f ~/.aws/config ] && grep -q "profile prod" ~/.aws/config ; then
     export AWS_PROFILE=prod
 fi
 if [ -f ~/.kube/config ] && test "$(command -v kubectl)" ; then
+    source <(kubectl completion bash)
     export AWS_PROFILE
     PROMPT_COMMAND+=' ; AWS_PROFILE=$(prompt_aws)'
 fi
