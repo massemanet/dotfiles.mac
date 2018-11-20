@@ -51,6 +51,7 @@ foo*
 
 /bin/
 /git/
+/wg2/
 
 # erlang droppings
 *.beam
