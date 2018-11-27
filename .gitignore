@@ -23,15 +23,16 @@ foo*
 /.aspell*
 /.authinfo
 /.aws/
+/.awsvault/
 /.bash_history
 /.bash_sessions/
 /.cache/
 /.cask/
 /.cert/
 /.config/
-/.docker/
 /.dbus/
 /.ddd/
+/.docker/
 /.emacs.d/
 /.fontconfig/
 /.gitk
@@ -44,6 +45,7 @@ foo*
 /.local/
 /.localbashrc
 /.mozilla/
+/.password-store/
 /.pki/
 /.serverauth*
 /.ssh/
