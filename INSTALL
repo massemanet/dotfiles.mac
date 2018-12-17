@@ -19,9 +19,9 @@ brew install --with-default-names \
      grep
 brew install \
      aspell bash bash-completion cask coreutils curl emacs findutils \
-     gawk git gnu-sed gzip htop jq make mosh pstree shellcheck tmux wget
+     gpg gawk git gnu-sed gzip htop jq make mosh pstree shellcheck tmux wget
 brew cask install \
-     docker emacs slack spotify tunnelblick xquartz
+     docker emacs keybase slack spotify tunnelblick xpra xquartz
 
 # these'll fail if the apps have been installed manually
 brew cask install firefox || true
