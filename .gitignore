@@ -51,7 +51,6 @@ foo*
 /.ssh/
 /.xsession-errors*
 
-/bin/
 /git/
 /wg2/
 
