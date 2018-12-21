@@ -3,7 +3,8 @@
 DC="$(docker_cleanup | grep -v REPO)"
 for R in $(echo "$DC" | awk '{print $1}' | sort -u)
 do printf "=====\\n%s\\n" "$R"
-   for I in $(echo "$DC" | grep "$R" | sort -rV | tail -n +2 | awk '{print $2}')
-   do docker rmi "$R:$I"
+   RC="$(echo "$DC" | grep "$R")"
+   for I in $(echo "$RC" | cut -f2 -d "-" | sort -rn | tail -n +2 | awk '{print "-"$1}')
+   do docker rmi "$R:$(echo "$RC" | grep -- "$I" | awk '{print $2}')"
    done
 done
