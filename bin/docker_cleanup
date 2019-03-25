@@ -8,4 +8,7 @@ for i in $(docker images -f "dangling=true" -q); do
     docker rmi "$i"
 done
 
+docker network prune -f
+docker volume prune -f
+
 docker images | sort -V
