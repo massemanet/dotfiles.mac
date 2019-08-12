@@ -18,8 +18,8 @@ brew update
 brew install --with-default-names \
      grep
 brew install \
-     aspell bash bash-completion cask coreutils curl emacs findutils \
-     gpg gawk git gnu-sed gzip htop jq make mosh pstree shellcheck tmux wget
+     aspell bash bash-completion cask coreutils curl emacs findutils gpg \
+     gawk git gnu-sed gzip htop jq make mosh pstree shellcheck tmux tree wget
 brew cask install \
      docker emacs keybase slack spotify tunnelblick xpra xquartz
 

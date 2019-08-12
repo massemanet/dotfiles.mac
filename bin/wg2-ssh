@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ssh-agent bash -c "ssh-add ~/.ssh/id_rsa_wg2 ; $*"

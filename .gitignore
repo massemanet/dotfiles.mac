@@ -26,6 +26,7 @@ foo*
 /.awsvault/
 /.bash_history
 /.bash_sessions/
+/.bundle/
 /.cache/
 /.cask/
 /.cert/
@@ -35,6 +36,7 @@ foo*
 /.docker/
 /.emacs.d/
 /.fontconfig/
+/.gem/
 /.gitk
 /.gnupg*/
 /.hex/
@@ -44,6 +46,7 @@ foo*
 /.lesshst
 /.local/
 /.localbashrc
+/.mix/
 /.mozilla/
 /.password-store/
 /.pki/
