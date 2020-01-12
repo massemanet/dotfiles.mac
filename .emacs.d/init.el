@@ -195,7 +195,7 @@ Repeated invocations toggle between the two most recently open buffers."
  '(electric-indent-mode nil)
  '(package-selected-packages
    (quote
-    (flycheck-kotlin jdee kotlin-mode meghanada yaml-mode solarized-theme smart-mode-line rust-playground purescript-mode pallet nyan-mode kubernetes julia-repl julia-mode json-mode js2-mode highlight-parentheses gruvbox-theme go-mode flymake-rust flymake-jshint flycheck-rust flycheck-rebar3 flycheck-julia flycheck-elixir flycheck-demjsonlint exec-path-from-shell erlang eproject dockerfile-mode company cargo)))
+    (bazel-mode flycheck-kotlin jdee kotlin-mode meghanada yaml-mode solarized-theme smart-mode-line rust-playground purescript-mode pallet nyan-mode kubernetes julia-repl julia-mode json-mode js2-mode highlight-parentheses gruvbox-theme go-mode flymake-rust flymake-jshint flycheck-rust flycheck-rebar3 flycheck-julia flycheck-elixir flycheck-demjsonlint exec-path-from-shell erlang eproject dockerfile-mode company cargo)))
  '(term-default-bg-color nil)
  '(term-default-fg-color nil))
 
