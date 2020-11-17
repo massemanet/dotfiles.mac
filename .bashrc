@@ -62,16 +62,6 @@ startcontainer() {
     fi
 }
 
-base()   { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~"}"; }
-dotnet() { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
-erlang() { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
-go()     { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
-java()   { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
-julia()  { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
-python() { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
-rust()   { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/git"}"; }
-wg2()    { startcontainer "${FUNCNAME[0]}" "${1:-"bash"}" "${2:-"~/wg2"}"; }
-
 prompt_exit() {
     eval "$1='$?'; [ \$$1 == 0 ] && unset $1"
 }
