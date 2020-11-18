@@ -89,11 +89,13 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-set-key (kbd "C-<")     'beginning-of-buffer)
 (global-set-key (kbd "C->")     'end-of-buffer)
 (global-set-key (kbd "C-S-c")   `compile)
+(global-set-key (kbd "C-S-d")   `flyspell-goto-next-error)
 (global-set-key (kbd "C-S-g")   `goto-line)
 (global-set-key (kbd "C-S-n")   `forward-list)
 (global-set-key (kbd "C-S-o")   `switch-to-previous-buffer)
 (global-set-key (kbd "C-S-p")   `backward-list)
 (global-set-key (kbd "C-S-q")   `fill-paragraph)
+(global-set-key (kbd "C-S-s")   `ispell-word)
 (global-set-key (kbd "C-S-t")   `transpose-lines)
 (global-set-key (kbd "C-S-u")   `fdlcap-change-case-current-word)
 (global-set-key (kbd "C-S-v")   `scroll-down)
@@ -112,6 +114,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-set-key (kbd "C-z")     'undo) ; be like a mac
 (global-set-key (kbd "C-{")     `previous-error)
 (global-set-key (kbd "C-}")     `next-error)
+(global-set-key (kbd "M-u")     `fdlcap-change-case-current-word)
 (global-set-key (kbd "M-z")     'undo) ; if screen eats C-z
 
 (let ((map minibuffer-local-map))
@@ -195,7 +198,7 @@ Repeated invocations toggle between the two most recently open buffers."
  '(electric-indent-mode nil)
  '(package-selected-packages
    (quote
-    (bazel-mode flycheck-kotlin jdee kotlin-mode meghanada yaml-mode solarized-theme smart-mode-line rust-playground purescript-mode pallet nyan-mode kubernetes julia-repl julia-mode json-mode js2-mode highlight-parentheses gruvbox-theme go-mode flymake-rust flymake-jshint flycheck-rust flycheck-rebar3 flycheck-julia flycheck-elixir flycheck-demjsonlint exec-path-from-shell erlang eproject dockerfile-mode company cargo)))
+    (markdown-mode magit dumb-jump bazel-mode yaml-mode solarized-theme smart-mode-line pallet nyan-mode kubernetes json-mode highlight-parentheses gruvbox-theme flycheck-rebar3 flycheck-demjsonlint exec-path-from-shell erlang dockerfile-mode company cargo)))
  '(term-default-bg-color nil)
  '(term-default-fg-color nil))
 

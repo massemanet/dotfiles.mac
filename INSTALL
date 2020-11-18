@@ -19,7 +19,8 @@ brew install --with-default-names \
      grep
 brew install \
      aspell bash bash-completion cask coreutils curl emacs findutils \
-     gawk git gnu-sed go gpg gzip htop jq make mosh pstree shellcheck tmux tree wget
+     gawk git gnu-sed go gpg gzip htop jq make mosh pstree ripgrep \
+     shellcheck tmux tree wget
 brew cask install \
      docker emacs keybase slack spotify tunnelblick xpra xquartz
 
