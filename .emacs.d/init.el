@@ -197,8 +197,7 @@ Repeated invocations toggle between the two most recently open buffers."
  ;; If there is more than one, they won't work right.
  '(electric-indent-mode nil)
  '(package-selected-packages
-   (quote
-    (markdown-mode magit dumb-jump bazel-mode yaml-mode solarized-theme smart-mode-line pallet nyan-mode kubernetes json-mode highlight-parentheses gruvbox-theme flycheck-rebar3 flycheck-demjsonlint exec-path-from-shell erlang dockerfile-mode company cargo)))
+   '(flycheck rust-mode shut-up markdown-mode magit dumb-jump bazel-mode yaml-mode solarized-theme smart-mode-line pallet nyan-mode kubernetes json-mode highlight-parentheses gruvbox-theme flycheck-rebar3 flycheck-demjsonlint exec-path-from-shell erlang dockerfile-mode cargo))
  '(term-default-bg-color nil)
  '(term-default-fg-color nil))
 
